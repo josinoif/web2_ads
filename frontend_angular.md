@@ -1,4 +1,4 @@
-Claro! Vamos criar um frontend Angular para consumir a API CRUD criada com Express.js e MySQL.
+Vamos criar um frontend Angular para consumir a API CRUD criada com Express.js e MySQL.
 
 ### Passo 1: Configurar o Projeto Angular
 

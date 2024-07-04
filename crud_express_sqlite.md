@@ -1,4 +1,4 @@
-Claro! Vamos criar uma aplicação CRUD simples usando Express.js com persistência em um banco de dados SQLite. 
+Vamos criar uma aplicação CRUD simples usando Express.js com persistência em um banco de dados SQLite. 
 
 ### Passo 1: Configurar o Projeto
 

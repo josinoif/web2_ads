@@ -1,4 +1,4 @@
-Claro! Vamos ajustar o tutorial para que a tela inicial seja a tela de listagem de usuários com opções de cadastrar, editar e deletar usuários diretamente na mesma tela. 
+Vamos ajustar o tutorial para que a tela inicial seja a tela de listagem de usuários com opções de cadastrar, editar e deletar usuários diretamente na mesma tela. 
 
 ### Passo 1: Configurar o Projeto React
 
