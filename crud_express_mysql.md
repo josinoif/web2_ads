@@ -1,6 +1,18 @@
-Claro! Vamos criar uma aplicação CRUD com Express.js utilizando o banco de dados MySQL.
+Claro! Vamos adicionar os passos para configurar o MySQL usando Docker e integrar isso no tutorial Express.js.
 
-### Passo 1: Configurar o Projeto
+### Passo 1: Configurar o MySQL usando Docker
+
+1. Certifique-se de que o Docker está instalado e em execução na sua máquina.
+
+2. Execute o seguinte comando para baixar a imagem do MySQL e iniciar um contêiner:
+
+```bash
+docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=your_password -e MYSQL_DATABASE=your_database -p 3306:3306 -d mysql:latest
+```
+
+Substitua `your_password` e `your_database` pela senha desejada para o usuário root e pelo nome do banco de dados que deseja criar.
+
+### Passo 2: Configurar o Projeto Express.js
 
 1. Crie uma nova pasta para o projeto e inicialize o npm:
 
@@ -16,7 +28,7 @@ npm init -y
 npm install express mysql2 body-parser
 ```
 
-### Passo 2: Configurar o Servidor Express
+### Passo 3: Configurar o Servidor Express
 
 Crie um arquivo `server.js` e configure o servidor Express:
 
@@ -32,7 +44,7 @@ app.use(bodyParser.json());
 // Configurar banco de dados MySQL
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'your_username',
+  user: 'root',
   password: 'your_password',
   database: 'your_database'
 });
@@ -137,19 +149,19 @@ app.listen(PORT, () => {
 });
 ```
 
-### Passo 3: Configurar o Banco de Dados MySQL
-
-Certifique-se de que o MySQL está em execução e que você criou um banco de dados. Substitua `your_username`, `your_password`, e `your_database` pelas suas credenciais e nome do banco de dados.
-
 ### Passo 4: Testar a Aplicação
 
-Inicie o servidor:
+1. Inicie o contêiner MySQL se ainda não estiver em execução:
+
+```bash
+docker start mysql-container
+```
+
+2. Inicie o servidor Express:
 
 ```bash
 node server.js
 ```
-
-Agora você pode usar ferramentas como Postman ou cURL para testar as rotas CRUD.
 
 ### Rotas Disponíveis
 
@@ -161,4 +173,4 @@ Agora você pode usar ferramentas como Postman ou cURL para testar as rotas CRUD
 
 ### Conclusão
 
-Agora você tem uma aplicação CRUD básica usando Express.js com persistência de dados em um banco de dados MySQL. Para uma aplicação mais robusta em produção, considere adicionar camadas de autenticação, validação de dados, e tratamentos de erros mais sofisticados.
+Agora você tem uma aplicação CRUD básica usando Express.js com persistência de dados em um banco de dados MySQL, configurado e executado via Docker. Certifique-se de que o Docker e o contêiner MySQL estejam em execução ao iniciar sua aplicação.
