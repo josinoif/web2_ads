@@ -1,6 +1,19 @@
 Para adicionar persistência em banco de dados à nossa aplicação CRUD com NestJS, vamos usar o TypeORM com um banco de dados PostgreSQL. 
 
-### Passo 1: Instalar Dependências
+
+### Passo 1: Configurar o MySQL usando Docker
+
+1. Certifique-se de que o Docker está instalado e em execução na sua máquina.
+
+2. Execute o seguinte comando para baixar a imagem do MySQL e iniciar um contêiner:
+
+```bash
+docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=your_password -e MYSQL_DATABASE=your_database -p 3306:3306 -d mysql:latest
+```
+
+Substitua `your_password` e `your_database` pela senha desejada para o usuário root e pelo nome do banco de dados que deseja criar.
+
+### Passo 2: Instalar Dependências
 
 Primeiro, instale as dependências necessárias:
 
@@ -8,7 +21,7 @@ Primeiro, instale as dependências necessárias:
 npm install @nestjs/typeorm typeorm pg
 ```
 
-### Passo 2: Configurar o Banco de Dados
+### Passo 3: Configurar o Banco de Dados
 
 No arquivo `app.module.ts`, configure a conexão com o banco de dados:
 
@@ -36,7 +49,7 @@ import { User } from './users/user.entity';
 export class AppModule {}
 ```
 
-### Passo 3: Atualizar a Entidade
+### Passo 4: Atualizar a Entidade
 
 Atualize a entidade `User` para ser uma entidade TypeORM:
 
@@ -59,7 +72,7 @@ export class User {
 }
 ```
 
-### Passo 4: Atualizar o Módulo de Usuários
+### Passo 5: Atualizar o Módulo de Usuários
 
 Atualize o módulo `UsersModule` para importar o `TypeOrmModule`:
 
@@ -78,7 +91,7 @@ import { User } from './user.entity';
 export class UsersModule {}
 ```
 
-### Passo 5: Atualizar o Serviço de Usuários
+### Passo 6: Atualizar o Serviço de Usuários
 
 Atualize o serviço `UsersService` para usar o repositório TypeORM:
 
@@ -117,7 +130,7 @@ export class UsersService {
 }
 ```
 
-### Passo 6: Iniciar a Aplicação
+### Passo 7: Iniciar a Aplicação
 
 Certifique-se de que o PostgreSQL está em execução e que você tem o banco de dados configurado corretamente. Em seguida, inicie a aplicação:
 
