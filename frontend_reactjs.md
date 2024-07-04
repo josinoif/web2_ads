@@ -5,8 +5,8 @@ Claro! Vamos ajustar o tutorial para que a tela inicial seja a tela de listagem 
 1. Crie um novo projeto React usando `create-react-app`:
 
 ```bash
-npx create-react-app express-crud-frontend
-cd express-crud-frontend
+npx create-react-app crud-frontend-react
+cd crud-frontend-react
 ```
 
 2. Instale axios para fazer as requisições HTTP:

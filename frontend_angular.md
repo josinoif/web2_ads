@@ -11,8 +11,8 @@ npm install -g @angular/cli
 2. Crie um novo projeto Angular:
 
 ```bash
-ng new express-crud-frontend
-cd express-crud-frontend
+ng new crud-frontend-angular
+cd crud-frontend-angular
 ```
 
 3. Instale o pacote `@angular/material` e `@angular/flex-layout` para estilizar a aplicação:
