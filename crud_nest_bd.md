@@ -18,7 +18,7 @@ Substitua `your_password` e `your_database` pela senha desejada para o usuário 
 Primeiro, instale as dependências necessárias:
 
 ```bash
-npm install @nestjs/typeorm typeorm pg
+npm install @nestjs/typeorm typeorm mysql2
 ```
 
 ### Passo 3: Configurar o Banco de Dados
@@ -34,12 +34,12 @@ import { User } from './users/user.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'your_username',
-      password: 'your_password',
-      database: 'your_database',
+       type: 'mysql',
+        host: 'localhost',
+        port: 3306,
+        username: 'root',
+        password: 'root',
+        database: 'nest_db',
       entities: [User],
       synchronize: true,
     }),
