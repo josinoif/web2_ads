@@ -309,3 +309,7 @@ src/
 ```
 
 Com essas etapas, você configurou o TypeORM para usar MySQL e criou uma entidade User para seu projeto NestJS.
+
+### 8. Exercicio
+
+Tente implementar a funcionalidade de atualização de dados. Realize pesquisas na documentação do NestJS (https://docs.nestjs.com).
