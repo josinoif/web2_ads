@@ -7,10 +7,16 @@ Claro! Vamos adicionar os passos para configurar o MySQL usando Docker e integra
 2. Execute o seguinte comando para baixar a imagem do MySQL e iniciar um contêiner:
 
 ```bash
-docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=your_password -e MYSQL_DATABASE=your_database -p 3306:3306 -d mysql:latest
+docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=aula_web2 -p 3306:3306 -d mysql:latest
 ```
 
-Substitua `your_password` e `your_database` pela senha desejada para o usuário root e pelo nome do banco de dados que deseja criar.
+3. Acesse o container do MySQL:
+
+```bash
+docker exec -it mysql-container mysql -u root -p
+```
+Isso abrirá o terminal MySQL dentro do container e pedirá a senha de root que você definiu (neste caso, `root`).
+
 
 ### Passo 2: Configurar o Projeto Express.js
 
@@ -45,8 +51,8 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'your_password',
-  database: 'your_database'
+  password: 'root',
+  database: 'aula_web2'
 });
 
 db.connect(err => {
