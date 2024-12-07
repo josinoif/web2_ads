@@ -1,6 +1,7 @@
-# Criação de Formulário em ReactJS
+# Criação de Listagem em ReactJS
 
-Para criar uma tela de formulário em React que envia dados para uma aplicação CRUD, como a CRUDCrud (um serviço simples de armazenamento de dados via API REST), siga os passos abaixo:
+Para criar uma tela de listagem em React, que lê dados de uma API e exibe todos os itens devolvidos em uma tela siga as instruções abaixo:
+
 
 ##  Passo 1: Configurar o Projeto
 
