@@ -1,4 +1,4 @@
-Aqui está o tutorial completo, agora dividido em três partes: **Fundamentação Teórica**, **Criação de um Projeto Inicial com TypeScript**, e os **Recursos e Conceitos do TypeScript que Complementam o JavaScript**.
+
 
 ------
 
@@ -487,3 +487,45 @@ Esses conceitos tornam o TypeScript uma escolha robusta e altamente escalável p
 ### Conclusão
 
 O TypeScript oferece uma abordagem moderna e robusta para desenvolver aplicações JavaScript. Ele melhora a produtividade, reduz erros e promove boas práticas, especialmente em projetos de grande escala. Com a base teórica, o projeto inicial e os conceitos avançados apresentados aqui, você está pronto para começar a explorar e aplicar o TypeScript em seus próprios projetos!
+
+
+
+## Referências Bibliográfica
+
+
+
+### Livros
+
+1. **Niemeyer, Nathan Rozentals. "Mastering TypeScript 4: Build robust and maintainable web apps using TypeScript 4 features."**
+   Packt Publishing, 2021.
+   ISBN: 978-1800565493
+   Este livro explora as funcionalidades avançadas do TypeScript.
+2. **Mieser, Remo H. "Pro TypeScript: Application-Scale JavaScript Development."**
+   Apress, 2014.
+   ISBN: 978-1484200049
+   Um guia para entender como usar TypeScript em larga escala.
+
+------
+
+### Artigos e Tutoriais
+
+1. **TypeScript Official Documentation**
+   Disponível em: https://www.typescriptlang.org/docs/
+   A fonte oficial para aprender todos os aspectos do TypeScript.
+2. **"Why TypeScript is the Future of JavaScript?"** – Medium
+   Disponível em: https://www.linkedin.com/pulse/rise-typescript-why-its-future-javascript-development-meduzzen-i4tce/
+   Um artigo que explora as razões para adotar TypeScript.
+3. **MDN Web Docs - TypeScript Introduction**
+   Disponível em: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Introduction
+   Uma introdução básica ao uso do TypeScript.
+
+------
+
+### Documentação Técnica
+
+1. **TypeScript Handbook**
+   Disponível em: https://www.typescriptlang.org/docs/handbook/intro.html
+   O guia oficial do TypeScript, cobrindo conceitos básicos e avançados.
+2. **ECMAScript Specification**
+   Disponível em: https://tc39.es/ecma262/
+   A base para entender como o TypeScript expande o JavaScript.
