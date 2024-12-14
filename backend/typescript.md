@@ -12,23 +12,14 @@ O **TypeScript** é um **superset de JavaScript**, criado pela Microsoft, que ad
 
 ### Motivação para a Criação do TypeScript
 
-1. Falta de Tipagem Estática no JavaScript
-
-   :
-
+1. **Falta de Tipagem Estática no JavaScript:**
    - JavaScript não verifica tipos em tempo de compilação, o que pode levar a erros difíceis de identificar em projetos grandes.
-
-2. Manutenção de Projetos Grandes
-
-   :
-
+   
+2. **Manutenção de Projetos Grandes**:
    - Em aplicações complexas, a ausência de contratos claros dificulta a colaboração e a manutenção.
-
-3. Melhorias no Desenvolvimento
-
-   :
-
-   - Ferramentas como autocompletar e validação de tipos ajudam a escrever código mais confiável e com menos esforço.
+   
+3. **Melhorias no Desenvolvimento:**
+- Ferramentas como autocompletar e validação de tipos ajudam a escrever código mais confiável e com menos esforço.
 
 ### Vantagens do TypeScript
 
