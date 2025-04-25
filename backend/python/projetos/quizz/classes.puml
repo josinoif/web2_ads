@@ -1,0 +1,53 @@
+@startuml
+class Usuario {
+    +id: int
+    +nome: str
+    +email: str
+    +senha: str
+}
+
+class Questionario {
+    +id: int
+    +titulo: str
+    +descricao: str
+    +criado_em: datetime
+    +usuario_id: int
+}
+
+class Questao {
+    +id: int
+    +enunciado: str
+    +assunto: str
+}
+
+class Alternativa {
+    +id: int
+    +texto: str
+    +correta: bool
+}
+
+class Tentativa {
+    +id: int
+    +data_hora: datetime
+    +score: int
+    +usuario_id: int
+    +questionario_id: int
+}
+
+class Resposta {
+    +id: int
+    +alternativa_id: int
+    +questao_id: int
+    +tentativa_id: int
+    +correta: bool
+}
+
+Usuario "1" -- "0..*" Questionario : cria
+Usuario "1" -- "0..*" Tentativa : realiza
+Questionario "1" -- "0..*" Questao : contém
+Tentativa "1" -- "1" Questionario : pertence a
+Tentativa "1" -- "0..*" Resposta : contém
+Resposta "1" -- "1" Questao : refere-se a
+Resposta "1" -- "1" Alternativa : escolhida
+Questao "1" -- "0..*" Alternativa : possui
+@enduml
