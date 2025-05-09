@@ -165,7 +165,13 @@ export class SaudacaoComponent {
 
 ## 2.7 Diretivas de atributo: `[ngClass]` e `[ngStyle]`
 
-### Exemplo com `ngClass`:
+As diretivas `[ngClass]` e `[ngStyle]` são usadas para aplicar classes CSS e estilos inline dinamicamente em elementos HTML, com base em condições ou valores definidos no componente.
+
+### O que é `[ngClass]`?
+
+A diretiva `[ngClass]` permite adicionar ou remover classes CSS de um elemento HTML dinamicamente, com base em uma expressão ou objeto. Isso é útil para alterar a aparência de um elemento dependendo do estado da aplicação.
+
+#### Exemplo com `[ngClass]`
 
 ### `saudacao.component.ts`:
 
@@ -195,9 +201,18 @@ estaAtivo: boolean = true;
 }
 ```
 
-------
+> **Explicação**: 
+> - Quando `estaAtivo` é `true`, a classe `ativo` é aplicada ao elemento `<p>`. 
+> - Quando `estaAtivo` é `false`, a classe `inativo` é aplicada.
+> - O objeto passado para `[ngClass]` define as condições para cada classe.
 
-### Exemplo com `ngStyle`:
+---
+
+### O que é `[ngStyle]`?
+
+A diretiva `[ngStyle]` permite aplicar estilos inline a um elemento HTML dinamicamente, com base em valores definidos no componente. É útil para personalizar estilos de forma programática.
+
+#### Exemplo com `[ngStyle]`
 
 ### `saudacao.component.ts`:
 
@@ -213,9 +228,35 @@ corTexto: string = 'blue';
 </p>
 ```
 
-> `ngStyle` aplica estilos inline com base nas variáveis da classe.
+> **Explicação**: 
+> - O estilo `color` é definido pelo valor da variável `corTexto` no componente.
+> - O estilo `font-size` é definido diretamente no objeto passado para `[ngStyle]`.
 
-------
+---
+
+### Casos de Uso Comuns
+
+1. **Alterar estilos com base no estado da aplicação**:
+   - Use `[ngClass]` para aplicar classes que representam estados, como "ativo", "desabilitado" ou "erro".
+   - Use `[ngStyle]` para ajustar dinamicamente propriedades como `color`, `background-color` ou `font-size`.
+
+2. **Feedback visual para o usuário**:
+   - Alterar a cor de um botão ou texto com `[ngClass]` ou `[ngStyle]` para indicar sucesso, erro ou carregamento.
+
+3. **Estilização condicional em tabelas ou listas**:
+   - Aplicar classes diferentes a linhas de uma tabela com `[ngClass]` para destacar itens selecionados ou desabilitados.
+
+4. **Estilização responsiva**:
+   - Ajustar dinamicamente estilos como `width` ou `height` com `[ngStyle]` para se adaptar a diferentes tamanhos de tela.
+
+5. **Animações simples**:
+   - Alterar classes com `[ngClass]` para ativar transições ou animações CSS.
+
+---
+
+> **Dica**: Sempre que possível, prefira `[ngClass]` para aplicar estilos definidos em arquivos CSS, pois isso facilita a manutenção e reutilização do código. Use `[ngStyle]` apenas para estilos que precisam ser calculados dinamicamente.
+
+---
 
 ## 2.8 Exercício prático (atividade individual)
 
