@@ -128,11 +128,10 @@ Certifique-se de que o componente `SaudacaoComponent` seja configurado como stan
 
 ```ts
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common'; // Importação necessária
 
 @Component({
   selector: 'app-saudacao',
-  standalone: true, // Configuração standalone
   imports: [CommonModule], // Importação necessária
   templateUrl: './saudacao.component.html',
   styleUrls: ['./saudacao.component.css']
