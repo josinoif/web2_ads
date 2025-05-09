@@ -4,7 +4,7 @@
 
 Neste módulo, o aluno aprenderá:
 
-- Como usar o `HttpClient` do Angular
+- Como usar o `provideHttpClient` do Angular
 - Como configurar uma aplicação para consumir APIs REST
 - Como criar um serviço para encapsular as chamadas HTTP
 - Como realizar operações de CRUD em uma API
@@ -12,22 +12,33 @@ Neste módulo, o aluno aprenderá:
 
 ------
 
-## 4.1 Importando o módulo `HttpClientModule`
+## 4.1 Configurando o `provideHttpClient`
 
-Para utilizar o `HttpClient`, você deve importar o módulo no `AppModule`.
+A partir do Angular 19, o `HttpClientModule` foi substituído pela abordagem baseada em `provideHttpClient`. Para configurar o `HttpClient`, você deve adicionar o provedor no `app.config.ts`.
 
-### `app.module.ts`
+### `app.config.ts`
 
 ```ts
-import { HttpClientModule } from '@angular/common/http';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import { provideHttpClient } from '@angular/common/http';
 
-@NgModule({
-  imports: [
-    HttpClientModule,
-    // outros módulos
-  ]
-})
-export class AppModule { }
+import { routes } from './app.routes';
+
+registerLocaleData(localePt);
+
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(),
+    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideRouter(routes),
+  { provide: LOCALE_ID, useValue: 'pt-BR' }]
+};
+
 ```
 
 ------
@@ -51,9 +62,9 @@ import { Observable } from 'rxjs';
 
 export interface Produto {
   id?: number;
-  nome: string;
-  preco: number;
-  categoria: string;
+  title: string;
+  price: number;
+  category: string;
 }
 
 @Injectable({
@@ -93,21 +104,24 @@ export class ProdutosService {
 ### Gerar componente:
 
 ```bash
-ng generate component produtos
+ng generate component produtos --standalone
 ```
 
 ### `produtos.component.ts`
 
 ```ts
-import { Component, OnInit } from '@angular/core';
-import { ProdutosService, Produto } from '../produtos.service';
+import { Component } from '@angular/core';
+import { ProdutosService, Produto } from './produtos.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-produtos',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './produtos.component.html',
   styleUrls: ['./produtos.component.css']
 })
-export class ProdutosComponent implements OnInit {
+export class ProdutosComponent {
   produtos: Produto[] = [];
 
   constructor(private produtosService: ProdutosService) {}
@@ -161,14 +175,24 @@ export class ProdutosComponent implements OnInit {
 
 ## 4.4 Criando um formulário para adicionar um produto
 
+### Gerar componente:
+
+```bash
+ng generate component produto-form --standalone
+```
+
 ### `produto-form.component.ts`
 
 ```ts
 import { Component } from '@angular/core';
 import { ProdutosService, Produto } from '../produtos.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-produto-form',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './produto-form.component.html'
 })
 export class ProdutoFormComponent {
@@ -220,10 +244,14 @@ export class ProdutoFormComponent {
 
 Para navegação entre telas de cadastro e listagem, crie rotas como:
 
-### `app-routing.module.ts`
+### `app.routes.ts`
 
 ```ts
-const routes: Routes = [
+import { Routes } from '@angular/router';
+import { ProdutosComponent } from './produtos/produtos.component';
+import { ProdutoFormComponent } from './produto-form/produto-form.component';
+
+export const routes: Routes = [
   { path: 'produtos', component: ProdutosComponent },
   { path: 'produtos/novo', component: ProdutoFormComponent },
   { path: '', redirectTo: '/produtos', pathMatch: 'full' }
@@ -249,7 +277,7 @@ Desafio adicional: implemente a edição de um produto usando o método `PUT`.
 
 Você aprendeu:
 
-- A configurar o `HttpClientModule`
+- A configurar o `provideHttpClient`
 - A criar um serviço para encapsular chamadas HTTP
 - A fazer requisições GET, POST, PUT e DELETE
 - A manipular dados da API em componentes
