@@ -118,6 +118,36 @@ incrementar(): void {
 
 ## 2.6 Diretivas estruturais: `*ngIf` e `*ngFor`
 
+No Angular 19, para usar diretivas como `*ngIf` e `*ngFor`, é necessário importar explicitamente o módulo `CommonModule` no contexto do componente standalone. Isso ocorre porque o Angular agora adota uma abordagem modular mais explícita.
+
+### Como adaptar o componente `saudacao`
+
+Certifique-se de que o componente `SaudacaoComponent` seja configurado como standalone e importe o `CommonModule`. Por exemplo:
+
+### `saudacao.component.ts`:
+
+```ts
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-saudacao',
+  standalone: true, // Configuração standalone
+  imports: [CommonModule], // Importação necessária
+  templateUrl: './saudacao.component.html',
+  styleUrls: ['./saudacao.component.css']
+})
+export class SaudacaoComponent {
+  nomeUsuario: string = 'Maria';
+  contador: number = 0;
+  frutas: string[] = ['Maçã', 'Banana', 'Uva'];
+
+  incrementar(): void {
+    this.contador++;
+  }
+}
+```
+
 ### `*ngIf`: exibe um elemento condicionalmente
 
 ```html
@@ -126,23 +156,13 @@ incrementar(): void {
 
 ### `*ngFor`: repete elementos com base em uma lista
 
-### `saudacao.component.ts`:
-
-```ts
-frutas: string[] = ['Maçã', 'Banana', 'Uva'];
-```
-
-### `saudacao.component.html`:
-
 ```html
 <ul>
   <li *ngFor="let fruta of frutas">{{ fruta }}</li>
 </ul>
 ```
 
-> `*ngFor` percorre a lista `frutas` e gera um `<li>` para cada item.
-
-------
+> Certifique-se de que o `CommonModule` está importado diretamente no componente standalone para que as diretivas `*ngIf` e `*ngFor` funcionem corretamente.
 
 ## 2.7 Diretivas de atributo: `[ngClass]` e `[ngStyle]`
 
