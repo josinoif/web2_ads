@@ -160,9 +160,9 @@ export class ProdutosComponent {
   <tbody>
     <tr *ngFor="let produto of produtos">
       <td>{{ produto.id }}</td>
-      <td>{{ produto.nome }}</td>
-      <td>R$ {{ produto.preco }}</td>
-      <td>{{ produto.categoria }}</td>
+      <td>{{ produto.title }}</td>
+      <td>R$ {{ produto.price }}</td>
+      <td>{{ produto.category }}</td>
       <td>
         <button (click)="excluir(produto.id!)">Excluir</button>
       </td>
