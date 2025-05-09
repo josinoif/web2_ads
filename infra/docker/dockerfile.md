@@ -218,6 +218,19 @@ docker run -it -p 3000:3000 -v ${PWD}:/app node-dev
 
 ------
 
+## 💡 Principais comandos de Docker para usar com Dockerfiles
+
+| Comando                               | O que faz                                |
+| ------------------------------------- | ---------------------------------------- |
+| `docker build -t nome .`              | Constrói a imagem com base no Dockerfile |
+| `docker run -it nome`                 | Roda um contêiner interativo             |
+| `docker run -d -p 4200:4200 nome`     | Roda em background com porta exposta     |
+| `docker exec -it <container_id> bash` | Entra no contêiner já em execução        |
+| `docker ps`                           | Lista os contêineres ativos              |
+| `docker stop <container_id>`          | Para um contêiner                        |
+
+
+
 ## Conclusão
 
 O Dockerfile é uma ferramenta essencial para quem desenvolve software moderno. Ele permite criar ambientes isolados, reprodutíveis e eficientes. Ao entender bem os tipos de imagens, comandos e aplicações práticas, você estará apto a construir ambientes para qualquer stack: Node.js, Python, Angular, ou mesmo um simples shell Linux para exploração e testes.
