@@ -1,5 +1,4 @@
 # 📦 Módulo 5 – Formulários Reativos e Validações no Angular
-
 ## 🎯 Objetivo do módulo
 
 Neste módulo, o aluno aprenderá:
@@ -25,40 +24,46 @@ Neste módulo, focaremos **exclusivamente em formulários reativos**, que são p
 
 ------
 
-## 5.2 Importando o módulo `ReactiveFormsModule`
+## 5.2 Importando o módulo `ReactiveFormsModule` em componentes standalone
 
-### `app.module.ts`:
+Em projetos standalone, você importa módulos diretamente no decorator do componente.
+
+### Exemplo:
 
 ```ts
+import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-@NgModule({
-  imports: [
-    ReactiveFormsModule
-  ]
+@Component({
+  standalone: true,
+  selector: 'app-cadastro-produto',
+  templateUrl: './cadastro-produto.component.html',
+  imports: [ReactiveFormsModule]
 })
-export class AppModule { }
+export class CadastroProdutoComponent { /* ... */ }
 ```
 
 ------
 
-## 5.3 Criando um formulário com `FormBuilder`
+## 5.3 Criando um formulário com `FormBuilder` (Standalone)
 
-### Gerar componente:
+### Gerar componente standalone:
 
 ```bash
-ng generate component cadastro-produto
+ng generate component cadastro-produto --standalone
 ```
 
 ### `cadastro-produto.component.ts`:
 
 ```ts
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
   selector: 'app-cadastro-produto',
-  templateUrl: './cadastro-produto.component.html'
+  templateUrl: './cadastro-produto.component.html',
+  imports: [ReactiveFormsModule]
 })
 export class CadastroProdutoComponent implements OnInit {
   formulario!: FormGroup;
@@ -138,33 +143,73 @@ export class CadastroProdutoComponent implements OnInit {
 
 ## 5.6 Criando validações customizadas
 
-Validador que bloqueia nomes com a palavra "teste":
+Às vezes, as validações integradas do Angular não são suficientes para as regras de negócio da sua aplicação. Nesses casos, você pode criar seus próprios validadores customizados.
+
+### Exemplo: Bloquear nomes que contenham a palavra "teste"
+
+Vamos criar uma função validadora que impede que o campo "nome" contenha a palavra "teste" (ignorando maiúsculas/minúsculas).
+
+#### 1. Criando o validador customizado
+
+Crie um arquivo chamado `nome-invalido.validator.ts` na mesma pasta do seu componente ou em uma pasta dedicada a validadores, por exemplo:  
+`src/app/cadastro-produto/nome-invalido.validator.ts`
 
 ```ts
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
+/**
+ * Validador customizado que retorna erro se o valor do campo contiver "teste".
+ * @param control O controle do formulário a ser validado.
+ * @returns Um objeto de erro se inválido, ou null se válido.
+ */
 export function nomeInvalidoValidator(control: AbstractControl): ValidationErrors | null {
-  const valor = control.value?.toLowerCase();
-  if (valor && valor.includes('teste')) {
+  const valor = control.value;
+  if (typeof valor === 'string' && valor.toLowerCase().includes('teste')) {
+    // Retorna um objeto indicando o erro
     return { nomeInvalido: true };
   }
+  // Retorna null se não houver erro
   return null;
 }
 ```
 
-Uso no `FormBuilder`:
+#### 2. Usando o validador no FormBuilder
+
+No arquivo do componente onde você define o formulário, por exemplo, em `cadastro-produto.component.ts`, adicione o validador customizado ao array de validações do campo desejado:
 
 ```ts
+import { FormBuilder, Validators } from '@angular/forms';
+import { nomeInvalidoValidator } from './nome-invalido.validator';
+
 this.formulario = this.fb.group({
-  nome: ['', [Validators.required, nomeInvalidoValidator]]
+  nome: [
+    '',
+    [
+      Validators.required, // campo obrigatório
+      nomeInvalidoValidator // nosso validador customizado
+    ]
+  ]
 });
 ```
+
+#### 3. Exibindo a mensagem de erro no template
+
+No template, você pode exibir uma mensagem específica quando o erro `nomeInvalido` estiver presente:
+
+```html
+<input type="text" formControlName="nome">
+<div *ngIf="formulario.get('nome')?.errors?.['nomeInvalido'] && formulario.get('nome')?.touched">
+  <small>O nome não pode conter a palavra "teste".</small>
+</div>
+```
+
+Dessa forma, você pode criar qualquer lógica de validação personalizada para atender às necessidades do seu formulário.
 
 ------
 
 ## 🧪 Exercício prático
 
-Crie um componente `cadastro-cliente` com os seguintes campos:
+Crie um componente standalone `cadastro-cliente` com os seguintes campos:
 
 - Nome (mínimo 2 letras)
 - Email (obrigatório e válido)
@@ -175,6 +220,8 @@ Requisitos:
 - Exiba mensagens de erro claras
 - Valide os campos no envio
 - Mostre um alerta com os dados do cliente se o formulário estiver válido
+
+**Dica:** Use `ReactiveFormsModule` no array `imports` do decorator do componente.
 
 ------
 

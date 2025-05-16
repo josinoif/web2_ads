@@ -25,6 +25,8 @@ Sem tratamento de erros, falhas inesperadas derrubam a aplicação ou deixam o u
 
 ### Exemplo prático:
 
+Esse código normalmente fica no arquivo do componente responsável pela chamada HTTP, por exemplo, em `produtos.component.ts`:
+
 ```ts
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -99,22 +101,24 @@ export class ErroInterceptor implements HttpInterceptor {
 ```
 
 ------
+### Passo 2 – Registrar o interceptor em um projeto:
 
-### Passo 2 – Registrar o interceptor:
-
-No `app.module.ts`:
+No arquivo principal de bootstrap (por exemplo, `main.ts`):
 
 ```ts
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ErroInterceptor } from './interceptores/erro.interceptor';
 
-@NgModule({
+bootstrapApplication(AppComponent, {
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErroInterceptor, multi: true }
+    provideHttpClient(
+      withInterceptors([ErroInterceptor])
+    )
   ]
-})
-export class AppModule {}
+});
 ```
+
+> Certifique-se de que o `ErroInterceptor` está anotado com `@Injectable()` e disponível para injeção.
 
 ------
 
