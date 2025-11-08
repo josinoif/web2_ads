@@ -1,0 +1,21 @@
+{
+  "name": "demo-github-app",
+  "version": "0.1.0",
+  "description": "Mini projeto para demonstrar GitHub Actions, PRs, releases e boas práticas",
+  "type": "module",
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "node src/index.js",
+    "test": "node --test --test-reporter=spec",
+    "lint": "eslint .",
+    "build": "esbuild src/index.js --bundle --platform=node --format=cjs --outfile=dist/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.3",
+    "eslint": "^8.57.0",
+    "supertest": "^7.0.0"
+  }
+}
