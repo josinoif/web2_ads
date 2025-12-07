@@ -5,17 +5,15 @@
 Aqui está um exemplo de arquivo `docker-compose.yml` para levantar um banco de dados PostgreSQL e um cliente web, como o pgAdmin:
 
 ```yaml
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15
     container_name: postgres-db
     restart: always
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydatabase
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: aula_db
     ports:
       - "5432:5432"
     volumes:
@@ -26,8 +24,8 @@ services:
     container_name: pgadmin
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: adminpassword
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - "8080:80"
 
