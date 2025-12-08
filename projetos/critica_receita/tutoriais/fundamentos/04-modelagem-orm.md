@@ -159,6 +159,15 @@ const Restaurante = sequelize.define('restaurante', {
       min: 0,
       max: 5
     }
+  },
+  image_url: {
+    type: DataTypes.STRING(500),
+    allowNull: true,
+    validate: {
+      isUrl: {
+        msg: 'URL da imagem inválida'
+      }
+    }
   }
 }, {
   tableName: 'restaurantes',

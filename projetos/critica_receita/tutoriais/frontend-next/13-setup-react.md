@@ -1,13 +1,13 @@
-# Tutorial 13: Setup do Projeto Next.js
+# Tutorial 13: Setup do Projeto Next.js (App Router)
 
 ## 🎯 Objetivos de Aprendizado
 
 Ao final deste tutorial, você será capaz de:
-- Criar projeto Next.js com App Router
+- Criar projeto Next.js 13+ com App Router
 - Configurar Axios para requisições HTTP
-- Estruturar projeto frontend com App Router
-- Implementar camada de serviços
-- Configurar variáveis de ambiente no frontend
+- Estruturar projeto frontend com Server/Client Components
+- Implementar camada de serviços e cache
+- Configurar variáveis de ambiente e TypeScript básico
 
 ## 📖 Conteúdo
 

@@ -26,14 +26,15 @@ const { Op } = require('sequelize');
  * POST /api/restaurantes
  */
 exports.create = async (req, res) => {
-  const { nome, categoria, endereco, telefone, descricao } = req.body;
+  const { nome, categoria, endereco, telefone, descricao, image_url } = req.body;
   
   const restaurante = await Restaurante.create({
     nome,
     categoria,
     endereco,
     telefone,
-    descricao
+    descricao,
+    image_url
   });
   
   res.status(201).json({

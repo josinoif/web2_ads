@@ -9,63 +9,83 @@ Este tutorial guia você passo a passo na construção de uma aplicação CRUD c
 ### O que você vai aprender:
 - 🌐 Protocolo HTTP e APIs REST
 - 🗄️ Bancos de dados relacionais e SQL
-- 🔧 Backend com Node.js e Express
-- ⚛️ Frontend com React
+- 🔧 Backends: Express (Node.js), NestJS (Node.js) e FastAPI (Python)
+- 🖼️ Upload e gestão de imagens de perfil dos restaurantes
+- ⚛️ Frontend com React + Next.js (App Router)
 - 🔄 Comunicação entre frontend e backend
-- ✅ Validação e tratamento de erros
-- 🎨 Experiência do usuário (UX)
-- 📦 Boas práticas de código
+- ✅ Validação, autenticação e autorização básicas
+- 🎨 Experiência do usuário (UX) e acessibilidade
+- 📦 Boas práticas de código e preparação para produção
 
 ## 📚 Estrutura do Curso
 
-### Módulo 1: Fundamentos
-Estabeleça a base conceitual necessária para desenvolvimento full-stack.
+### Fundamentos
+Base conceitual para desenvolvimento full-stack.
 
-1. [Introdução ao Desenvolvimento Full-Stack e HTTP](tutoriais/modulo1/01-introducao-fullstack-http.md)
-2. [Bancos de Dados Relacionais](tutoriais/modulo1/02-bancos-dados-relacionais.md)
-3. [Setup do Ambiente de Desenvolvimento](tutoriais/modulo1/03-setup-ambiente.md)
-4. [Modelagem de Dados e ORM](tutoriais/modulo1/04-modelagem-orm.md)
+1. [Introdução ao Desenvolvimento Full-Stack e HTTP](tutoriais/fundamentos/01-introducao-fullstack-http.md)
+2. [Bancos de Dados Relacionais](tutoriais/fundamentos/02-bancos-dados-relacionais.md)
+3. [Setup do Ambiente de Desenvolvimento](tutoriais/fundamentos/03-setup-ambiente.md)
+4. [Modelagem de Dados e ORM](tutoriais/fundamentos/04-modelagem-orm.md)
 
-### Módulo 2: Backend CRUD
-Construa uma API REST completa com operações CRUD.
+### Backend - Express (Node.js)
+API REST completa com ORM, relacionamentos e upload de imagens.
 
-5. [Configuração do ORM e Conexão com BD](tutoriais/modulo2/05-configuracao-orm-conexao.md)
-6. [CRUD - Create e Read](tutoriais/modulo2/06-crud-create-read.md)
-7. [CRUD - Update e Delete](tutoriais/modulo2/07-crud-update-delete.md)
-8. [CORS e Middlewares de Segurança](tutoriais/modulo2/08-cors-middleware.md)
+5. [Configuração do ORM e Conexão com BD](tutoriais/backend-express/05-configuracao-orm-conexao.md)
+6. [CRUD - Create e Read](tutoriais/backend-express/06-crud-create-read.md)
+7. [CRUD - Update e Delete](tutoriais/backend-express/07-crud-update-delete.md)
+8. [CORS e Middlewares de Segurança](tutoriais/backend-express/08-cors-middleware.md)
+9. [Criando Sistema de Avaliações](tutoriais/backend-express/09-create-avaliacoes.md)
+10. [Consultas com Relacionamentos](tutoriais/backend-express/10-consultas-relacionais.md)
+11. [Cálculo de Médias e Agregações](tutoriais/backend-express/11-calculo-media.md)
+12. [Tratamento de Erros de Banco de Dados](tutoriais/backend-express/12-tratamento-erros-db.md)
+13. [Upload de Imagens (Express)](tutoriais/backend-express/13-upload-imagens.md)
 
-### Módulo 3: Relacionamentos e Consultas SQL
-Aprenda a trabalhar com dados relacionados e consultas complexas.
+### Backend - NestJS (Node.js)
+Estrutura modular, validação, CRUD e upload.
 
-9. [Criando Sistema de Avaliações](tutoriais/modulo3/09-create-avaliacoes.md)
-10. [Consultas com Relacionamentos](tutoriais/modulo3/10-consultas-relacionais.md)
-11. [Cálculo de Médias e Agregações](tutoriais/modulo3/11-calculo-media.md)
-12. [Tratamento de Erros de Banco de Dados](tutoriais/modulo3/12-tratamento-erros-db.md)
+- [01 - Setup NestJS](tutoriais/backend-nest/01-setup-nest.md)
+- [02 - CRUD Básico](tutoriais/backend-nest/02-crud-basico.md)
+- [03 - Upload de Imagens](tutoriais/backend-nest/03-upload-imagens.md)
+- [04 - Autenticação e Autorização](tutoriais/backend-nest/04-autenticacao-autorizacao.md)
 
-### Módulo 4: Frontend com React
-Desenvolva a interface do usuário e integre com o backend.
+### Backend - FastAPI (Python)
+APIs rápidas com Pydantic/SQLAlchemy, CRUD e upload.
 
-13. [Setup do Projeto React](tutoriais/modulo4/13-setup-react.md)
-14. [Consumo da API e Listagem](tutoriais/modulo4/14-consumo-api-listagem.md)
-15. [Página de Detalhes do Item](tutoriais/modulo4/15-detalhe-item.md)
-16. [Formulário de Avaliação](tutoriais/modulo4/16-formulario-avaliacao.md)
+- [01 - Setup FastAPI](tutoriais/backend-fastapi/01-setup-fastapi.md)
+- [02 - CRUD Básico](tutoriais/backend-fastapi/02-crud-basico.md)
+- [03 - Upload de Imagens](tutoriais/backend-fastapi/03-upload-imagens.md)
+- [04 - Autenticação e Autorização](tutoriais/backend-fastapi/04-autenticacao-autorizacao.md)
 
-### Módulo 5: UX e Robustez
-Aprimore a experiência do usuário e torne o código mais robusto.
+### Frontend - Next.js (React)
+Interface, consumo de API, UX e upload de imagem de perfil.
 
-17. [Feedback de Erros no Frontend](tutoriais/modulo5/17-feedback-erros-frontend.md)
-18. [Otimização de UX](tutoriais/modulo5/18-otimizacao-ux.md)
-19. [Refatoração e Código Assíncrono](tutoriais/modulo5/19-refatoracao-async.md)
-20. [Revisão e Boas Práticas](tutoriais/modulo5/20-revisao-boas-praticas.md)
+13. [Setup do Projeto (React/Next)](tutoriais/frontend-next/13-setup-react.md)
+14. [Consumo da API e Listagem](tutoriais/frontend-next/14-consumo-api-listagem.md)
+15. [Página de Detalhes do Item](tutoriais/frontend-next/15-detalhe-item.md)
+16. [Formulário de Avaliação](tutoriais/frontend-next/16-formulario-avaliacao.md)
+17. [Feedback de Erros no Frontend](tutoriais/frontend-next/17-feedback-erros-frontend.md)
+18. [Otimização de UX](tutoriais/frontend-next/18-otimizacao-ux.md)
+19. [Refatoração e Código Assíncrono](tutoriais/frontend-next/19-refatoracao-async.md)
+20. [Revisão e Boas Práticas](tutoriais/frontend-next/20-revisao-boas-praticas.md)
+21. [Upload de Imagem de Perfil (Next.js)](tutoriais/frontend-next/21-upload-imagem-perfil.md)
+
+### Boas Práticas e Qualidade
+Padrões profissionais e preparação para produção.
+
+- [01 - Organização de Código e Arquitetura](tutoriais/boas-praticas/01-organizacao-codigo.md)
+- [02 - Segurança Essencial](tutoriais/boas-praticas/02-seguranca.md)
+- [03 - Testes Automatizados](tutoriais/boas-praticas/03-testes.md)
 
 ## 🛠️ Tecnologias Utilizadas
 
 ### Backend
-- **Node.js** - Runtime JavaScript
-- **Express** - Framework web
+- **Node.js + Express** - API REST
+- **Node.js + NestJS** - Framework modular
+- **Python 3 + FastAPI** - APIs rápidas
 - **PostgreSQL** - Banco de dados relacional
-- **Sequelize** - ORM para Node.js
-- **Axios** - Cliente HTTP (interceptors centralizados)
+- **Sequelize** (Express) | **TypeORM** (NestJS) | **SQLAlchemy** (FastAPI)
+- **Multer / UploadFile** - Upload e servir imagens
+- **Axios** - Cliente HTTP (uso compartilhado em serviços)
 
 ### Frontend
 - **Next.js (App Router)** - Framework React full-stack
@@ -81,10 +101,12 @@ Aprimore a experiência do usuário e torne o código mais robusto.
 
 ## 📋 Pré-requisitos
 
-- Conhecimento básico de JavaScript
-- Familiaridade com linha de comando
-- Node.js instalado (versão 16+)
-- PostgreSQL instalado
+- Conhecimento básico de JavaScript e Python
+- Familiaridade com linha de comando e Git
+- Node.js instalado (versão 18+)
+- Python instalado (3.10+)
+- PostgreSQL instalado e acessível
+- Espaço em disco para diretório de uploads (dev)
 - Editor de código (VS Code recomendado)
 
 ## 🚀 Como Usar Este Tutorial
@@ -106,27 +128,27 @@ Cada tutorial segue uma estrutura consistente:
 
 ## 📊 Progresso Estimado
 
-- **Módulo 1**: 4-6 horas
-- **Módulo 2**: 6-8 horas
-- **Módulo 3**: 5-7 horas
-- **Módulo 4**: 6-8 horas
-- **Módulo 5**: 5-7 horas
+- **Fundamentos**: 4-6 horas
+- **Backend - Express**: 8-10 horas
+- **Backend - NestJS**: 8-10 horas
+- **Backend - FastAPI**: 8-10 horas
+- **Frontend - Next.js**: 8-10 horas
+- **UX e Boas Práticas**: 6-8 horas
 
-**Total**: 26-36 horas de aprendizado prático
+**Total**: ~42-54 horas de aprendizado prático (ajuste conforme sua carga horária)
 
 ## 💪 Ao Final Deste Tutorial
 
 Você será capaz de:
 
-✅ Projetar e implementar APIs REST completas  
-✅ Trabalhar com bancos de dados relacionais  
-✅ Criar interfaces React modernas e responsivas  
-✅ Implementar comunicação segura entre frontend e backend  
-✅ Tratar erros de forma profissional  
-✅ Validar dados de entrada  
-✅ Otimizar a experiência do usuário  
-✅ Aplicar boas práticas de desenvolvimento  
-✅ Preparar aplicações para produção  
+✅ Projetar e implementar APIs REST completas em Express, NestJS ou FastAPI  
+✅ Trabalhar com PostgreSQL e ORMs (Sequelize, TypeORM, SQLAlchemy)  
+✅ Gerenciar upload e exibição de imagens de perfil de restaurantes  
+✅ Criar interfaces Next.js/React modernas e responsivas  
+✅ Implementar autenticação e autorização básicas  
+✅ Validar dados de entrada e tratar erros de forma profissional  
+✅ Otimizar a experiência do usuário e acessibilidade  
+✅ Aplicar boas práticas de desenvolvimento e preparar para produção  
 
 ## 🆘 Suporte
 
@@ -142,6 +164,6 @@ Este material é educacional e pode ser usado livremente para fins de aprendizad
 
 ---
 
-**Pronto para começar?** Vá para o [Tutorial 1: Introdução ao Desenvolvimento Full-Stack e HTTP](tutoriais/modulo1/01-introducao-fullstack-http.md)
+**Pronto para começar?** Vá para o [Tutorial 1: Introdução ao Desenvolvimento Full-Stack e HTTP](tutoriais/fundamentos/01-introducao-fullstack-http.md)
 
 Boa jornada de aprendizado! 🚀
