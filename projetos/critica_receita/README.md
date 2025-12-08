@@ -65,15 +65,15 @@ APIs rápidas com Pydantic/SQLAlchemy, CRUD, segurança e funcionalidades avanç
 ### Frontend - Next.js (React)
 Interface, consumo de API, UX e upload de imagem de perfil.
 
-10. [Setup do Projeto (React/Next)](tutoriais/frontend-next/13-setup-react.md)
-11. [Consumo da API e Listagem](tutoriais/frontend-next/14-consumo-api-listagem.md)
-12. [Página de Detalhes do Item](tutoriais/frontend-next/15-detalhe-item.md)
-13. [Formulário de Avaliação](tutoriais/frontend-next/16-formulario-avaliacao.md)
-14. [Feedback de Erros no Frontend](tutoriais/frontend-next/17-feedback-erros-frontend.md)
-15. [Otimização de UX](tutoriais/frontend-next/18-otimizacao-ux.md)
-16. [Refatoração e Código Assíncrono](tutoriais/frontend-next/19-refatoracao-async.md)
-17. [Revisão e Boas Práticas](tutoriais/frontend-next/20-revisao-boas-praticas.md)
-18. [Upload de Imagem de Perfil (Next.js)](tutoriais/frontend-next/21-upload-imagem-perfil.md)
+1. [Setup do Projeto (React/Next)](tutoriais/frontend-next/01-setup-react.md)
+2. [Consumo da API e Listagem](tutoriais/frontend-next/02-consumo-api-listagem.md)
+3. [Página de Detalhes do Item](tutoriais/frontend-next/03-detalhe-item.md)
+4. [Formulário de Avaliação](tutoriais/frontend-next/04-formulario-avaliacao.md)
+5. [Feedback de Erros no Frontend](tutoriais/frontend-next/05-feedback-erros-frontend.md)
+6. [Otimização de UX](tutoriais/frontend-next/06-otimizacao-ux.md)
+7. [Refatoração e Código Assíncrono](tutoriais/frontend-next/07-refatoracao-async.md)
+8. [Revisão e Boas Práticas](tutoriais/frontend-next/08-revisao-boas-praticas.md)
+9. [Upload de Imagem de Perfil (Next.js)](tutoriais/frontend-next/09-upload-imagem-perfil.md)
 
 ### Boas Práticas e Qualidade
 Padrões profissionais e preparação para produção.

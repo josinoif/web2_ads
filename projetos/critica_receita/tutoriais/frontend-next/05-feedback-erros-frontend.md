@@ -1,4 +1,4 @@
-# Tutorial 17: Feedback e Tratamento de Erros no Frontend (Next.js)
+# Tutorial 5: Feedback e Tratamento de Erros no Frontend (Next.js)
 
 ## 🎯 Objetivos de Aprendizado
 
@@ -172,7 +172,7 @@ export default notificacao;
 
 ### 4. Refatorando Tratamento de Erros
 
-Vamos **separar responsabilidades** do arquivo `api.js` do Tutorial 13. Atualmente ele mistura:
+Vamos **separar responsabilidades** do arquivo `api.js` do Tutorial 1. Atualmente ele mistura:
 1. ❌ Configuração do Axios
 2. ❌ Tratamento de erros
 3. ❌ Logging
@@ -318,7 +318,7 @@ export default api;
 
 **Modificar `app/restaurantes/[id]/avaliar/page.js`:**
 
-Vamos atualizar o formulário do Tutorial 16 para usar notificações toast ao invés de `alert()`:
+Vamos atualizar o formulário do Tutorial 4 para usar notificações toast ao invés de `alert()`:
 
 ```javascript
 'use client';
@@ -886,4 +886,4 @@ const excluir = (id) => {
 
 Com feedback visual implementado, vamos otimizar a **experiência do usuário** com loading states, debounce e cache.
 
-[➡️ Ir para Tutorial 18: Otimização de UX](18-otimizacao-ux.md)
+[➡️ Ir para Tutorial 6: Otimização de UX](06-otimizacao-ux.md)

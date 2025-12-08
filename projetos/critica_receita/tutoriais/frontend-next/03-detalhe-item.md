@@ -1,4 +1,4 @@
-# Tutorial 15: Página de Detalhes do Item
+# Tutorial 3: Página de Detalhes do Item
 
 ## 🎯 Objetivos de Aprendizado
 
@@ -904,4 +904,4 @@ onEdit={(id) => setEditandoId(id)}
 
 Agora vamos criar o **formulário de avaliação** para permitir que usuários avaliem restaurantes.
 
-[➡️ Ir para Tutorial 16: Formulário de Avaliação](16-formulario-avaliacao.md)
+[➡️ Ir para Tutorial 4: Formulário de Avaliação](04-formulario-avaliacao.md)

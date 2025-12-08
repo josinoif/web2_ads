@@ -1,4 +1,4 @@
-# Tutorial 13: Setup do Projeto Next.js (App Router)
+# Tutorial 1: Setup do Projeto Next.js (App Router)
 
 ## 🎯 Objetivos de Aprendizado
 
@@ -707,4 +707,4 @@ Execute o frontend e o backend. Você irá identificar alguns bugs de execução
 
 Com o setup completo, no próximo tutorial vamos implementar a **listagem de restaurantes** com busca e filtros.
 
-[➡️ Ir para Tutorial 14: Consumo da API e Listagem](14-consumo-api-listagem.md)
+[➡️ Ir para Tutorial 2: Consumo da API e Listagem](02-consumo-api-listagem.md)

@@ -1,4 +1,4 @@
-# Tutorial 14: Consumo da API e Listagem
+# Tutorial 2: Consumo da API e Listagem
 
 ## 🎯 Objetivos de Aprendizado
 
@@ -1013,10 +1013,10 @@ src/
 
 ## ➡️ Próximos Passos
 
-Com a listagem funcionando corretamente, no **Tutorial 15** vamos criar a **página de detalhes** do restaurante com:
+Com a listagem funcionando corretamente, no **Tutorial 3** vamos criar a **página de detalhes** do restaurante com:
 - Rota dinâmica `[id]/page.js`
 - Integração com avaliações
 - Componentes de detalhe e rating
 - Link para avaliar
 
-[➡️ Ir para Tutorial 15: Página de Detalhes do Item](15-detalhe-item.md)
+[➡️ Ir para Tutorial 3: Página de Detalhes do Item](03-detalhe-item.md)

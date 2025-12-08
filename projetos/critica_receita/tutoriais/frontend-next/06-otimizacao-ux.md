@@ -1,4 +1,4 @@
-# Tutorial 18: Otimização de UX (Next.js)
+# Tutorial 6: Otimização de UX (Next.js)
 
 ## 🎯 Objetivos de Aprendizado
 
@@ -588,7 +588,7 @@ export default LoadingButton;
 
 **Uso no formulário:**
 
-Já está implementado! O botão do formulário de avaliação (Tutorial 16/17) mostra "Enviando..." durante o carregamento:
+Já está implementado! O botão do formulário de avaliação (Tutorial 4/5) mostra "Enviando..." durante o carregamento:
 
 ```javascript
 <button 
@@ -680,4 +680,4 @@ import { motion } from 'framer-motion';
 
 Com UX otimizada, vamos refatorar o código para usar **async/await** de forma mais robusta e implementar padrões avançados.
 
-[➡️ Ir para Tutorial 19: Refatoração e Código Assíncrono](19-refatoracao-async.md)
+[➡️ Ir para Tutorial 7: Refatoração e Código Assíncrono](07-refatoracao-async.md)
