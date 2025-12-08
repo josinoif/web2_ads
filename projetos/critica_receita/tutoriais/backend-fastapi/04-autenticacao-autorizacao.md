@@ -443,41 +443,73 @@ app.include_router(upload.router, prefix="/api", tags=["upload"])
 
 ### Exercício 1: Fluxo Completo
 
-```bash
-# 1. Registrar usuário
-curl -X POST http://localhost:8000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "admin@example.com",
-    "username": "admin",
-    "password": "senha123",
-    "full_name": "Admin User"
-  }'
+**Crie o arquivo `tests/auth-tests.http` no VS Code:**
 
-# 2. Login (obter token)
-TOKEN=$(curl -X POST http://localhost:8000/api/auth/login \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "username=admin&password=senha123" \
-  | jq -r '.access_token')
+```http
+### Variáveis
+@baseUrl = http://localhost:8000/api
+# Após login, copie o token aqui:
+@token = seu_token_jwt_aqui
 
-# 3. Ver perfil
-curl http://localhost:8000/api/auth/me \
-  -H "Authorization: Bearer $TOKEN"
+### 1. Registrar usuário
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
 
-# 4. Criar restaurante (com autenticação)
-curl -X POST http://localhost:8000/api/restaurantes \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome": "Pizza Bella",
-    "categoria": "Italiana"
-  }'
+{
+  "email": "admin@example.com",
+  "username": "admin",
+  "password": "senha123",
+  "full_name": "Admin User"
+}
 
-# 5. Tentar criar sem token (deve falhar)
-curl -X POST http://localhost:8000/api/restaurantes \
-  -H "Content-Type: application/json" \
-  -d '{"nome": "Test"}'
+### 2. Login (copie o access_token da resposta)
+POST {{baseUrl}}/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=senha123
+
+### 3. Ver perfil do usuário autenticado
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### 4. Criar restaurante (COM autenticação)
+POST {{baseUrl}}/restaurantes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Pizza Bella",
+  "categoria": "Italiana",
+  "endereco": "Rua X, 123"
+}
+
+### 5. Tentar criar SEM token (deve retornar 401)
+POST {{baseUrl}}/restaurantes
+Content-Type: application/json
+
+{
+  "nome": "Test Restaurant"
+}
+
+### 6. Atualizar restaurante (apenas admin)
+PUT {{baseUrl}}/restaurantes/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "telefone": "(11) 1234-5678"
+}
+
+### 7. Deletar restaurante (apenas admin)
+DELETE {{baseUrl}}/restaurantes/1
+Authorization: Bearer {{token}}
 ```
+
+**💡 Como usar:**
+1. Execute "Registrar usuário" ou "Login"
+2. Copie o `access_token` da resposta
+3. Cole na variável `@token` no início do arquivo
+4. Todas as requisições autenticadas usarão esse token automaticamente
 
 ### Exercício 2: Tornar Usuário Admin (SQL)
 

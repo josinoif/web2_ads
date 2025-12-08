@@ -1,0 +1,115 @@
+###
+# API Tests - Express Backend
+# Porta padrão: 3000
+###
+
+### Variáveis
+@baseUrl = http://localhost:3000/api
+
+### Health Check
+GET {{baseUrl}}/health
+
+### ========================================
+### RESTAURANTES - CRUD Básico
+### ========================================
+
+### Criar restaurante
+POST {{baseUrl}}/restaurantes
+Content-Type: application/json
+
+{
+  "nome": "Pizza Bella",
+  "categoria": "Italiana",
+  "endereco": "Rua das Flores, 123",
+  "telefone": "(11) 98765-4321",
+  "descricao": "Melhor pizza da cidade!"
+}
+
+### Listar todos os restaurantes
+GET {{baseUrl}}/restaurantes
+
+### Listar com paginação
+GET {{baseUrl}}/restaurantes?page=1&limit=10
+
+### Filtrar por categoria
+GET {{baseUrl}}/restaurantes?categoria=Italiana
+
+### Buscar por nome ou descrição
+GET {{baseUrl}}/restaurantes?busca=pizza
+
+### Ordenar por avaliação média
+GET {{baseUrl}}/restaurantes?ordenar=avaliacao_media&direcao=DESC
+
+### Obter restaurante por ID
+GET {{baseUrl}}/restaurantes/1
+
+### Atualizar restaurante
+PUT {{baseUrl}}/restaurantes/1
+Content-Type: application/json
+
+{
+  "telefone": "(11) 1234-5678",
+  "descricao": "A melhor pizza italiana da região!"
+}
+
+### Deletar restaurante (soft delete)
+DELETE {{baseUrl}}/restaurantes/1
+
+### ========================================
+### AVALIAÇÕES
+### ========================================
+
+### Adicionar avaliação
+POST {{baseUrl}}/restaurantes/1/avaliacoes
+Content-Type: application/json
+
+{
+  "nota": 5,
+  "comentario": "Excelente! Pizza deliciosa e atendimento impecável.",
+  "nome_avaliador": "João Silva"
+}
+
+### Listar avaliações do restaurante
+GET {{baseUrl}}/restaurantes/1/avaliacoes
+
+### Atualizar avaliação
+PUT {{baseUrl}}/avaliacoes/1
+Content-Type: application/json
+
+{
+  "comentario": "Ainda melhor na segunda visita!",
+  "nota": 5
+}
+
+### Deletar avaliação
+DELETE {{baseUrl}}/avaliacoes/1
+
+### ========================================
+### UPLOAD DE IMAGENS
+### ========================================
+
+### Upload de imagem do restaurante
+# Nota: Para upload, use Thunder Client ou Postman
+# Este é um exemplo da sintaxe REST Client:
+POST {{baseUrl}}/restaurantes/1/imagem
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="imagem"; filename="restaurante.jpg"
+Content-Type: image/jpeg
+
+< ./imagem.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Remover imagem do restaurante
+DELETE {{baseUrl}}/restaurantes/1/imagem
+
+### ========================================
+### ESTATÍSTICAS
+### ========================================
+
+### Obter estatísticas gerais
+GET {{baseUrl}}/estatisticas
+
+### Top restaurantes por avaliação
+GET {{baseUrl}}/estatisticas/top-restaurantes?limit=5

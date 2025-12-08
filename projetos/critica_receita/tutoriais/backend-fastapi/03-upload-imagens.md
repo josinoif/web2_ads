@@ -280,38 +280,43 @@ import io
 
 ### Exercício 1: Testar Upload
 
-```bash
-# Upload de imagem
-curl -X POST http://localhost:8000/api/restaurantes/1/imagem \
-  -F "file=@/caminho/para/imagem.jpg"
+**Crie o arquivo `tests/upload-tests.http` no VS Code:**
 
-# Verificar restaurante
-curl http://localhost:8000/api/restaurantes/1
+```http
+### Variáveis
+@baseUrl = http://localhost:8000/api
 
-# Acessar imagem (abrir no navegador)
-# http://localhost:8000/uploads/nome-arquivo.jpg
+### Upload de imagem (coloque uma imagem.jpg na pasta tests/)
+POST {{baseUrl}}/restaurantes/1/imagem
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
-# Deletar imagem
-curl -X DELETE http://localhost:8000/api/restaurantes/1/imagem
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="imagem.jpg"
+Content-Type: image/jpeg
+
+< ./tests/imagem.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Verificar restaurante após upload
+GET {{baseUrl}}/restaurantes/1
+
+### Deletar imagem
+DELETE {{baseUrl}}/restaurantes/1/imagem
+
+### Acessar imagem diretamente (abrir no navegador)
+# GET http://localhost:8000/uploads/nome-arquivo.jpg
 ```
+
+**💡 Dica:** Para upload de arquivos, você também pode usar:
+- **Thunder Client** (extensão do VS Code mais visual)
+- **Postman** para testes mais complexos
 
 ### Exercício 2: Testar Validações
 
-```bash
-# Arquivo muito grande (deve falhar)
-dd if=/dev/zero of=large.jpg bs=1M count=5
-curl -X POST http://localhost:8000/api/restaurantes/1/imagem \
-  -F "file=@large.jpg"
-
-# Arquivo não-imagem (deve falhar)
-echo "not an image" > fake.jpg
-curl -X POST http://localhost:8000/api/restaurantes/1/imagem \
-  -F "file=@fake.jpg"
-
-# Extensão não permitida (deve falhar)
-curl -X POST http://localhost:8000/api/restaurantes/1/imagem \
-  -F "file=@document.pdf"
-```
+Teste enviar arquivos inválidos pelo arquivo `.http` e observe os erros:
+- Arquivo > 2MB
+- Tipo não permitido (PDF, TXT)
+- Arquivo corrompido
 
 ### Exercício 3: Upload via Python
 

@@ -425,20 +425,36 @@ bootstrap();
 
 ### Exercício 1: Testar Upload
 
-```bash
-# Upload de imagem
-curl -X POST http://localhost:3000/api/restaurantes/1/image \
-  -F "image=@/caminho/para/imagem.jpg"
+**Crie o arquivo `tests/upload-tests.http` no VS Code:**
 
-# Resposta esperada:
-# {
-#   "mensagem": "Imagem enviada com sucesso",
-#   "imageUrl": "http://localhost:3000/uploads/uuid-123.jpg"
-# }
+```http
+### Variáveis
+@baseUrl = http://localhost:3000/api
 
-# Acessar imagem
-curl http://localhost:3000/uploads/uuid-123.jpg
+### Upload de imagem (coloque uma imagem.jpg na pasta tests/)
+POST {{baseUrl}}/restaurantes/1/image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="imagem.jpg"
+Content-Type: image/jpeg
+
+< ./tests/imagem.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Verificar restaurante após upload
+GET {{baseUrl}}/restaurantes/1
+
+### Acessar imagem diretamente
+# GET http://localhost:3000/uploads/uuid-123.jpg
+
+### Remover imagem
+DELETE {{baseUrl}}/restaurantes/1/image
 ```
+
+**💡 Alternativas para upload:**
+- **Thunder Client** (extensão do VS Code)
+- **Postman** para interface mais visual
 
 ### Exercício 2: Validações
 

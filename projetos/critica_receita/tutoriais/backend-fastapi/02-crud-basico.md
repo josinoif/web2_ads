@@ -373,45 +373,63 @@ app.include_router(avaliacao.router, prefix="/api", tags=["avaliacoes"])
 
 ### Exercício 1: Testar CRUD
 
-```bash
-# Criar restaurante
-curl -X POST http://localhost:8000/api/restaurantes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome": "Pizza Bella",
-    "categoria": "Italiana",
-    "endereco": "Rua X, 123"
-  }'
+**Crie o arquivo `tests/api-tests.http` no VS Code:**
 
-# Listar com paginação
-curl "http://localhost:8000/api/restaurantes?page=1&limit=10"
+```http
+### Variáveis
+@baseUrl = http://localhost:8000/api
 
-# Filtrar por categoria
-curl "http://localhost:8000/api/restaurantes?categoria=Italiana"
+### Criar restaurante
+POST {{baseUrl}}/restaurantes
+Content-Type: application/json
 
-# Buscar
-curl "http://localhost:8000/api/restaurantes?busca=pizza"
+{
+  "nome": "Pizza Bella",
+  "categoria": "Italiana",
+  "endereco": "Rua X, 123"
+}
 
-# Obter por ID
-curl http://localhost:8000/api/restaurantes/1
+### Listar com paginação
+GET {{baseUrl}}/restaurantes?page=1&limit=10
 
-# Atualizar
-curl -X PUT http://localhost:8000/api/restaurantes/1 \
-  -H "Content-Type: application/json" \
-  -d '{"telefone": "(11) 1234-5678"}'
+### Filtrar por categoria
+GET {{baseUrl}}/restaurantes?categoria=Italiana
 
-# Adicionar avaliação
-curl -X POST http://localhost:8000/api/restaurantes/1/avaliacoes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nota": 5,
-    "comentario": "Excelente!",
-    "nome_avaliador": "João"
-  }'
+### Buscar por nome
+GET {{baseUrl}}/restaurantes?busca=pizza
 
-# Listar avaliações
-curl http://localhost:8000/api/restaurantes/1/avaliacoes
+### Obter por ID
+GET {{baseUrl}}/restaurantes/1
+
+### Atualizar restaurante
+PUT {{baseUrl}}/restaurantes/1
+Content-Type: application/json
+
+{
+  "telefone": "(11) 1234-5678"
+}
+
+### Adicionar avaliação
+POST {{baseUrl}}/restaurantes/1/avaliacoes
+Content-Type: application/json
+
+{
+  "nota": 5,
+  "comentario": "Excelente!",
+  "nome_avaliador": "João"
+}
+
+### Listar avaliações do restaurante
+GET {{baseUrl}}/restaurantes/1/avaliacoes
+
+### Deletar avaliação
+DELETE {{baseUrl}}/avaliacoes/1
 ```
+
+**💡 Como usar:**
+1. Instale a extensão **REST Client** no VS Code
+2. Clique em "Send Request" acima de cada requisição
+3. Veja a resposta no painel lateral
 
 ### Exercício 2: Validação
 

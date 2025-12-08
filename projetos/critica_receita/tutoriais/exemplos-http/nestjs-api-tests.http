@@ -1,0 +1,153 @@
+###
+# API Tests - NestJS Backend
+# Porta padrão: 3000
+###
+
+### Variáveis
+@baseUrl = http://localhost:3000/api
+# Após login, copie o token aqui:
+@token = seu_token_jwt_aqui
+
+### ========================================
+### AUTENTICAÇÃO
+### ========================================
+
+### Registrar novo usuário
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "nome": "João Silva",
+  "email": "joao@email.com",
+  "password": "Senha123!",
+  "telefone": "(11) 98765-4321"
+}
+
+### Login (copie o access_token da resposta)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao@email.com",
+  "password": "Senha123!"
+}
+
+### Obter perfil do usuário autenticado
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### Atualizar perfil
+PATCH {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "João da Silva",
+  "telefone": "(11) 91234-5678"
+}
+
+### ========================================
+### RESTAURANTES - CRUD Básico
+### ========================================
+
+### Criar restaurante (requer autenticação)
+POST {{baseUrl}}/restaurantes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Sushi Master",
+  "categoria": "Japonesa",
+  "endereco": "Av. Paulista, 1000",
+  "telefone": "(11) 3456-7890",
+  "descricao": "Autêntica culinária japonesa"
+}
+
+### Listar todos os restaurantes (público)
+GET {{baseUrl}}/restaurantes
+
+### Listar com paginação e filtros
+GET {{baseUrl}}/restaurantes?page=1&limit=10&categoria=Japonesa
+
+### Buscar restaurantes
+GET {{baseUrl}}/restaurantes?busca=sushi
+
+### Obter restaurante por ID
+GET {{baseUrl}}/restaurantes/1
+
+### Atualizar restaurante (requer autenticação)
+PUT {{baseUrl}}/restaurantes/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "descricao": "Melhor sushi da cidade!",
+  "telefone": "(11) 3456-7899"
+}
+
+### Deletar restaurante (soft delete, requer admin)
+DELETE {{baseUrl}}/restaurantes/1
+Authorization: Bearer {{token}}
+
+### ========================================
+### AVALIAÇÕES
+### ========================================
+
+### Adicionar avaliação (requer autenticação)
+POST {{baseUrl}}/restaurantes/1/avaliacoes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nota": 5,
+  "comentario": "Sushi fresco e de excelente qualidade!",
+  "nome_avaliador": "Maria Santos"
+}
+
+### Listar avaliações do restaurante
+GET {{baseUrl}}/restaurantes/1/avaliacoes
+
+### Deletar avaliação (requer autenticação)
+DELETE {{baseUrl}}/avaliacoes/1
+Authorization: Bearer {{token}}
+
+### ========================================
+### UPLOAD DE IMAGENS
+### ========================================
+
+### Upload de imagem (requer autenticação)
+# Use Thunder Client ou Postman para upload visual
+POST {{baseUrl}}/restaurantes/1/image
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="restaurante.jpg"
+Content-Type: image/jpeg
+
+< ./imagem.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Remover imagem (requer autenticação)
+DELETE {{baseUrl}}/restaurantes/1/image
+Authorization: Bearer {{token}}
+
+### ========================================
+### TESTES SEM AUTENTICAÇÃO (devem falhar)
+### ========================================
+
+### Tentar criar sem token (401)
+POST {{baseUrl}}/restaurantes
+Content-Type: application/json
+
+{
+  "nome": "Test Restaurant"
+}
+
+### Tentar atualizar sem token (401)
+PUT {{baseUrl}}/restaurantes/1
+Content-Type: application/json
+
+{
+  "nome": "Updated Name"
+}

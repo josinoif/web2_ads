@@ -580,27 +580,49 @@ class EnvironmentVariables {
 
 ### Exercício 1: Testar Autenticação
 
-```bash
-# Registrar usuário
-curl -X POST http://localhost:3000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome": "João Silva",
-    "email": "joao@email.com",
-    "password": "Senha123"
-  }'
+**Crie o arquivo `tests/auth-tests.http` no VS Code:**
 
-# Login
-curl -X POST http://localhost:3000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "joao@email.com",
-    "password": "Senha123"
-  }'
+```http
+### Variáveis
+@baseUrl = http://localhost:3000/api
+# Após login, copie o token aqui:
+@token = seu_token_jwt_aqui
 
-# Obter perfil (com token)
-curl http://localhost:3000/api/auth/me \
-  -H "Authorization: Bearer SEU_TOKEN_AQUI"
+### Registrar usuário
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "nome": "João Silva",
+  "email": "joao@email.com",
+  "password": "Senha123"
+}
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao@email.com",
+  "password": "Senha123"
+}
+
+### Obter perfil (copie o token da resposta de login)
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### Criar restaurante (com autenticação)
+POST {{baseUrl}}/restaurantes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Restaurante Teste",
+  "categoria": "Brasileira"
+}
+
+### Tentar acessar sem token (deve retornar 401)
+GET {{baseUrl}}/auth/me
 ```
 
 ### Exercício 2: Implementar Refresh Token

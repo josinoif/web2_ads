@@ -245,9 +245,48 @@ app.use((error, req, res, next) => {
 
 ## 🔨 Atividade Prática
 
-### Exercício 1: Testar Upload com Postman
+### Exercício 1: Testar Upload
 
-1. **Upload de imagem:**
+**Crie o arquivo `tests/upload-tests.http` no VS Code:**
+
+```http
+### Variáveis
+@baseUrl = http://localhost:3000/api
+
+### Upload de imagem (coloque uma imagem.jpg na pasta tests/)
+POST {{baseUrl}}/restaurantes/1/imagem
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="imagem"; filename="imagem.jpg"
+Content-Type: image/jpeg
+
+< ./tests/imagem.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Verificar restaurante após upload
+GET {{baseUrl}}/restaurantes/1
+
+### Acessar imagem diretamente
+# GET http://localhost:3000/uploads/nome-arquivo.jpg
+
+### Remover imagem
+DELETE {{baseUrl}}/restaurantes/1/imagem
+```
+
+**💡 Para upload de arquivos, use:**
+- **Thunder Client** (extensão VS Code)
+- **Postman** para interface gráfica
+- **REST Client** com sintaxe acima
+
+### Exercício 2: Testar Validações
+
+Teste os seguintes cenários:
+- ✅ Upload de imagem válida (JPEG, PNG, WebP < 2MB)
+- ❌ Arquivo muito grande (> 2MB)
+- ❌ Tipo de arquivo inválido (PDF, TXT)
+- ✅ Substituir imagem existente
+- ✅ Remover imagem
    - Método: `POST`
    - URL: `http://localhost:3000/api/restaurantes/1/image`
    - Body: form-data

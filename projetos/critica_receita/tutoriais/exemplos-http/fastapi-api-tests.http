@@ -1,0 +1,183 @@
+###
+# API Tests - FastAPI Backend
+# Porta padrão: 8000
+###
+
+### Variáveis
+@baseUrl = http://localhost:8000/api
+# Após login, copie o token aqui:
+@token = seu_token_jwt_aqui
+
+### Health Check
+GET http://localhost:8000/health
+
+### ========================================
+### AUTENTICAÇÃO
+### ========================================
+
+### Registrar novo usuário
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "username": "admin",
+  "password": "senha123",
+  "full_name": "Admin User"
+}
+
+### Login (copie o access_token da resposta)
+POST {{baseUrl}}/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=senha123
+
+### Obter perfil do usuário autenticado
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### ========================================
+### RESTAURANTES - CRUD Básico
+### ========================================
+
+### Criar restaurante (requer autenticação admin)
+POST {{baseUrl}}/restaurantes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Burger House",
+  "categoria": "Fast Food",
+  "endereco": "Rua das Palmeiras, 456",
+  "telefone": "(11) 2345-6789",
+  "descricao": "Os melhores hambúrgueres artesanais"
+}
+
+### Listar todos os restaurantes (público)
+GET {{baseUrl}}/restaurantes
+
+### Listar com paginação
+GET {{baseUrl}}/restaurantes?page=1&limit=10
+
+### Filtrar por categoria
+GET {{baseUrl}}/restaurantes?categoria=Fast Food
+
+### Buscar por nome ou descrição
+GET {{baseUrl}}/restaurantes?busca=burger
+
+### Obter restaurante por ID
+GET {{baseUrl}}/restaurantes/1
+
+### Atualizar restaurante (requer autenticação admin)
+PUT {{baseUrl}}/restaurantes/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "telefone": "(11) 2345-6788",
+  "descricao": "Os melhores hambúrgueres artesanais da cidade!"
+}
+
+### Deletar restaurante (soft delete, requer admin)
+DELETE {{baseUrl}}/restaurantes/1
+Authorization: Bearer {{token}}
+
+### ========================================
+### AVALIAÇÕES
+### ========================================
+
+### Adicionar avaliação (público)
+POST {{baseUrl}}/restaurantes/1/avaliacoes
+Content-Type: application/json
+
+{
+  "nota": 4,
+  "comentario": "Hambúrguer delicioso, mas demorou um pouco.",
+  "nome_avaliador": "Carlos Souza"
+}
+
+### Listar avaliações do restaurante
+GET {{baseUrl}}/restaurantes/1/avaliacoes
+
+### Deletar avaliação (requer autenticação)
+DELETE {{baseUrl}}/avaliacoes/1
+Authorization: Bearer {{token}}
+
+### ========================================
+### UPLOAD DE IMAGENS
+### ========================================
+
+### Upload de imagem (requer autenticação admin)
+# Use Thunder Client ou Postman para upload visual
+POST {{baseUrl}}/restaurantes/1/imagem
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="restaurante.jpg"
+Content-Type: image/jpeg
+
+< ./imagem.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Remover imagem (requer autenticação admin)
+DELETE {{baseUrl}}/restaurantes/1/imagem
+Authorization: Bearer {{token}}
+
+### Acessar imagem diretamente
+GET http://localhost:8000/uploads/nome-arquivo.jpg
+
+### ========================================
+### DOCUMENTAÇÃO AUTOMÁTICA
+### ========================================
+
+### Swagger UI (abrir no navegador)
+# GET http://localhost:8000/docs
+
+### ReDoc (abrir no navegador)
+# GET http://localhost:8000/redoc
+
+### OpenAPI Schema JSON
+GET http://localhost:8000/openapi.json
+
+### ========================================
+### TESTES DE VALIDAÇÃO
+### ========================================
+
+### Criar restaurante com dados inválidos (400)
+POST {{baseUrl}}/restaurantes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "",
+  "categoria": "InvalidCategory"
+}
+
+### Avaliação com nota inválida (422)
+POST {{baseUrl}}/restaurantes/1/avaliacoes
+Content-Type: application/json
+
+{
+  "nota": 6,
+  "comentario": "Nota inválida (deve ser 1-5)"
+}
+
+### Tentar acessar recurso inexistente (404)
+GET {{baseUrl}}/restaurantes/99999
+
+### ========================================
+### TESTES SEM AUTENTICAÇÃO (devem falhar)
+### ========================================
+
+### Tentar criar sem token (401)
+POST {{baseUrl}}/restaurantes
+Content-Type: application/json
+
+{
+  "nome": "Test Restaurant",
+  "categoria": "Italiana"
+}
+
+### Tentar deletar sem token (401)
+DELETE {{baseUrl}}/restaurantes/1

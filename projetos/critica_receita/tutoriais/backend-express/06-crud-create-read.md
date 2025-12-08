@@ -301,53 +301,54 @@ app.use('/api/restaurantes', restauranteRoutes);
 // ... resto do código ...
 ```
 
-### 5. Testando com cURL
+### 5. Testando a API
 
-**Criar restaurante (POST):**
-
-```bash
-curl -X POST http://localhost:3000/api/restaurantes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome": "Pizza Bella",
-    "categoria": "Italiana",
-    "endereco": "Rua das Flores, 123",
-    "telefone": "(11) 98765-4321",
-    "descricao": "Melhor pizza da cidade!"
-  }'
-```
-
-**Listar todos (GET):**
-
-```bash
-curl http://localhost:3000/api/restaurantes
-```
-
-**Com paginação e filtros:**
-
-```bash
-curl "http://localhost:3000/api/restaurantes?page=1&limit=5&categoria=Italiana&ordenar=nome&direcao=ASC"
-```
-
-**Buscar por nome:**
-
-```bash
-curl "http://localhost:3000/api/restaurantes?busca=pizza"
-```
-
-**Buscar por ID:**
-
-```bash
-curl http://localhost:3000/api/restaurantes/1
-```
-
-### 6. Testando com Arquivo REST do VS Code
-
-**Criar arquivo `test.http`:**
+**Crie o arquivo `tests/api-tests.http` no VS Code:**
 
 ```http
 ### Variáveis
 @baseUrl = http://localhost:3000/api
+
+### Criar restaurante
+POST {{baseUrl}}/restaurantes
+Content-Type: application/json
+
+{
+  "nome": "Pizza Bella",
+  "categoria": "Italiana",
+  "endereco": "Rua das Flores, 123",
+  "telefone": "(11) 98765-4321",
+  "descricao": "Melhor pizza da cidade!"
+}
+
+### Listar todos os restaurantes
+GET {{baseUrl}}/restaurantes
+
+### Listar com paginação e filtros
+GET {{baseUrl}}/restaurantes?page=1&limit=5&categoria=Italiana&ordenar=nome&direcao=ASC
+
+### Buscar por nome
+GET {{baseUrl}}/restaurantes?busca=pizza
+
+### Buscar por ID
+GET {{baseUrl}}/restaurantes/1
+
+### Atualizar restaurante
+PUT {{baseUrl}}/restaurantes/1
+Content-Type: application/json
+
+{
+  "telefone": "(11) 1234-5678",
+  "descricao": "A melhor pizza italiana!"
+}
+
+### Deletar restaurante
+DELETE {{baseUrl}}/restaurantes/1
+```
+
+**💡 Instale a extensão REST Client** no VS Code para executar as requisições.
+
+### 6. Estrutura Completa do Arquivo REST
 @contentType = application/json
 
 ### Health Check

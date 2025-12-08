@@ -621,28 +621,57 @@ export class AppModule {}
 ```bash
 # Iniciar servidor
 npm run start:dev
-
-# Criar restaurante
-curl -X POST http://localhost:3000/api/restaurantes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome": "Pizza Bella",
-    "categoria": "Italiana",
-    "endereco": "Rua X, 123"
-  }'
-
-# Listar com filtros
-curl "http://localhost:3000/api/restaurantes?categoria=Italiana&page=1&limit=10"
-
-# Adicionar avaliação
-curl -X POST http://localhost:3000/api/restaurantes/1/avaliacoes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nota": 5,
-    "comentario": "Excelente!",
-    "nome_avaliador": "João"
-  }'
 ```
+
+**Crie o arquivo `tests/api-tests.http` no VS Code:**
+
+```http
+### Variáveis
+@baseUrl = http://localhost:3000/api
+
+### Criar restaurante
+POST {{baseUrl}}/restaurantes
+Content-Type: application/json
+
+{
+  "nome": "Pizza Bella",
+  "categoria": "Italiana",
+  "endereco": "Rua X, 123"
+}
+
+### Listar restaurantes com filtros
+GET {{baseUrl}}/restaurantes?categoria=Italiana&page=1&limit=10
+
+### Obter restaurante por ID
+GET {{baseUrl}}/restaurantes/1
+
+### Atualizar restaurante
+PUT {{baseUrl}}/restaurantes/1
+Content-Type: application/json
+
+{
+  "telefone": "(11) 1234-5678",
+  "descricao": "Melhor pizza da cidade!"
+}
+
+### Adicionar avaliação
+POST {{baseUrl}}/restaurantes/1/avaliacoes
+Content-Type: application/json
+
+{
+  "nota": 5,
+  "comentario": "Excelente!",
+  "nome_avaliador": "João"
+}
+
+### Listar avaliações do restaurante
+GET {{baseUrl}}/restaurantes/1/avaliacoes
+
+### Deletar restaurante (soft delete)
+DELETE {{baseUrl}}/restaurantes/1
+```
+
+**💡 Instale a extensão:** REST Client no VS Code
 
 ### Exercício 2: Adicionar Busca Avançada
 
