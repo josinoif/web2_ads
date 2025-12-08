@@ -30,15 +30,15 @@ Base conceitual para desenvolvimento full-stack.
 ### Backend - Express (Node.js)
 API REST completa com ORM, relacionamentos e upload de imagens.
 
-5. [Configuração do ORM e Conexão com BD](tutoriais/backend-express/05-configuracao-orm-conexao.md)
-6. [CRUD - Create e Read](tutoriais/backend-express/06-crud-create-read.md)
-7. [CRUD - Update e Delete](tutoriais/backend-express/07-crud-update-delete.md)
-8. [CORS e Middlewares de Segurança](tutoriais/backend-express/08-cors-middleware.md)
-9. [Criando Sistema de Avaliações](tutoriais/backend-express/09-create-avaliacoes.md)
-10. [Consultas com Relacionamentos](tutoriais/backend-express/10-consultas-relacionais.md)
-11. [Cálculo de Médias e Agregações](tutoriais/backend-express/11-calculo-media.md)
-12. [Tratamento de Erros de Banco de Dados](tutoriais/backend-express/12-tratamento-erros-db.md)
-13. [Upload de Imagens (Express)](tutoriais/backend-express/13-upload-imagens.md)
+1. [Configuração do ORM e Conexão com BD](tutoriais/backend-express/01-configuracao-orm-conexao.md)
+2. [CRUD - Create e Read](tutoriais/backend-express/02-crud-create-read.md)
+3. [CRUD - Update e Delete](tutoriais/backend-express/03-crud-update-delete.md)
+4. [CORS e Middlewares de Segurança](tutoriais/backend-express/04-cors-middleware.md)
+5. [Criando Sistema de Avaliações](tutoriais/backend-express/05-create-avaliacoes.md)
+6. [Consultas com Relacionamentos](tutoriais/backend-express/06-consultas-relacionais.md)
+7. [Cálculo de Médias e Agregações](tutoriais/backend-express/07-calculo-media.md)
+8. [Tratamento de Erros de Banco de Dados](tutoriais/backend-express/08-tratamento-erros-db.md)
+9. [Upload de Imagens (Express)](tutoriais/backend-express/09-upload-imagens.md)
 
 ### Backend - NestJS (Node.js)
 Estrutura modular, validação, CRUD, segurança e funcionalidades avançadas.
@@ -65,15 +65,15 @@ APIs rápidas com Pydantic/SQLAlchemy, CRUD, segurança e funcionalidades avanç
 ### Frontend - Next.js (React)
 Interface, consumo de API, UX e upload de imagem de perfil.
 
-13. [Setup do Projeto (React/Next)](tutoriais/frontend-next/13-setup-react.md)
-14. [Consumo da API e Listagem](tutoriais/frontend-next/14-consumo-api-listagem.md)
-15. [Página de Detalhes do Item](tutoriais/frontend-next/15-detalhe-item.md)
-16. [Formulário de Avaliação](tutoriais/frontend-next/16-formulario-avaliacao.md)
-17. [Feedback de Erros no Frontend](tutoriais/frontend-next/17-feedback-erros-frontend.md)
-18. [Otimização de UX](tutoriais/frontend-next/18-otimizacao-ux.md)
-19. [Refatoração e Código Assíncrono](tutoriais/frontend-next/19-refatoracao-async.md)
-20. [Revisão e Boas Práticas](tutoriais/frontend-next/20-revisao-boas-praticas.md)
-21. [Upload de Imagem de Perfil (Next.js)](tutoriais/frontend-next/21-upload-imagem-perfil.md)
+10. [Setup do Projeto (React/Next)](tutoriais/frontend-next/13-setup-react.md)
+11. [Consumo da API e Listagem](tutoriais/frontend-next/14-consumo-api-listagem.md)
+12. [Página de Detalhes do Item](tutoriais/frontend-next/15-detalhe-item.md)
+13. [Formulário de Avaliação](tutoriais/frontend-next/16-formulario-avaliacao.md)
+14. [Feedback de Erros no Frontend](tutoriais/frontend-next/17-feedback-erros-frontend.md)
+15. [Otimização de UX](tutoriais/frontend-next/18-otimizacao-ux.md)
+16. [Refatoração e Código Assíncrono](tutoriais/frontend-next/19-refatoracao-async.md)
+17. [Revisão e Boas Práticas](tutoriais/frontend-next/20-revisao-boas-praticas.md)
+18. [Upload de Imagem de Perfil (Next.js)](tutoriais/frontend-next/21-upload-imagem-perfil.md)
 
 ### Boas Práticas e Qualidade
 Padrões profissionais e preparação para produção.
