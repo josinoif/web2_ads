@@ -65,12 +65,14 @@ Aprimore a experiência do usuário e torne o código mais robusto.
 - **Express** - Framework web
 - **PostgreSQL** - Banco de dados relacional
 - **Sequelize** - ORM para Node.js
+- **Axios** - Cliente HTTP (interceptors centralizados)
 
 ### Frontend
+- **Next.js (App Router)** - Framework React full-stack
 - **React** - Biblioteca para interfaces
-- **Vite** - Build tool moderna
-- **React Router** - Roteamento
 - **Axios** - Cliente HTTP
+- **React Toastify** - Notificações
+- **date-fns** - Formatação de datas
 
 ### Ferramentas
 - **Git** - Controle de versão
