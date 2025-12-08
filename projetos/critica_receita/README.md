@@ -41,20 +41,26 @@ API REST completa com ORM, relacionamentos e upload de imagens.
 13. [Upload de Imagens (Express)](tutoriais/backend-express/13-upload-imagens.md)
 
 ### Backend - NestJS (Node.js)
-Estrutura modular, validação, CRUD e upload.
+Estrutura modular, validação, CRUD, segurança e funcionalidades avançadas.
 
 - [01 - Setup NestJS](tutoriais/backend-nest/01-setup-nest.md)
 - [02 - CRUD Básico](tutoriais/backend-nest/02-crud-basico.md)
 - [03 - Upload de Imagens](tutoriais/backend-nest/03-upload-imagens.md)
 - [04 - Autenticação e Autorização](tutoriais/backend-nest/04-autenticacao-autorizacao.md)
+- [05 - CORS e Segurança](tutoriais/backend-nest/05-cors-seguranca.md)
+- [06 - Cálculo Automático de Médias](tutoriais/backend-nest/06-calculo-medias.md)
+- [07 - Tratamento Avançado de Erros](tutoriais/backend-nest/07-tratamento-erros.md)
 
 ### Backend - FastAPI (Python)
-APIs rápidas com Pydantic/SQLAlchemy, CRUD e upload.
+APIs rápidas com Pydantic/SQLAlchemy, CRUD, segurança e funcionalidades avançadas.
 
 - [01 - Setup FastAPI](tutoriais/backend-fastapi/01-setup-fastapi.md)
 - [02 - CRUD Básico](tutoriais/backend-fastapi/02-crud-basico.md)
 - [03 - Upload de Imagens](tutoriais/backend-fastapi/03-upload-imagens.md)
 - [04 - Autenticação e Autorização](tutoriais/backend-fastapi/04-autenticacao-autorizacao.md)
+- [05 - CORS e Segurança](tutoriais/backend-fastapi/05-cors-seguranca.md)
+- [06 - Cálculo Automático de Médias](tutoriais/backend-fastapi/06-calculo-medias.md)
+- [07 - Tratamento Avançado de Erros](tutoriais/backend-fastapi/07-tratamento-erros.md)
 
 ### Frontend - Next.js (React)
 Interface, consumo de API, UX e upload de imagem de perfil.
