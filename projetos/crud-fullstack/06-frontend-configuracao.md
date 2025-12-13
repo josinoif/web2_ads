@@ -88,6 +88,52 @@ Edite `src/app/globals.css` para conter exatamente:
 
 ```css
 @import "tailwindcss";
+
+:root {
+  --background: #f9fafb;
+  --foreground: #111827;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Estilos para inputs e selects */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  @apply border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent;
+}
+
+/* Classes utilitárias customizadas */
+.input-field {
+  @apply border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent;
+}
+
+.btn-primary {
+  @apply bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors;
+}
+
+.card {
+  @apply bg-white rounded-xl shadow-md p-6;
+}
+
+.label {
+  @apply block text-sm font-semibold text-gray-700 mb-2;
+}
+
 ```
 
 - Não use `@tailwind base;`, `@tailwind components;` ou `@tailwind utilities;` no v4 — isso é do v3.

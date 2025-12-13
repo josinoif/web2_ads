@@ -564,23 +564,9 @@ export default function EditarReceitaPage() {
 
 ---
 
-## 4. Atualizando o Navbar
+## 4. Criando Página de Ingredientes (Bônus)
 
-### Edite `src/components/Navbar.jsx` para adicionar link de criar receita:
-
-Adicione este item no array de `navItems`:
-
-```javascript
-const navItems = [
-    { href: '/', label: 'Receitas' },
-    { href: '/receitas/novo', label: '➕ Nova Receita' },  // ADICIONE ESTA LINHA
-    { href: '/ingredientes', label: 'Ingredientes' }
-];
-```
-
----
-
-## 5. Criando Página de Ingredientes (Bônus)
+> **📝 Nota:** O Navbar já foi criado completamente no Módulo 06 com todos os links necessários (Receitas, Nova Receita e Ingredientes). Não é necessário fazer alterações nele neste módulo.
 
 Para gerenciar ingredientes antes de criar receitas, vamos criar uma página simples:
 
@@ -762,7 +748,7 @@ export default function IngredientesPage() {
 
 ---
 
-## 6. Testando o Formulário
+## 5. Testando o Formulário
 
 ### Passo 1: Cadastre alguns ingredientes
 
@@ -796,7 +782,7 @@ export default function IngredientesPage() {
 
 ---
 
-## 7. Funcionalidades Implementadas
+## 6. Funcionalidades Implementadas
 
 ### ✅ Formulário Dinâmico
 - Adição/remoção de ingredientes
