@@ -23,10 +23,11 @@ Um sistema web onde é possível:
 - CORS
 
 **Frontend:**
-- React.js
+- Next.js 14 (App Router)
+- React 18
+- Tailwind CSS
 - Axios
-- Bootstrap
-- React-Toastify
+- React-Hot-Toast
 
 ### Estrutura do Banco de Dados:
 
@@ -69,25 +70,30 @@ Siga os módulos na ordem apresentada:
    - Queries com JOIN e transações
 
 6. **[06 - Frontend: Configuração Inicial](06-frontend-configuracao.md)**
-   - Criação do projeto React
-   - Configuração do Bootstrap e Axios
+   - Criação do projeto Next.js 14
+   - Configuração do Tailwind CSS e Axios
+   - Componentes de layout (Navbar e Footer)
 
 7. **[07 - Frontend: Listagem de Receitas](07-frontend-listagem.md)**
-   - Componentes de listagem
-   - Integração com a API
+   - Cards de receitas com gradientes e animações
+   - Filtros por categoria e busca por nome
+   - Página de detalhes da receita
 
 8. **[08 - Frontend: Formulário de Receitas](08-frontend-formulario.md)**
-   - Formulário dinâmico com múltiplos ingredientes
-   - Validações e feedback ao usuário
+   - Formulário dinâmico para criar/editar receitas
+   - Adição/remoção de ingredientes em tempo real
+   - Validações robustas e gerenciamento de ingredientes
 
-9. **[09 - Integração Final e Testes](09-integracao-final.md)**
-   - Testes completos da aplicação
-   - Melhorias de UX e deploy
+9. **[09 - Integração Final e Deploy](09-integracao-final.md)**
+   - Checklist completo de testes
+   - Melhorias de UX e acessibilidade
+   - Otimizações de performance
+   - Deploy em Railway (backend) e Vercel (frontend)
 
 ### Estrutura Final do Projeto:
 
 ```
-crud-fullstack/
+crud-receitas/
 ├── backend/
 │   ├── config/
 │   │   └── database.js
@@ -101,12 +107,26 @@ crud-fullstack/
 │   ├── server.js
 │   └── package.json
 ├── frontend/
-│   ├── public/
 │   ├── src/
+│   │   ├── app/
+│   │   │   ├── receitas/
+│   │   │   │   ├── [id]/
+│   │   │   │   ├── novo/
+│   │   │   │   └── editar/[id]/
+│   │   │   ├── ingredientes/
+│   │   │   ├── layout.js
+│   │   │   ├── page.js
+│   │   │   └── globals.css
 │   │   ├── components/
-│   │   ├── services/
-│   │   ├── App.js
-│   │   └── index.js
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── ReceitaCard.jsx
+│   │   │   ├── ReceitaLista.jsx
+│   │   │   └── ReceitaForm.jsx
+│   │   └── services/
+│   │       └── api.js
+│   ├── tailwind.config.js
+│   ├── next.config.js
 │   └── package.json
 └── tutorial/
     └── (arquivos do tutorial)
