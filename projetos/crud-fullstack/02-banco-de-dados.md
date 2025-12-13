@@ -31,17 +31,17 @@ Nosso sistema terá **3 tabelas**:
 ### Diagrama do Relacionamento:
 
 ```
-┌─────────────┐         ┌────────────────────────┐         ┌──────────────┐
-│  receitas   │         │ receita_ingredientes   │         │ ingredientes │
-├─────────────┤         ├────────────────────────┤         ├──────────────┤
-│ id (PK)     │─────────│ receita_id (FK)        │─────────│ id (PK)      │
-│ nome        │    1:N  │ ingrediente_id (FK)    │  N:1    │ nome         │
-│ categoria   │         │ quantidade             │         │ unidade_     │
-│ modo_preparo│         └────────────────────────┘         │   medida     │
-│ tempo_preparo│                                           └──────────────┘
-│ rendimento  │
-│ criado_em   │
-└─────────────┘
+┌───────────-──┐         ┌────────────────────────┐         ┌──────────────┐
+│  receitas    │         │ receita_ingredientes   │         │ ingredientes │
+├──────────── ─┤         ├────────────────────────┤         ├──────────────┤
+│ id (PK)      │─────────│ receita_id (FK)        │─────────│ id (PK)      │
+│ nome         │    1:N  │ ingrediente_id (FK)    │  N:1    │ nome         │
+│ categoria    │         │ quantidade             │         │ unidade_     │
+│ modo_preparo │         └────────────────────────┘         │   medida     │
+│ tempo_preparo│                                            └──────────────┘
+│ rendimento   │
+│ criado_em    │
+└─────────────-┘
 ```
 
 ---
