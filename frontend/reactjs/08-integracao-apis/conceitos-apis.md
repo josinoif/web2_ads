@@ -35,7 +35,7 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    participant F as &lt;form action={formAction}&gt;
+    participant F as "<form action={formAction}>"
     participant UAS as useActionState
     participant API as API
 
