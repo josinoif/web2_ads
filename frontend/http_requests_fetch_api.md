@@ -1,5 +1,7 @@
 # Requisições HTTP com JavaScript usando Fetch API
 
+> **Contexto:** A Fetch API usa **Promises**; em código moderno costuma-se usar **async/await**. Para esses conceitos da linguagem, consulte o módulo [../javascript/](../javascript/), em especial [../javascript/03-assincronismo-event-loop.md](../javascript/03-assincronismo-event-loop.md).
+
 A Fetch API é uma interface moderna que permite fazer requisições HTTP de forma simples e intuitiva. Ela é baseada em Promises, o que facilita o tratamento de operações assíncronas.
 
 ## Fazendo uma Requisição GET

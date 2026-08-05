@@ -1,4 +1,4 @@
-Claro! Vamos adicionar os passos para configurar o MySQL usando Docker e integrar isso no tutorial Express.js.
+Tutorial de CRUD com **Express.js 5.2.1** e **mysql2 3.18.2**, usando MySQL em Docker (requer Node.js 18+).
 
 ### Passo 1: Configurar o MySQL usando Docker
 
@@ -28,130 +28,128 @@ cd express-crud
 npm init -y
 ```
 
-2. Instale as dependências necessárias:
+2. Instale as dependências necessárias (Express 5.2.1 requer Node.js 18+; mysql2 3.18.2):
 
 ```bash
-npm install express mysql2 body-parser
+npm install express@5.2.1 mysql2@3.18.2
 ```
 
 ### Passo 3: Configurar o Servidor Express
 
-Crie um arquivo `server.js` e configure o servidor Express:
+Crie um arquivo `server.js` e configure o servidor Express. O parsing de JSON é feito com `express.json()` (built-in). Utilizamos a API de **promises** do mysql2 (`mysql2/promise`), compatível com async/await e com o tratamento de erros em middlewares do Express 5.
 
 ```javascript
 const express = require('express');
-const bodyParser = require('body-parser');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const app = express();
 const PORT = 3000;
 
-app.use(bodyParser.json());
+app.use(express.json());
 
-// Configurar banco de dados MySQL
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'aula_web2'
-});
+// Configurar e conectar ao banco de dados MySQL
+let db;
 
-db.connect(err => {
-  if (err) {
-    console.error('Error connecting to the database:', err.message);
-    return;
-  }
+async function initDatabase() {
+  db = await mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'aula_web2'
+  });
   console.log('Connected to the MySQL database');
-});
 
-// Criar tabela Users
-db.query(
-  'CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), age INT, email VARCHAR(255))',
-  err => {
-    if (err) {
-      console.error('Error creating table:', err.message);
-      return;
-    }
-    console.log('Table "users" created or already exists');
-  }
-);
+  await db.query(
+    'CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), age INT, email VARCHAR(255))'
+  );
+  console.log('Table "users" created or already exists');
+}
 
 // Rotas
 
 // Listar todos os usuários
-app.get('/users', (req, res) => {
-  db.query('SELECT * FROM users', (err, results) => {
-    if (err) {
-      res.status(500).send(err.message);
-      return;
-    }
+app.get('/users', async (req, res) => {
+  try {
+    const [results] = await db.query('SELECT * FROM users');
     res.json(results);
-  });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 // Buscar um usuário pelo ID
-app.get('/users/:id', (req, res) => {
+app.get('/users/:id', async (req, res) => {
   const id = req.params.id;
-  db.query('SELECT * FROM users WHERE id = ?', [id], (err, result) => {
-    if (err) {
-      res.status(500).send(err.message);
-      return;
-    }
-    if (result.length === 0) {
+  try {
+    const [rows] = await db.query('SELECT * FROM users WHERE id = ?', [id]);
+    if (rows.length === 0) {
       res.status(404).send('User not found');
       return;
     }
-    res.json(result[0]);
-  });
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 // Criar um novo usuário
-app.post('/users', (req, res) => {
+app.post('/users', async (req, res) => {
   const { name, age, email } = req.body;
-  db.query('INSERT INTO users (name, age, email) VALUES (?, ?, ?)', [name, age, email], (err, result) => {
-    if (err) {
-      res.status(500).send(err.message);
-      return;
-    }
+  try {
+    const [result] = await db.query(
+      'INSERT INTO users (name, age, email) VALUES (?, ?, ?)',
+      [name, age, email]
+    );
     res.status(201).json({ id: result.insertId });
-  });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 // Atualizar um usuário existente
-app.put('/users/:id', (req, res) => {
+app.put('/users/:id', async (req, res) => {
   const id = req.params.id;
   const { name, age, email } = req.body;
-  db.query('UPDATE users SET name = ?, age = ?, email = ? WHERE id = ?', [name, age, email, id], (err, result) => {
-    if (err) {
-      res.status(500).send(err.message);
-      return;
-    }
+  try {
+    const [result] = await db.query(
+      'UPDATE users SET name = ?, age = ?, email = ? WHERE id = ?',
+      [name, age, email, id]
+    );
     if (result.affectedRows === 0) {
       res.status(404).send('User not found');
       return;
     }
     res.sendStatus(204);
-  });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 // Deletar um usuário
-app.delete('/users/:id', (req, res) => {
+app.delete('/users/:id', async (req, res) => {
   const id = req.params.id;
-  db.query('DELETE FROM users WHERE id = ?', [id], (err, result) => {
-    if (err) {
-      res.status(500).send(err.message);
-      return;
-    }
+  try {
+    const [result] = await db.query('DELETE FROM users WHERE id = ?', [id]);
     if (result.affectedRows === 0) {
       res.status(404).send('User not found');
       return;
     }
     res.sendStatus(204);
-  });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
-// Iniciar o servidor
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// Iniciar o servidor (inicialização assíncrona)
+async function start() {
+  await initDatabase();
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}
+
+start().catch((err) => {
+  console.error('Failed to start server:', err.message);
+  process.exit(1);
 });
 ```
 

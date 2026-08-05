@@ -1,4 +1,8 @@
-# Exercicios de Fixação
+# Exercícios de Fixação — HTTP, DOM e Eventos
+
+Estes exercícios integram **requisições HTTP** (Fetch), **manipulação do DOM** e **eventos** no navegador. Para fundamentos da linguagem (Promises, async/await, tipos, estruturas de dados), use o módulo [../javascript/](../javascript/) e os exercícios em [../javascript/07-exercicios-fixacao.md](../javascript/07-exercicios-fixacao.md).
+
+---
 
 ### **HTTP**
 

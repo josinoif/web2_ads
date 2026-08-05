@@ -1,5 +1,7 @@
 # Introdução a Manipulação de DOM
 
+> **Contexto:** Este material cobre o uso de JavaScript no **navegador** para manipular o documento (DOM). Para fundamentos da linguagem — tipos, variáveis, funções, assincronismo (Promises, async/await) e event loop — consulte o módulo [../javascript/](../javascript/).
+
 ## O que é DOM?
 
 DOM (Document Object Model) é uma interface de programação para documentos HTML e XML. Ele representa a estrutura do documento como uma árvore de nós, onde cada nó corresponde a uma parte do documento, como um elemento, atributo ou texto. O DOM permite que linguagens de programação, como JavaScript, acessem e manipulem o conteúdo, estrutura e estilo de documentos web de forma dinâmica.

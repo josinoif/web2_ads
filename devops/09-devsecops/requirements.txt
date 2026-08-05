@@ -1,0 +1,32 @@
+# Dependências do Módulo 9 — DevSecOps
+# Instalar com: pip install -r requirements.txt
+
+# App exemplo
+fastapi==0.115.4
+uvicorn[standard]==0.32.0
+pydantic==2.9.2
+pydantic-settings==2.6.1
+httpx==0.27.2
+
+# SAST e qualidade
+bandit==1.7.10
+semgrep==1.92.0
+ruff==0.7.3
+
+# SCA em Python
+pip-audit==2.7.3
+
+# SBOM e segurança
+cyclonedx-bom==6.0.0
+
+# IaC / K8s scanning (via CLI trivy, mas util helper)
+checkov==3.2.268
+
+# Suporte para scripts
+pyyaml==6.0.2
+rich==13.9.3
+requests==2.32.3
+kubernetes==31.0.0
+
+# Testes
+pytest==8.3.3

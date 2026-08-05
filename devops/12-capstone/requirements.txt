@@ -1,0 +1,15 @@
+# Dependências do Módulo 12 — Capstone
+# Instalar com: pip install -r requirements.txt
+
+# Scripts de validação do capstone
+pyyaml==6.0.2
+rich==13.9.3
+requests==2.32.3
+pydantic==2.9.2
+python-dateutil==2.9.0.post0
+
+# CLI
+click==8.1.7
+
+# Testes
+pytest==8.3.3

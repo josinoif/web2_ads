@@ -1,5 +1,7 @@
 # Introdução a Eventos JavaScript
 
+> **Contexto:** Este material cobre **eventos no navegador** (cliques, teclado, formulário, etc.). Para fundamentos da linguagem JavaScript (incluindo funções e escopo), consulte o módulo [../javascript/](../javascript/). Para manipulação do documento antes de eventos, veja [dom.md](dom.md).
+
 Eventos são ações ou ocorrências que acontecem no navegador que podem ser capturadas e tratadas pelo JavaScript. Exemplos de eventos incluem cliques do mouse, pressionamentos de teclas, carregamento de uma página, entre outros.
 
 ## Tipos Comuns de Eventos

@@ -1,0 +1,317 @@
+Perfeito. Vamos estruturar o Módulo 2 — Versionamento, Automação e CI (5h) como um bloco coerente, progressivo e orientado a PBL, alinhado com:
+
+📚 Fundamentação teórica sólida (Humble & Farley – Entrega Contínua 
+
+Entrega Contínua - Como Entrega…
+
+, SRE 
+
+OReilly.Site.Reliability.Engine…
+
+, AWS DevOps 
+
+AWS Certified DevOps Engineer -…
+
+)
+
+🛠️ Práticas reais de mercado (GitHub, CI, pipelines, trunk-based, PR, testes automatizados)
+
+🎯 Desenvolvimento de mentalidade DevOps
+
+🧠 Formação crítica (não apenas uso de ferramenta)
+
+Vou estruturar em 5 partes:
+
+🎯 Objetivos de Aprendizagem
+
+📚 Conteúdo Teórico Estruturado
+
+🧩 PBL (Problema Norteador do Módulo)
+
+🧪 Exercícios Progressivos
+
+📊 Entrega Avaliativa do Módulo
+
+🔹 MÓDULO 2 — Versionamento, Automação e CI (5h)
+1️⃣ Objetivos de Aprendizagem
+
+Ao final do módulo, o aluno deverá ser capaz de:
+
+Explicar por que integração contínua reduz risco (Humble & Farley)
+
+Modelar uma estratégia de versionamento adequada ao contexto
+
+Criar e configurar pipeline de CI real
+
+Entender impacto de CI na confiabilidade (ligação com SRE)
+
+Diferenciar automação reativa vs automação estruturante
+
+Relacionar CI com redução de lead time e risco de deploy
+
+2️⃣ Conteúdo Teórico Estruturado
+
+Dividido em 4 blocos lógicos.
+
+🔸 Bloco 1 — Versionamento como Controle de Complexidade
+Conceitos fundamentais:
+
+Controle de versão distribuído
+
+Git como ferramenta sociotécnica
+
+Branching strategies:
+
+Git Flow
+
+GitHub Flow
+
+Trunk-Based Development
+
+Semantic Versioning
+
+Pull Requests como mecanismo de qualidade
+
+Fundamentação
+
+Humble & Farley enfatizam que integração frequente reduz o risco de integração tardia 
+
+Entrega Contínua - Como Entrega…
+
+.
+
+No SRE, simplicidade e automação são princípios fundamentais 
+
+OReilly.Site.Reliability.Engine…
+
+.
+
+📌 Conexão importante:
+
+Branch longa = risco acumulado
+Merge frequente = risco controlado
+
+🔸 Bloco 2 — Integração Contínua (CI)
+Definição clássica
+
+Integração Contínua = prática de integrar código ao mainline várias vezes ao dia, com build automatizado e testes automáticos.
+
+Base conceitual:
+
+Pipeline automatizado
+
+Build reprodutível
+
+Testes automatizados
+
+Feedback rápido
+
+Humble & Farley estruturam isso como base da Entrega Contínua 
+
+Entrega Contínua - Como Entrega…
+
+.
+
+🔸 Bloco 3 — Automação como Redução de Toil
+
+No SRE, “Eliminating Toil” é um princípio central 
+
+OReilly.Site.Reliability.Engine…
+
+.
+
+Automação não é luxo.
+É mecanismo de:
+
+Redução de erro humano
+
+Padronização
+
+Escalabilidade
+
+Observabilidade inicial
+
+Aqui conectamos com:
+
+CI pipelines
+
+GitHub Actions / GitLab CI
+
+CodeBuild (visão AWS) 
+
+AWS Certified DevOps Engineer -…
+
+🔸 Bloco 4 — Métricas e Impacto
+
+Relacionar CI com:
+
+Lead Time
+
+MTTR
+
+Change Failure Rate
+
+Deployment Frequency
+
+Aqui começamos a preparar o terreno para DORA (módulos posteriores).
+
+3️⃣ 🧩 PBL — Problema Norteador do Módulo
+🎯 Cenário:
+
+Uma startup chamada DevPay desenvolve um sistema de pagamentos.
+
+Problemas atuais:
+
+Cada desenvolvedor trabalha em branch por semanas.
+
+Conflitos enormes ao integrar.
+
+Bugs só aparecem no ambiente de homologação.
+
+Deploy é manual.
+
+Cada release gera medo.
+
+A empresa quer:
+
+Reduzir risco
+
+Aumentar velocidade
+
+Garantir qualidade mínima automática
+
+❓ Pergunta Norteadora:
+
+Como estruturar versionamento e CI para reduzir risco e aumentar previsibilidade?
+
+4️⃣ 🧪 Exercícios Progressivos
+
+Agora organizamos as 5h em prática estruturada.
+
+🕐 Parte 1 — Diagnóstico (30 min)
+Atividade em grupo:
+
+Os alunos devem:
+
+Identificar os problemas estruturais
+
+Classificar riscos
+
+Mapear causas técnicas e organizacionais
+
+🕐 Parte 2 — Estratégia de Versionamento (1h)
+Exercício:
+
+Definir:
+
+Estratégia de branching
+
+Política de PR
+
+Política de versionamento
+
+Critérios de merge
+
+Entregar:
+
+Documento curto com justificativa técnica
+
+🕐 Parte 3 — Construção de Pipeline CI (2h)
+
+Hands-on real.
+
+Setup:
+
+Projeto simples (Node, Java ou Python)
+
+Pipeline deve:
+
+Executar build
+
+Executar testes automatizados
+
+Rodar linter
+
+Gerar artefato
+
+Ferramentas possíveis:
+
+GitHub Actions
+
+GitLab CI
+
+CodeBuild (se quiser visão cloud) 
+
+AWS Certified DevOps Engineer -…
+
+🕐 Parte 4 — Quebra Controlada (1h)
+
+Você introduz um erro proposital:
+
+Teste quebrando
+
+Lint falhando
+
+Build falhando
+
+Alunos devem:
+
+Interpretar logs
+
+Corrigir erro
+
+Explicar o impacto da falha
+
+Conectar com:
+
+Feedback rápido
+
+Redução de custo de correção
+
+🕐 Parte 5 — Reflexão Final (30 min)
+
+Perguntas provocativas:
+
+CI aumenta velocidade ou burocracia?
+
+Automação elimina responsabilidade humana?
+
+Trunk-based é sempre melhor?
+
+O que acontece se o pipeline estiver errado?
+
+5️⃣ 📊 Entrega Avaliativa do Módulo
+
+Os alunos devem entregar:
+
+Arquivo .yml do pipeline
+
+Estratégia de versionamento documentada
+
+Justificativa técnica baseada em:
+
+Redução de risco
+
+Frequência de integração
+
+Automatização
+
+Impacto organizacional
+
+🔥 Estrutura Conceitual Final do Módulo
+
+O módulo não é sobre ferramenta.
+
+É sobre:
+
+Versionamento → Controle de risco
+CI → Feedback rápido
+Automação → Escalabilidade
+Pipeline → Linha de produção de software
+
+
+Exatamente como Humble descreve a “linha de produção de software” 
+
+Entrega Contínua - Como Entrega…
+
+.

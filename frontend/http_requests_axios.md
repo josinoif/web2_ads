@@ -1,5 +1,7 @@
 # Requisições HTTP com JavaScript usando Axios
 
+> **Contexto:** Axios é baseado em **Promises** e combina bem com **async/await**. Para esses conceitos da linguagem, consulte o módulo [../javascript/](../javascript/), em especial [../javascript/03-assincronismo-event-loop.md](../javascript/03-assincronismo-event-loop.md). Para a API nativa do navegador, veja [http_requests_fetch_api.md](http_requests_fetch_api.md).
+
 Axios é uma biblioteca baseada em Promises que facilita a realização de requisições HTTP. Ela oferece uma interface mais simples e recursos adicionais em comparação com a Fetch API.
 
 ## Comparação entre Axios e Fetch API

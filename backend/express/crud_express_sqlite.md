@@ -1,4 +1,4 @@
-Vamos criar uma aplicação CRUD simples usando Express.js com persistência em um banco de dados SQLite. 
+Vamos criar uma aplicação CRUD simples usando **Express.js 5.2.1** com persistência em um banco de dados SQLite (requer Node.js 18+).
 
 ### Passo 1: Configurar o Projeto
 
@@ -12,24 +12,23 @@ cd express-crud
 npm init -y
 ```
 
-2. Instale as dependências necessárias:
+2. Instale as dependências necessárias (Express 5.2.1 requer Node.js 18+):
 
 ```bash
-npm install express sqlite3 body-parser
+npm install express@5.2.1 sqlite3
 ```
 
 ### Passo 2: Configurar o Servidor Express
 
-Crie um arquivo `server.js` e configure o servidor Express:
+Crie um arquivo `server.js` e configure o servidor Express. A partir do Express 4.16+, o parsing de JSON é feito pelo próprio framework com `express.json()`; não é necessário o pacote `body-parser`.
 
 ```javascript
 const express = require('express');
-const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const app = express();
 const PORT = 3000;
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Configurar banco de dados SQLite
 const db = new sqlite3.Database(':memory:');

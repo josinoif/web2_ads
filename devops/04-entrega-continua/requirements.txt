@@ -1,0 +1,24 @@
+# Requirements consolidados do Módulo 4 — Entrega Contínua
+# Instalar com: pip install -r requirements.txt
+#
+# Recomendação: use ambiente virtual isolado para este módulo.
+#   python3 -m venv .venv && source .venv/bin/activate
+
+# --- Core ---
+pytest>=8.0
+pytest-cov>=4.1
+ruff>=0.4
+
+# --- Aplicação de exemplo (LogiTrack) ---
+fastapi>=0.110
+uvicorn>=0.29
+httpx>=0.27
+pydantic>=2.6
+pydantic-settings>=2.2  # config por ambiente via variáveis
+
+# --- Feature flags em Python (Bloco 3) ---
+# Implementação in-house baseada em dict + env vars.
+# Alternativa real (opcional): unleash-client-python>=5.10
+
+# --- Versionamento semântico (Bloco 4) ---
+packaging>=24.0

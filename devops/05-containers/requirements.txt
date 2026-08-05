@@ -1,0 +1,22 @@
+# Requirements consolidados do Módulo 5 — Containers
+# Instalar com: pip install -r requirements.txt
+#
+# Recomendação: ambiente virtual isolado para este módulo.
+#   python3 -m venv .venv && source .venv/bin/activate
+
+# --- Core ---
+pytest>=8.0
+ruff>=0.4
+
+# --- Aplicação da CodeLab (exemplo guia) ---
+fastapi>=0.110
+uvicorn>=0.29
+httpx>=0.27
+pydantic>=2.6
+pydantic-settings>=2.2
+redis>=5.0
+psycopg2-binary>=2.9
+
+# --- Ferramental Python dos blocos ---
+pyyaml>=6.0          # análise de docker-compose/Dockerfile
+rich>=13.0           # saída bonita em alguns scripts de apoio

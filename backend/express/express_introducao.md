@@ -1,5 +1,7 @@
 # Introdução ao Express.js
 
+**Requisitos:** Os tutoriais desta pasta utilizam **Express.js 5.2.1**, que exige **Node.js 18** ou superior.
+
 ## O que é o Express.js?
 
 O **Express.js** é um framework minimalista e flexível para desenvolvimento backend em **Node.js**. Criado para facilitar a criação de APIs e aplicações web, ele abstrai as operações comuns de manipulação de requisições e respostas HTTP, permitindo aos desenvolvedores se concentrarem na lógica de negócio de suas aplicações.
@@ -138,6 +140,7 @@ O Express.js é um dos frameworks mais importantes para desenvolvimento backend 
 ### Documentação Oficial
 
 - [Express.js Official Documentation](https://expressjs.com/)
+- [Migrating to Express 5](https://expressjs.com/en/guide/migrating-5.html) — guia de migração da versão 4 para a 5.
 
 ### Livros
 

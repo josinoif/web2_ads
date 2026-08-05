@@ -24,6 +24,8 @@ Os métodos HTTP usados para implementar essas operações são:
 
 ## 2. Configurando o Ambiente
 
+Requisito: **Node.js 18** ou superior (exigido pelo Express 5).
+
 ### Passo 1: Criar e Configurar o Projeto Node.js
 1. Abra o terminal e crie uma pasta para o projeto:
    ```bash
@@ -38,10 +40,10 @@ Os métodos HTTP usados para implementar essas operações são:
    npm init -y
    ```
 
-2. Instale o Express.js:
+2. Instale o Express.js (versão 5.2.1; requer Node.js 18+):
 
    ```bash
-   npm install express
+   npm install express@5.2.1
    ```
 
 ------
@@ -249,7 +251,3 @@ app.delete('/items/:id', (req, res) => {
 Você criou uma API backend completa com Express.js que implementa operações CRUD. Teste suas rotas usando Postman ou Insomnia para garantir que tudo funciona corretamente.
 
 Continue aprimorando a API adicionando validação de entrada, autenticação, e conexão com um banco de dados para projetos mais robustos!
-
-```
-
-```

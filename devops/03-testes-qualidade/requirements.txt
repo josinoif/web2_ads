@@ -1,0 +1,32 @@
+# Requirements consolidados do Módulo 3 — Testes Automatizados e Qualidade
+# Instalar com: pip install -r requirements.txt
+#
+# Recomendação: use ambiente virtual isolado para este módulo.
+#   python3 -m venv .venv && source .venv/bin/activate
+
+# --- Core ---
+pytest>=8.0
+pytest-cov>=4.1          # cobertura de teste
+pytest-mock>=3.12        # helpers para test doubles
+
+# --- Linter e análise estática ---
+ruff>=0.4                # lint + formatação (PEP8, pyflakes, import ordering)
+bandit>=1.7              # análise estática de segurança (Módulo 9 preview)
+radon>=6.0               # complexidade ciclomática e métricas de código
+
+# --- Integração (Blocos 3 e 4) ---
+requests>=2.31           # cliente HTTP usado em exemplos
+httpx>=0.27              # cliente HTTP async usado em exemplos FastAPI
+fastapi>=0.110           # framework web minimalista dos exemplos
+uvicorn>=0.29            # servidor ASGI para rodar o FastAPI nos exemplos
+
+# --- Testcontainers (Bloco 4) ---
+# Requer Docker instalado localmente para os exemplos de integração com banco.
+testcontainers[postgres]>=4.4
+psycopg2-binary>=2.9     # driver PostgreSQL usado nos exemplos de integração
+
+# --- BDD (Bloco 2 opcional, Bloco 4) ---
+pytest-bdd>=7.1
+
+# --- Mutation testing (Bloco 3 opcional) ---
+mutmut>=2.5

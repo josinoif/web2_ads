@@ -1,0 +1,25 @@
+# Requirements consolidados do Módulo 6 — IaC
+# Instalar com: pip install -r requirements.txt
+#
+# Recomendação: ambiente virtual isolado para este módulo.
+#   python3 -m venv .venv && source .venv/bin/activate
+
+# --- Core ---
+pytest>=8.0
+ruff>=0.4
+
+# --- Pulumi + provider Docker (Bloco 3) ---
+pulumi>=3.120
+pulumi-docker>=4.5
+
+# --- Scripts de apoio ---
+pyyaml>=6.0         # leitura de tfstate.json e policies YAML
+hcl2>=0.4           # parser de HCL para scripts de lint/policy
+rich>=13.0          # CLI bonita
+
+# --- Opcional — Policy as Code (Bloco 4) ---
+# checkov é instalado via pipx ou separado:
+#   pipx install checkov
+# ou:
+#   pip install checkov
+checkov>=3.2
