@@ -11,8 +11,17 @@ if [[ -z "$HASH" ]]; then
   exit 1
 fi
 
+# npm exec resolve módulos a partir do cwd. Em pastas sem package.json
+# (ex.: backend/nest/) o pacote não fica acessível ao `node -e` — por isso
+# rodamos em um diretório temporário.
+WORKDIR="$(mktemp -d)"
+cleanup() { rm -rf "$WORKDIR"; }
+trap cleanup EXIT
+
 export SEED_HASH="$HASH"
-npx -y -p bcryptjs node -e "
+(
+  cd "$WORKDIR"
+  npm exec --yes --package=bcryptjs -- node -e "
 const bcrypt = require('bcryptjs');
 bcrypt.compare('secret123', process.env.SEED_HASH).then((ok) => {
   if (!ok) {
@@ -22,3 +31,4 @@ bcrypt.compare('secret123', process.env.SEED_HASH).then((ok) => {
   console.log('OK: seed.sql verificado (ana/cli → secret123)');
 });
 "
+)

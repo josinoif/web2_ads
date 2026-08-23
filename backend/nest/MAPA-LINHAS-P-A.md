@@ -9,6 +9,18 @@ Documento de referência da jornada NestJS com **e-commerce em duas velocidades*
 | **P** | Principal | Sim | Ao fim de cada capítulo a API sobe e os curls de P passam. O capítulo seguinte **só depende de P**. |
 | **A** | Alternativa (desafio) | Não | Amplia o domínio. Pode usar tudo de P. **Nunca** é importada por código da linha P. |
 
+```mermaid
+flowchart TB
+    subgraph P["Linha P — obrigatória"]
+        API[loja-api funcional]
+    end
+    subgraph A["Linha A — opcional"]
+        Extra[desafios por capítulo]
+    end
+    API --> Prox[capítulo seguinte só depende de P]
+    Extra -.->|nunca importa em P| API
+```
+
 **Projeto:** `loja-api` (NestJS 10 + TypeScript).  
 **Banco:** **PostgreSQL 16** (Docker). Driver: `pg`.  
 **Base URL:** `http://localhost:3000`  
@@ -26,6 +38,38 @@ Documento de referência da jornada NestJS com **e-commerce em duas velocidades*
 | `User` | `id`, `username`, `email`, `password`, `role` | Cap. 6 (`role` efetivo no 7) |
 | `Order` | `id`, `userId`, `status`, `createdAt` | Cap. 5.1 |
 | `OrderItem` | `id`, `orderId`, `productId`, `quantity`, `unitPrice` | Cap. 5.1 |
+
+```mermaid
+erDiagram
+    User ||--o{ Order : faz
+    Order ||--|{ OrderItem : contem
+    Product ||--o{ OrderItem : referencia
+    User {
+        int id
+        string username
+        string role
+    }
+    Order {
+        int id
+        int userId
+        string status
+    }
+    OrderItem {
+        int id
+        int orderId
+        int productId
+        int quantity
+        number unitPrice
+    }
+    Product {
+        int id
+        string name
+        number price
+        int stock
+    }
+```
+
+> No cap. 5.1, `Order.userId` é **nullable** (`null` enquanto ainda não há JWT). A partir do cap. 6, pedidos autenticados gravam o `sub` do token.
 
 `status` do pedido em P: `OPEN` \| `PAID` \| `CANCELLED` (em P, criação sempre `OPEN`; transição `PAID`/`CANCELLED` pode ser simplificada até o cap. A de pagamento).
 
@@ -224,9 +268,9 @@ Docker PostgreSQL + `TypeOrmModule` conforme tutorial (`docker-compose.postgres.
 
 ## Cap. 5.1 — Pedidos (núcleo P do checkout)
 
-Pode ser seção final do cap. 5 ou arquivo `5.1.pedidos.md`. **Obrigatório na linha P** para o e-commerce fazer sentido antes de auth (criação “anônima” **não** — pedidos entram de fato protegidos no cap. 6; neste capítulo a API de pedidos pode existir e ser aberta temporariamente **ou** já documentar que no 6 exige JWT).
+Pode ser seção final do cap. 5 ou arquivo `5.1.pedidos.md`. **Obrigatório na linha P** para o checkout existir antes de auth.
 
-**Decisão canônica:** no 5.1 as rotas de pedido existem e funcionam **sem** JWT (usuário ainda não existe). No cap. 6, `userId` passa a vir do token e as mutações/listagens exigem JWT. Assim o 5.1 não bloqueia quem ainda não viu auth, e o 6 só **endurece** o mesmo contrato.
+**Decisão canônica:** no 5.1 as rotas de pedido existem e funcionam **sem** JWT (`userId` pode ser `null` — usuário ainda não existe). No cap. 6, `userId` passa a vir do token e as mutações/listagens exigem JWT. Assim o 5.1 não bloqueia quem ainda não viu auth, e o 6 só **endurece** o mesmo contrato.
 
 ### P
 
@@ -375,7 +419,7 @@ Coluna no banco: `Product.imageFilename` (nullable) — nome do arquivo em `./up
 |------|----------------|
 | Unitário | `ProductsService` (create, not found, stock) com mock de repository |
 | E2E | `POST /products` válido → 201; inválido → 400; `GET /products/:id` inexistente → 404 |
-| E2E auth | login → create product com Bearer; sem token → 401 |
+| E2E auth | login da **Ana** (ADMIN) → create product com Bearer → 201; sem token → 401 (após cap. 7, Cli → 403) |
 
 ### A (opcional)
 

@@ -29,6 +29,22 @@ Detalhe canônico das rotas: [`MAPA-LINHAS-P-A.md`](MAPA-LINHAS-P-A.md).
 
 **Ana** sobe a `loja-api` → cadastra a **Caneca Nest** no catálogo → valida a entrada com DTOs → organiza a regra no service → grava no **PostgreSQL** → **Cli** compra (pedido + estoque) → ambos se autenticam com JWT → Ana ganha poder de **ADMIN** → documenta no Swagger → sobe a foto do produto → testa a linha P → amplia com pacotes A no capstone.
 
+```mermaid
+flowchart LR
+    C1[1 health] --> C2[2 catálogo RAM]
+    C2 --> C21[2.1 DTOs]
+    C21 --> C3[3 services]
+    C3 --> C4[4 persistência]
+    C4 --> C5[5 Postgres]
+    C5 --> C51[5.1 pedidos]
+    C51 --> C6[6 JWT]
+    C6 --> C7[7 roles]
+    C7 --> C8[8 Swagger]
+    C8 --> C9[9 upload]
+    C9 --> C10[10 testes]
+    C10 --> Cap[capstone A]
+```
+
 ---
 
 ## Como cada capítulo está organizado

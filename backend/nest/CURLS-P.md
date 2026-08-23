@@ -13,7 +13,7 @@ Ordem alinhada à [trilha](README.md). Em conflito de contrato, o [mapa](MAPA-LI
 | 2–4 | Caps. 2–3 (produtos em memória + service) |
 | 5 | Cap. 5 (Postgres + produtos) |
 | 5.1 | Cap. 5.1 (`/orders`) |
-| bloco seed + 6 | Cap. 6 (`auth`, JWT em produtos/pedidos) |
+| bloco seed + 6 | Cap. 6 (`auth`, JWT — **401** sem token; **qualquer** Bearer → **201** em `POST /products`) |
 | 7 | Cap. 7 (roles — Cli leva **403** em `POST /products`) |
 | 8 | Cap. 8 (Swagger `/api`) |
 | 9 | Cap. 9 (upload) |
@@ -50,13 +50,14 @@ curl -s -X POST http://localhost:3000/orders \
 curl -s http://localhost:3000/orders/1
 curl -s -X POST http://localhost:3000/orders/1/cancel
 
-# === OBRIGATÓRIO antes dos passos 6–9 (cap. 6+) — shell em backend/nest/ ===
+# === OBRIGATÓRIO antes dos passos 6–9 (cap. 6+) ===
+# Shell em backend/nest/ (se estiver em loja-api/, volte: cd ..)
 # Apaga pedidos de teste do 5.1 e recria Ana (ADMIN) + Cli (CLIENT)
 docker exec -i loja-postgres psql -U loja -d loja < seed/seed.sql
 bash seed/verify-seed.sh
 # em loja-api/:  docker exec ... < ../seed/seed.sql  &&  bash ../seed/verify-seed.sh
 
-# 6) Auth
+# 6) Auth — login
 curl -s -X POST http://localhost:3000/auth/login \
   -H 'Content-Type: application/json' \
   -d '{"username":"ana","password":"secret123"}'
@@ -79,9 +80,27 @@ TOKEN_CLI=$(curl -s -X POST http://localhost:3000/auth/login \
 # Opção B — jq (se tiver instalado):
 # TOKEN_ANA=$(curl -s ... | jq -r .access_token)
 
-# Opção C — manual: rode o login da Ana, copie access_token e export TOKEN_ANA='eyJ...'
+# Opção C — manual: rode o login, copie access_token e export TOKEN_ANA='eyJ...' / TOKEN_CLI='eyJ...'
 
-# 7) Roles — Ana cria produto; Cli toma 403
+# 6b) JWT nas mutações (cap. 6 — ainda SEM roles: Ana e Cli criam produto)
+curl -s -o /dev/null -w '%{http_code}\n' -X POST http://localhost:3000/products \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"X","price":1,"stock":1}'
+# esperado: 401
+
+curl -s -o /dev/null -w '%{http_code}\n' -X POST http://localhost:3000/products \
+  -H "Authorization: Bearer $TOKEN_ANA" \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"Caneca Nest","price":39.9,"stock":5}'
+# esperado: 201
+
+curl -s -o /dev/null -w '%{http_code}\n' -X POST http://localhost:3000/products \
+  -H "Authorization: Bearer $TOKEN_CLI" \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"Caneca Cli","price":19.9,"stock":3}'
+# esperado: 201 (no cap. 7 isto vira 403)
+
+# 7) Roles — Ana cria produto; Cli toma 403 (só depois do cap. 7)
 curl -s -X POST http://localhost:3000/products \
   -H "Authorization: Bearer $TOKEN_ANA" \
   -H 'Content-Type: application/json' \

@@ -79,6 +79,16 @@ flowchart TB
 
 Métodos: `CARD` \| `BOLETO` \| `PIX`. Status: `PENDING` \| `PAID` \| `CANCELLED`.
 
+```mermaid
+stateDiagram-v2
+    [*] --> PENDING: POST /orders/:id/payments
+    PENDING --> PAID: PATCH status PAID
+    PENDING --> CANCELLED: cancelar pagamento
+    PAID --> PedidoPAID: Order.status = PAID
+    CANCELLED --> [*]
+    PedidoPAID --> [*]
+```
+
 ### Catálogo rico
 
 CRUD `/categories` + associação produto ([mapa Cap. 5 A](MAPA-LINHAS-P-A.md)).
