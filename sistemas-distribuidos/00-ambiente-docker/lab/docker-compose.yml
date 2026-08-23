@@ -1,0 +1,29 @@
+services:
+  node-a:
+    build: ./node
+    environment:
+      NODE_NAME: a
+      PORT: "8000"
+    ports:
+      - "8001:8000"
+
+  node-b:
+    build: ./node
+    environment:
+      NODE_NAME: b
+      PORT: "8000"
+    ports:
+      - "8002:8000"
+
+  node-c:
+    build: ./node
+    environment:
+      NODE_NAME: c
+      PORT: "8000"
+    ports:
+      - "8003:8000"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"

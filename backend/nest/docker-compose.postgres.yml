@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: loja-postgres
+    environment:
+      POSTGRES_USER: loja
+      POSTGRES_PASSWORD: loja
+      POSTGRES_DB: loja
+    ports:
+      - "5432:5432"
+    volumes:
+      - loja_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U loja -d loja"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  loja_pg_data:

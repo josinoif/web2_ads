@@ -1,0 +1,24 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  api:
+    build: ./api
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      ANALISE_SEGUNDOS: "3"
+    ports:
+      - "8080:8000"
+    depends_on:
+      - redis
+
+  worker:
+    build: ./worker
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      ANALISE_SEGUNDOS: "3"
+      TAXA_FALHA: "0"
+    depends_on:
+      - redis
