@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package provas;
+
+// Serviço de análise de provas — mesmo domínio dos outros labs.
+//
+// Síncrono:  AnalisarSincrono  (unary; bloqueia até o resultado)
+// Assíncrono:
+//   SubmeterAnalise   (unary; aceita e retorna na hora)
+//   ConsultarStatus   (unary; polling)
+//   AcompanharStatus  (server streaming; push de atualizações)
+
+service AnaliseProvas {
+  // SÍNCRONO: cliente fica na linha até a análise terminar.
+  rpc AnalisarSincrono(PedidoProva) returns (StatusProva);
+
+  // ASSÍNCRONO (aceite): dispara thread interna no servidor (não é fila distribuída).
+  rpc SubmeterAnalise(PedidoProva) returns (Aceite);
+
+  // Consulta pontual de status (request–response).
+  rpc ConsultarStatus(ConsultaId) returns (StatusProva);
+
+  // ASSÍNCRONO (observação): stream de status até concluido/erro.
+  rpc AcompanharStatus(ConsultaId) returns (stream StatusProva);
+}
+
+message PedidoProva {
+  string aluno = 1;
+  string arquivo = 2;
+  string submission_id = 3; // opcional; servidor gera se vazio
+}
+
+message ConsultaId {
+  string submission_id = 1;
+}
+
+message Aceite {
+  string submission_id = 1;
+  string status = 2; // tipicamente "na_fila"
+}
+
+message StatusProva {
+  string submission_id = 1;
+  string aluno = 2;
+  string arquivo = 3;
+  string status = 4; // na_fila | processando | concluido | erro
+  string parecer = 5;
+  int32 similaridade_pct = 6;
+  string worker = 7;
+}

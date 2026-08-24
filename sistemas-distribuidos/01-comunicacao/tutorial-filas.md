@@ -1,132 +1,105 @@
-# Tutorial — Correção de provas com fila de mensagens
+# Tutorial — Lab filas: envio de trabalhos/provas
 
-**Módulo:** [01 — Comunicação](README.md)  
-**Nível:** iniciante em sistemas distribuídos  
-**Tempo sugerido:** 1 aula + experimentos (≈ 90–120 min)  
-**Pré-requisito:** [00 — Ambiente Docker](../00-ambiente-docker/)
+**Módulo:** [01 — Comunicação](README.md) · **Lab:** [lab-filas/](lab-filas/)  
+**Tempo sugerido:** tecnologia 10–15 min + lab 90–120 min  
+**Pré-requisito:** [00 — Ambiente Docker](../00-ambiente-docker/) · [teoria.md](teoria.md) §1–4  
+**Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)  
+**Próximos:** [Kafka](tutorial-kafka.md) · [gRPC](tutorial-grpc.md)
 
-Neste tutorial você vai montar um **portal de correção de provas em escala reduzida**. O professor envia várias provas; a análise (lenta) roda **depois**, em outro processo. No caminho, você vai ver na prática o que significa **comunicação assíncrona** e **fila de mensagens**.
+> Leia A e B *antes* do Compose. No lab: rode → observe → anote.
+
+**Protagonista deste lab:** o **aluno** envia o trabalho e precisa de **recibo rápido**; a **coordenação** consulta pareceres depois (painel / status).
 
 ---
 
-## 0. O problema (por que isso importa)
+## Parte A — A tecnologia: filas (o essencial para o lab)
 
-Imagine o fim da unidade: o professor precisa enviar **80 PDFs**. Para cada um, o sistema deveria:
+> O padrão *produtor → fila → consumidor*, sync/async e persistente/transiente já estão em [teoria.md](teoria.md). Aqui: o que **esta ferramenta** faz e o que o lab **não** simula.
 
-1. aceitar o arquivo  
-2. extrair texto  
-3. calcular similaridade (checagem de plágio)  
-4. gerar um parecer  
+### Em uma frase
 
-Os passos 2–4 demoram. Se a tela de upload **só liberar** quando a análise acabar, o navegador trava, o servidor satura e na sexta às 23h59 ninguém consegue entregar.
+Buffer de **jobs**: quem produz não espera o fim do trabalho; quem consome processa no seu ritmo. Em produção: RabbitMQ, SQS, etc. Aqui: **Redis lista** (`LPUSH` / `BRPOP`) — didático.
 
-**Pergunta-guia:** nos próximos 3 segundos após o “Enviar”, o que o professor precisa garantir — e o que pode ficar para daqui a alguns minutos?
+### Funcionalidades que importam agora
 
-O desenho abaixo resume a dor do caminho **síncrono** no dia da entrega:
+| No broker maduro | Para quê |
+|------------------|----------|
+| Enfileirar / consumir | Separar aceite do processamento |
+| Compete consumers | Escalar workers |
+| Ack após processar | Não perder job se o worker cair |
+| Retry / DLQ | Lidar com falha repetida |
+
+### Vantagens / custos (lembrete)
+
+**Ganha:** desacoplamento temporal, pico, escala de workers, ack rápido ao usuário.  
+**Paga:** status eventual, operação do broker, cuidado com falha/idempotência. A fila **não** reduz o trabalho total.
+
+### Broker maduro vs este lab
+
+| Promessa típica | Neste lab (Redis lista) |
+|-----------------|-------------------------|
+| Ack **depois** de processar | `BRPOP` **remove na pegada** — se o worker morrer no meio, o job pode sumir |
+| Persistência forte + replay | Status em chave Redis; sem DLQ pronta |
+| Retry automático | Não há — por isso o experimento do `kill` dói |
+
+Use a tabela na Parte C: o lab é propositalmente frágil para você **ver** o buraco.
+
+### Quando usar
+
+Trabalho lento/variável, pico, produtor não pode depender do worker online.  
+**Não** use se o usuário precisa do resultado completo na mesma request — ou se o problema é fan-out para muitos sistemas ([Kafka](tutorial-kafka.md)).
+
+---
+
+## Parte B — Contexto de uso
+
+### A dor (escala de sala / estágio)
+
+No prazo (ex.: 23h59), dezenas de envios. Se a API só responde quando a análise (antplágio, PDF, etc.) termina, a tela trava e o servidor satura.
+
+O mesmo desenho aparece em: gerar boletim em lote, importar CSV de notas, disparar e-mail após matrícula — **sempre** “aceitar rápido / processar depois”.
+
+**Pergunta-guia:** nos próximos 3 segundos após “Enviar”, o que precisa estar garantido?
+
+### Síncrono vs fila
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Prof as Professor
+    actor Aluno
     participant API
-    participant Analise as Análise (lenta)
-
-    Prof->>API: Enviar prova 1
-    API->>Analise: extrair + similaridade
-    Note over Analise: demora vários segundos
-    Analise-->>API: relatório
-    API-->>Prof: ok (só agora)
-    Prof->>API: Enviar prova 2...
-    Note over Prof,API: Com 80 provas, a tela "trava"
+    participant Analise as Análise
+    Aluno->>API: Enviar trabalho
+    API->>Analise: processa na request
+    Note over Analise: vários segundos
+    Analise-->>API: ok
+    API-->>Aluno: recibo (só agora)
 ```
 
-> **Conceito: trabalho síncrono vs assíncrono**  
-> - **Síncrono:** quem pede espera o resultado na mesma conversa (“fica na linha”).  
-> - **Assíncrono:** quem pede registra o pedido e segue; o resultado chega depois (status, e-mail, painel).  
-> Filas de mensagens são uma forma clássica de organizar o trabalho assíncrono entre processos.
+Com fila: `202` + status `na_fila` → worker analisa → `GET` traz o parecer.
 
-```mermaid
-flowchart LR
-    subgraph sync["Síncrono"]
-        A1[Pedido] --> B1[Espera]
-        B1 --> C1[Resultado]
-    end
-    subgraph async["Assíncrono"]
-        A2[Pedido] --> B2[Ack rápido]
-        B2 --> C2[Trabalho depois]
-        C2 --> D2[Resultado / status]
-    end
-```
+| Peça | Mundo real | Lab |
+|------|------------|-----|
+| API | Portal de envio | `:8080` |
+| Fila | SQS / Rabbit / … | Redis `prova:fila` |
+| Worker | Análise | `worker` |
+
+Código: [`lab-filas/`](lab-filas/). PDF **simulado** (sleep).
+
+Neste lab a mensagem na fila é um **comando** de trabalho (`AnalisarProva`) — ver [teoria §6](teoria.md) e [glossário — Comando](glossario.md).
 
 ---
 
-## 1. O que vamos construir
+## Parte C — Lab prático
 
-Três peças:
+> Relacione cada experimento à tabela “broker vs lab” da Parte A. Se travar: [troubleshooting.md](troubleshooting.md).
 
-| Peça | Papel no mundo real | No lab |
-|------|---------------------|--------|
-| **API** | Portal que recebe o upload | Serviço `api` na porta `8080` |
-| **Fila** | “Banco de trabalhos pendentes” | Redis (lista `prova:fila`) |
-| **Worker** | Analisador de plágio / correção | Serviço `worker` (pode ter mais de um) |
-
-Arquitetura do lab:
-
-```mermaid
-flowchart TB
-    Prof[Professor / curl]
-
-    subgraph compose["Docker Compose"]
-        API[API - produtor<br/>porta 8080]
-        Redis[(Redis<br/>fila + status)]
-        W1[Worker - consumidor]
-    end
-
-    Prof -->|POST /provas| API
-    Prof -->|GET /provas/id| API
-    API -->|LPUSH mensagem| Redis
-    API -->|lê/grava status| Redis
-    W1 -->|BRPOP job| Redis
-    W1 -->|atualiza status| Redis
-```
-
-Fluxo no tempo (ack rápido + trabalho depois):
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Prof as Professor
-    participant API
-    participant Fila as Redis fila
-    participant Status as Redis status
-    participant Worker
-
-    Prof->>API: POST /provas
-    API->>Status: status = na_fila
-    API->>Fila: enfileira mensagem
-    API-->>Prof: 202 Accepted
-    Note over Prof: já pode fechar a tela
-    Worker->>Fila: BRPOP
-    Worker->>Status: status = processando
-    Note over Worker: sleep = análise simulada
-    Worker->>Status: status = concluido
-    Prof->>API: GET /provas/id
-    API->>Status: consulta
-    API-->>Prof: relatório pronto
-```
-
-Neste lab o PDF é **simulado** (não precisamos de arquivo de verdade). O worker só “dorme” alguns segundos para imitar a análise pesada. O importante é a **forma** do sistema, não o OCR.
-
-Código pronto em [`lab/`](lab/).
-
----
-
-## 2. Subir o ambiente
+### C.1 Subir o ambiente
 
 No terminal:
 
 ```bash
-cd sistemas-distribuidos/01-comunicacao/lab
+cd sistemas-distribuidos/01-comunicacao/lab-filas
 docker compose up -d --build
 docker compose ps
 ```
@@ -165,9 +138,9 @@ Não há memória compartilhada entre API e worker: o Redis é o **ponto de enco
 
 ---
 
-## 3. Caminho feliz — uma prova
+### C.2 Caminho feliz — uma prova
 
-### 3.1 Enviar (enfileirar)
+### C.2.1 Enviar (enfileirar)
 
 ```bash
 curl -s -X POST http://localhost:8080/provas \
@@ -186,7 +159,7 @@ Cronometre mentalmente: a resposta veio em **fração de segundo**, não em 3 se
 > **Conceito: produtor**  
 > A API é o **produtor**: quem **cria** a mensagem e a coloca na fila. O produtor não precisa conhecer *quem* vai analisar — só o formato da mensagem.
 
-### 3.2 Acompanhar o status
+### C.2.2 Acompanhar o status
 
 Substitua `SEU_ID` pelo `submission_id` retornado:
 
@@ -230,7 +203,7 @@ docker compose logs -f worker
 
 ---
 
-## 4. Comparar com a versão síncrona (teoria na pele)
+### C.3 Comparar com a versão síncrona (teoria na pele)
 
 A API também tem um endpoint que **faz a análise dentro do próprio request** — o anti-padrão que queremos evitar no dia da entrega:
 
@@ -244,7 +217,7 @@ Observe:
 
 - a resposta demora ≈ `ANALISE_SEGUNDOS` (padrão: 3s)  
 - o campo `latencia_api_segundos` confirma isso  
-- o professor só recebe “ok” quando a análise acabou
+- quem envia só recebe “ok” quando a análise acabou
 
 Agora compare com o assíncrono:
 
@@ -265,23 +238,23 @@ Lado a lado no tempo:
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Prof as Professor
+    actor Aluno
     participant API
     participant Fila as Fila
     participant Worker
 
     rect rgb(255, 230, 230)
-        Note over Prof,Worker: Caminho síncrono POST /provas/sincrono
-        Prof->>API: enviar
+        Note over Aluno,Worker: Caminho síncrono POST /provas/sincrono
+        Aluno->>API: enviar
         API->>API: analisa aqui dentro
-        API-->>Prof: 200 só no fim
+        API-->>Aluno: 200 só no fim
     end
 
     rect rgb(230, 255, 230)
-        Note over Prof,Worker: Caminho assíncrono POST /provas
-        Prof->>API: enviar
+        Note over Aluno,Worker: Caminho assíncrono POST /provas
+        Aluno->>API: enviar
         API->>Fila: mensagem
-        API-->>Prof: 202 na hora
+        API-->>Aluno: 202 na hora
         Worker->>Fila: pega job
         Worker->>Worker: analisa depois
     end
@@ -291,11 +264,14 @@ sequenceDiagram
 > No síncrono, cliente e analisador precisam estar disponíveis **ao mesmo tempo** e o cliente paga a latência do trabalho pesado.  
 > No assíncrono com fila, o cliente e o worker podem viver em ritmos diferentes. O preço é outro: você precisa de **status** (“já enviei” ≠ “já tenho relatório”).
 
-Anote em uma frase: *o que o professor ganha e o que ele deixa de ter na hora do upload?*
+Anote em uma frase: *o que quem envia ganha e o que deixa de ter na hora do upload?*
+
+> **Pare e pense (objetivo de decisão)**  
+> O caminho feliz do lab é um **híbrido**: HTTP síncrono *curto* (aceite + `202`) + trabalho assíncrono na fila. Isso não é “trapaça” — é o padrão mais comum em portais reais. A pergunta de arquitetura vira: *quais partes do fluxo exigem sincronia até o resultado, e quais só exigem sincronia até o aceite?*
 
 ---
 
-## 5. Entender a mensagem (o “contrato” da fila)
+### C.4 Entender a mensagem (o “contrato” da fila)
 
 Quando a API enfileira, ela grava um JSON parecido com:
 
@@ -330,7 +306,7 @@ docker compose exec redis redis-cli LLEN prova:fila
 
 ---
 
-## 6. Experimentos — evidenciar características de sistemas distribuídos
+### C.5 Experimentos — evidenciar características de sistemas distribuídos
 
 A partir daqui o objetivo não é “fazer funcionar”. É **provocar o sistema** e anotar o que acontece. Use uma folha (ou o final desta seção) para registrar tempos e impressões.
 
@@ -387,20 +363,20 @@ docker compose logs --tail=30 worker
 
 ### Experimento 2 — Worker desligado (desacoplamento temporal)
 
-**Hipótese:** com o analisador fora do ar, o professor **ainda consegue enviar**; as provas esperam.
+**Hipótese:** com o analisador fora do ar, quem envia **ainda consegue enviar**; as provas esperam.
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Prof as Professor
+    actor Aluno
     participant API
     participant Fila as Fila Redis
     participant Worker
 
     Note over Worker: parado (stop)
-    Prof->>API: POST lote
+    Aluno->>API: POST lote
     API->>Fila: mensagens acumulam
-    API-->>Prof: 202 ok
+    API-->>Aluno: 202 ok
     Note over Fila: LLEN > 0
     Note over Worker: start
     Worker->>Fila: drena a fila
@@ -530,6 +506,16 @@ sequenceDiagram
 
 Neste lab simples o `BRPOP` tira a mensagem **antes** do fim do trabalho. Se o worker cair no meio, a prova pode “sumir” da fila e ficar com status inconsistente — exatamente o tipo de bug que sistemas reais tentam evitar com ack, timeout e retry.
 
+**Opção A — script automático (recomendado)**
+
+```bash
+./scripts/provocar-kill.sh
+```
+
+O script envia uma prova, espera `processando` e mata o worker — sem depender de reflexo manual.
+
+**Opção B — manual**
+
 ```bash
 # limpe e envie uma prova
 docker compose exec redis redis-cli DEL prova:fila
@@ -547,7 +533,7 @@ curl -s "http://localhost:8080/provas/$ID" | python3 -m json.tool
 curl -s http://localhost:8080/fila | python3 -m json.tool
 ```
 
-**O que anotar**
+**O que anotar** (vale para A ou B)
 
 - O status ficou em `processando`?  
 - A mensagem ainda está na fila? (neste lab simples, o `BRPOP` **já removeu** a mensagem — ela pode ter “sumido”)  
@@ -560,10 +546,12 @@ docker compose up -d worker
 ```
 
 > **Conceito: falha parcial e at-least-once**  
-> Em sistemas distribuídos, um nó pode morrer no meio do caminho. Brokers maduros só consideram a mensagem “entregue” depois de um **ack**. Muitos sistemas garantem **pelo menos uma vez** (*at-least-once*): a mensagem pode ser processada de novo. Por isso jobs precisam ser **idempotentes** (processar a mesma `submission_id` duas vezes não cria dois relatórios conflitantes).
+> Em sistemas distribuídos, um nó pode morrer no meio do caminho. Brokers maduros só consideram a mensagem “entregue” depois de um **ack**. Muitos sistemas garantem **pelo menos uma vez** (*at-least-once*): a mensagem pode ser processada de novo. Por isso jobs precisam ser **idempotentes** (processar a mesma `submission_id` duas vezes não cria dois relatórios conflitantes).  
+> Lembre da ambiguidade clássica do RPC (van Steen, cap. 8): *at-most-once* vs *at-least-once* vs o desejado *exactly-once* — que **não** vem de graça. O `BRPOP` deste lab é propositalmente frágil para você *ver* o buraco.
 
 > **Conceito: consistência eventual**  
-> Por um tempo, a verdade do sistema é “a prova foi recebida, mas o relatório ainda não existe” (ou “parece processando, mas o worker morreu”). Usuários e outras partes do sistema precisam ser desenhados para esse atraso — painéis de status, não uma única resposta HTTP mágica.
+> Por um tempo, a verdade do sistema é “a prova foi recebida, mas o relatório ainda não existe” (ou “parece processando, mas o worker morreu”). Usuários e outras partes do sistema precisam ser desenhados para esse atraso — painéis de status, não uma única resposta HTTP mágica.  
+> Esse é o preço típico do desacoplamento: você ganha disponibilidade no upload e paga com “ainda não sei o parecer”.
 
 ---
 
@@ -586,7 +574,7 @@ Confira com um lote e o relógio.
 
 ---
 
-## 7. Tabela de fechamento (preencha com o grupo)
+### C.6 Tabela de fechamento (preencha com o grupo)
 
 | Característica observada | Onde viu no lab | Vantagem? | Custo / risco? |
 |--------------------------|-----------------|-----------|----------------|
@@ -595,60 +583,33 @@ Confira com um lote e o relógio.
 | Escala de workers | Experimento 3 | | |
 | Falha parcial | Experimento 4 | | |
 | Consistência eventual (status) | Experimento 1–2 | | |
-| Acoplamento do caminho síncrono | Seção 4 | | |
+| Acoplamento do caminho síncrono | C.3 | | |
 
 **Perguntas finais**
 
 1. Em qual tela do portal a comunicação **precisa** ser síncrona?  
-2. O que você mudaria no worker após o experimento 4 para não perder prova?  
+2. O que você mudaria no worker após o **Experimento 4** (falha / `kill` em C.5) para não perder prova?
 3. O `submission_id` ajuda em quê se a mesma mensagem for processada duas vezes?  
-4. Onde entraria o armazenamento de arquivos (MinIO) neste desenho — a mensagem carregaria o PDF ou só um caminho?
+4. Onde entraria o armazenamento de arquivos (MinIO) neste desenho — a mensagem carregaria o PDF ou só um caminho?  
+5. Se amanhã a equipe trocasse Redis por RabbitMQ, **quais conceitos** do lab permaneceriam iguais e o que mudaria só de ferramenta?  
+6. Leve suas anotações da tabela acima para o [Cenário 1 em decisoes.md](decisoes.md) e complete a justificativa de trade-offs.
+
+Comandos e leitura de código: [lab-filas/README.md](lab-filas/README.md#referencia-rapida).
 
 ---
 
-## 8. Mapa rápido dos comandos
+### C.7 Para onde ir a partir daqui
 
-```bash
-# subir / ver / logs
-docker compose up -d --build
-docker compose ps
-docker compose logs -f api worker
+**Ainda neste módulo**
 
-# usar
-curl -s http://localhost:8080/health
-curl -s -X POST http://localhost:8080/provas -H "Content-Type: application/json" \
-  -d '{"aluno":"maria","arquivo":"maria.pdf"}'
-./scripts/enviar-lote.sh 15
-./scripts/acompanhar.sh SEU_ID
-curl -s http://localhost:8080/fila
+1. [tutorial-kafka.md](tutorial-kafka.md) — tópicos e fan-out.  
+2. [tutorial-grpc.md](tutorial-grpc.md) — RPC sync e async.  
+3. Releia [teoria.md](teoria.md) §5–7 com os labs frescos.  
+4. Faça o [workshop de decisões](decisoes.md).  
+5. Confira o checklist do [README](README.md).
 
-# provocar
-docker compose stop worker
-docker compose start worker
-docker compose up -d --scale worker=2 worker
-docker kill "$(docker compose ps -q worker)"
+**Na disciplina (módulos seguintes)**
 
-# encerrar
-docker compose down -v
-```
-
----
-
-## 9. O que olhar no código (depois de rodar)
-
-| Arquivo | O que ele ensina |
-|---------|------------------|
-| [`lab/api/app.py`](lab/api/app.py) | produtor; `202`; status; contraste `/provas/sincrono` |
-| [`lab/worker/worker.py`](lab/worker/worker.py) | consumidor; `BRPOP`; atualização de status |
-| [`lab/docker-compose.yml`](lab/docker-compose.yml) | três processos no mesmo “cluster” local |
-
-Leia com calma a função `enfileirar` na API e o loop `while rodando` no worker: ali está o desenho inteiro.
-
----
-
-## 10. Próximos passos na disciplina
-
-- **gRPC (bloco B do módulo):** consulta tipada de status (“qual a situação da prova 042 agora?”).  
 - **05 Escalabilidade:** medir drenagem com 1/2/4 workers de forma mais sistemática.  
 - **06 Falhas:** retry + timeout + dead letter de verdade.  
 - **08 Arquivos:** PDF no MinIO; mensagem só com `object_key`.  
@@ -662,4 +623,4 @@ Leia com calma a função `enfileirar` na API e o loop `while rodando` no worker
 docker compose down -v
 ```
 
-Se você conseguiu: (1) sentir a diferença síncrono vs fila, (2) enviar com worker parado, (3) acelerar com mais um worker e (4) ver o estrago de um `kill` no meio do job — você experimentou, na prática, o essencial de **comunicação assíncrona com fila** em sistemas distribuídos.
+Se você conseguiu: (1) sentir a diferença síncrono vs fila, (2) enviar com worker parado, (3) acelerar com mais um worker, (4) ver o estrago de um `kill` no meio do job e (5) **explicar** pelo menos um trade-off sem olhar o código — você usou a prática para entender comunicação em sistemas distribuídos, não só para reproduzir um tutorial.

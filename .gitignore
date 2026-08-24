@@ -1,1 +1,4 @@
 devops/books
+books
+**/__pycache__/
+*.pyc

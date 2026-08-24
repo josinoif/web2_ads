@@ -35,7 +35,7 @@ Comece obrigatoriamente pelo tutorial **00** se ainda não usa Docker no dia a d
 | # | Pasta | Conceito central | Mini-projeto (ideia) |
 |---|-------|------------------|----------------------|
 | 0 | [00-ambiente-docker](00-ambiente-docker/) | Docker como bancada de experimentação | Compose com 3 nós + Redis; folha de comandos |
-| 1 | [01-comunicacao](01-comunicacao/) | Comunicação entre nós: filas e gRPC | Correção de provas em lote (fila) + gRPC de status |
+| 1 | [01-comunicacao](01-comunicacao/) | Comunicação: filas, Kafka, gRPC | Teoria + 3 labs (A/B/C) + decisões; ver caminho mínimo no README do módulo |
 | 2 | [02-replicacao](02-replicacao/) | Replicação, líder/seguidores, lag | “Banco” em memória replicado para N nós |
 | 3 | [03-consistencia-cap](03-consistencia-cap/) | Consistência vs disponibilidade (intuição do CAP) | Dois nós com partição simulada |
 | 4 | [04-coordenacao-locks](04-coordenacao-locks/) | Exclusão mútua, locks distribuídos | Contador compartilhado com e sem lock |
@@ -55,9 +55,9 @@ Cada pasta terá, no mínimo:
 ## Como usar em sala
 
 1. **Aula 0:** ambiente Docker ([00-ambiente-docker](00-ambiente-docker/)) — toda a turma sobe o mesmo lab.
-2. Nos demais módulos: **teoria curta** (10–15 min) + experimento do README.
-3. **Experimento coletivo** — comparar resultados (“quem viu inconsistência?”, “quanto ganhou de RPS com 3 workers?”).
-4. **Perguntas-guia** no final de cada README.
+2. Nos demais módulos: **teoria** (leitura ou 15–25 min em sala) + experimento do lab + **decisão/trade-off** quando o módulo tiver workshop.  
+3. **Experimento coletivo** — comparar resultados (“quem viu inconsistência?”, “quanto ganhou de RPS com 3 workers?”).  
+4. **Perguntas-guia** / cenários de decisão no final — o aluno deve **justificar** escolhas, não só reproduzir comandos.
 
 Ordem recomendada: **00** → **01–04** (fundamentos) → **05–07** (escala e resiliência) → **08–09** (dados e operação).
 
@@ -91,7 +91,7 @@ O tutorial **00** desta pasta é a **folha de referência de comandos** para os 
 | Tutorial | Status |
 |----------|--------|
 | 00-ambiente-docker | pronto (referência + lab) |
-| 01-comunicacao | bloco filas pronto (tutorial + lab); gRPC a fazer |
+| 01-comunicacao | pronto (teoria, glossário, 3 labs, decisões; caminho mínimo + completo) |
 | 02-replicacao | planejado |
 | 03-consistencia-cap | planejado |
 | 04-coordenacao-locks | planejado |
@@ -103,9 +103,8 @@ O tutorial **00** desta pasta é a **folha de referência de comandos** para os 
 
 ---
 
-## Próximos passos (para o professor)
+## Próximos passos (material)
 
-- [ ] Bloco gRPC do módulo 01 (mesmo domínio da correção)
 - [ ] Reutilizar o padrão Compose do 00/01 nos labs seguintes
 - [ ] Alinhar 08 e 09 com `infra/storage/` e `devops/08-observabilidade/`
 - [ ] Cruzar com a ementa oficial (obrigatório vs. opcional)

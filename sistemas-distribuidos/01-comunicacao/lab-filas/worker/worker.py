@@ -2,7 +2,7 @@
 Worker analisador de provas.
 
 Fica escutando a fila. Quando chega um job, "analisa" (sleep) e atualiza o status.
-A API já respondeu ao professor há muito tempo — este processo trabalha depois.
+A API já respondeu ao aluno na hora — este processo trabalha depois.
 """
 
 from __future__ import annotations
