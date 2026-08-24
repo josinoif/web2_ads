@@ -1,0 +1,74 @@
+# Postgres sync + duas redes: app (API↔primary) e repl (primary↔réplica)
+name: sd03-particao-postgres
+
+networks:
+  app_net:
+  repl_net:
+
+services:
+  postgres-primary:
+    image: bitnami/postgresql:16
+    environment:
+      POSTGRESQL_REPLICATION_MODE: master
+      POSTGRESQL_REPLICATION_USER: repl_user
+      POSTGRESQL_REPLICATION_PASSWORD: repl_pass
+      POSTGRESQL_USERNAME: portal
+      POSTGRESQL_PASSWORD: portal
+      POSTGRESQL_DATABASE: portal
+      POSTGRESQL_NUM_SYNCHRONOUS_REPLICAS: "1"
+      POSTGRESQL_SYNCHRONOUS_REPLICAS_MODE: ANY
+      POSTGRESQL_SYNCHRONOUS_COMMIT_MODE: on
+    volumes:
+      - ./primary/init:/docker-entrypoint-initdb.d:ro
+      - postgres_primary_data:/bitnami/postgresql
+    ports:
+      - "5436:5432"
+    networks:
+      - app_net
+      - repl_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portal -d portal"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  postgres-replica:
+    image: bitnami/postgresql:16
+    environment:
+      POSTGRESQL_REPLICATION_MODE: slave
+      POSTGRESQL_MASTER_HOST: postgres-primary
+      POSTGRESQL_MASTER_PORT_NUMBER: "5432"
+      POSTGRESQL_REPLICATION_USER: repl_user
+      POSTGRESQL_REPLICATION_PASSWORD: repl_pass
+      POSTGRESQL_PASSWORD: portal
+    depends_on:
+      postgres-primary:
+        condition: service_healthy
+    ports:
+      - "5437:5432"
+    networks:
+      - repl_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  api:
+    build: ./api
+    environment:
+      PRIMARY_DSN: host=postgres-primary port=5432 dbname=portal user=portal password=portal
+      REPLICA_DSN: host=postgres-replica port=5432 dbname=portal user=portal password=portal
+      STATEMENT_TIMEOUT_MS: "45000"
+    ports:
+      - "8085:8000"
+    networks:
+      - app_net
+      - repl_net
+    depends_on:
+      postgres-primary:
+        condition: service_healthy
+
+volumes:
+  postgres_primary_data:

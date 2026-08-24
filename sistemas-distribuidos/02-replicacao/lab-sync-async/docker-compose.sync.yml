@@ -1,0 +1,11 @@
+# Replicação síncrona: primary espera ack da réplica antes de confirmar commit
+services:
+  postgres-primary:
+    environment:
+      POSTGRESQL_NUM_SYNCHRONOUS_REPLICAS: "1"
+      POSTGRESQL_SYNCHRONOUS_REPLICAS_MODE: ANY
+      POSTGRESQL_SYNCHRONOUS_COMMIT_MODE: on
+
+  api:
+    environment:
+      MODO_LAB: sync

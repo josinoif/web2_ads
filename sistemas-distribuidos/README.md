@@ -36,9 +36,9 @@ Comece obrigatoriamente pelo tutorial **00** se ainda não usa Docker no dia a d
 |---|-------|------------------|----------------------|
 | 0 | [00-ambiente-docker](00-ambiente-docker/) | Docker como bancada de experimentação | Compose com 3 nós + Redis; folha de comandos |
 | 1 | [01-comunicacao](01-comunicacao/) | Comunicação: filas, Kafka, gRPC | Teoria + 3 labs (A/B/C) + decisões; ver caminho mínimo no README do módulo |
-| 2 | [02-replicacao](02-replicacao/) | Replicação, líder/seguidores, lag | “Banco” em memória replicado para N nós |
-| 3 | [03-consistencia-cap](03-consistencia-cap/) | Consistência vs disponibilidade (intuição do CAP) | Dois nós com partição simulada |
-| 4 | [04-coordenacao-locks](04-coordenacao-locks/) | Exclusão mútua, locks distribuídos | Contador compartilhado com e sem lock |
+| 2 | [02-replicacao](02-replicacao/) | Replicação, líder/seguidores, lag, sync/async | Postgres + sync/async + MongoDB; portal de notas |
+| 3 | [03-consistencia-cap](03-consistencia-cap/) | Consistência vs disponibilidade (intuição do CAP) | Postgres partição + matrícula CP; Mongo concerns + feed avisos |
+| 4 | [04-coordenacao-locks](04-coordenacao-locks/) | Exclusão mútua, locks distribuídos | Postgres multi-API + Mongo/Redis reserva |
 | 5 | [05-escalabilidade](05-escalabilidade/) | Escala horizontal, balanceamento, medição | Gateway + N workers; medir throughput ao adicionar nós |
 | 6 | [06-falhas-timeout](06-falhas-timeout/) | Timeouts, retries, circuit breaker mínimo | Cliente que sobrevive quando um nó falha |
 | 7 | [07-cache-distribuido](07-cache-distribuido/) | Cache, invalidação, stale reads | API + cache compartilhado |
@@ -92,9 +92,9 @@ O tutorial **00** desta pasta é a **folha de referência de comandos** para os 
 |----------|--------|
 | 00-ambiente-docker | pronto (referência + lab) |
 | 01-comunicacao | pronto (teoria, glossário, 3 labs, decisões; caminho mínimo + completo) |
-| 02-replicacao | planejado |
-| 03-consistencia-cap | planejado |
-| 04-coordenacao-locks | planejado |
+| 02-replicacao | pronto (teoria, glossário, 3 labs Postgres/sync-async/Mongo, decisões) |
+| 03-consistencia-cap | pronto (teoria, glossário, 2 labs Postgres/Mongo, decisões) |
+| 04-coordenacao-locks | pronto (teoria, glossário, 2 labs Postgres/Mongo+Redis, decisões) |
 | 05-escalabilidade | planejado |
 | 06-falhas-timeout | planejado |
 | 07-cache-distribuido | planejado |

@@ -1,0 +1,44 @@
+# Mongo + Redis — reserva atômica vs lock distribuído
+name: sd04-coordenacao-mongo
+
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27118:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: ./api
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+      REDIS_URL: redis://redis:6379/0
+      RACE_DELAY_MS: "150"
+      LOCK_TTL_SEC: "10"
+      INSTANCE_ID: api-coordenacao
+    ports:
+      - "8088:8000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  mongo_data:
