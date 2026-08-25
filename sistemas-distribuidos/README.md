@@ -44,7 +44,7 @@ Comece obrigatoriamente pelo tutorial **00** se ainda não usa Docker no dia a d
 | 5 | [05-escalabilidade](05-escalabilidade/) | Escala por camadas (app + dados) | N APIs+Postgres (RPS); Mongo partição por campus |
 | 6 | [06-falhas-timeout](06-falhas-timeout/) | Timeouts, retries, idempotência, circuit breaker | Postgres matrícula + Mongo avisos |
 | 7 | [07-cache-distribuido](07-cache-distribuido/) | Cache, invalidação, stale reads (CAP na leitura) | Postgres boletim + Mongo avisos + Redis |
-| 8 | [08-armazenamento-arquivos](08-armazenamento-arquivos/) | Object storage / arquivos distribuídos | Upload/download via API S3-compatível (MinIO) |
+| 8 | [08-armazenamento-arquivos](08-armazenamento-arquivos/) | Object storage + metadado (não DFS clássico); dedup, falha parcial, RPO | MinIO + Postgres/Mongo (entrega / catálogo) |
 | 9 | [09-observabilidade](09-observabilidade/) | Logs agregados, APM, tracing | App instrumentada + visualizar correlação de requests |
 
 Cada pasta terá, no mínimo:
@@ -72,7 +72,7 @@ Ordem recomendada: **00** → **01–04** (fundamentos) → **05–07** (escala 
 | Ambiente multi-nó / falhas | Docker Compose (tutorial 00) |
 | Processos HTTP / workers | Python 3 (`http.server`, `urllib`, scripts curtos) |
 | Fila / cache / lock | Redis via Docker |
-| Arquivos distribuídos | MinIO (API S3) via Docker |
+| Arquivos distribuídos | MinIO (API S3) via Docker — módulo [08](08-armazenamento-arquivos/) |
 | Observabilidade | Stack mínima via Compose (definida no tutorial 09) |
 
 ---
@@ -100,13 +100,12 @@ O tutorial **00** desta pasta é a **folha de referência de comandos** para os 
 | 05-escalabilidade | pronto (teoria, glossário, 2 labs app/dados, decisões) |
 | 06-falhas-timeout | pronto (teoria, glossário, 2 labs Postgres/Mongo, decisões) |
 | 07-cache-distribuido | pronto (teoria, glossário, 2 labs Postgres/Mongo+Redis, decisões) |
-| 08-armazenamento-arquivos | planejado |
+| 08-armazenamento-arquivos | pronto (teoria, glossário, 2 labs Postgres/Mongo+MinIO, decisões) |
 | 09-observabilidade | planejado |
 
 ---
 
 ## Próximos passos (material)
 
-- [ ] Reutilizar o padrão Compose do 00/01 nos labs seguintes
-- [ ] Alinhar 08 e 09 com `infra/storage/` e `devops/08-observabilidade/`
+- [ ] Alinhar 09 com `devops/08-observabilidade/`
 - [ ] Cruzar com a ementa oficial (obrigatório vs. opcional)

@@ -1,0 +1,64 @@
+# Catálogo + dedup — MongoDB + MinIO
+name: sd08-catalogo-mongodb
+
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27123:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9020:9000"
+      - "9021:9001"
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      sleep 3;
+      mc alias set local http://minio:9000 minioadmin minioadmin;
+      mc mb -p local/trabalhos || true;
+      exit 0;
+      "
+
+  api:
+    build: ./api
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+      MONGO_DB: portal
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET: trabalhos
+      MINIO_SECURE: "0"
+      READ_FROM_SECONDARY_SIM: "0"
+    ports:
+      - "8092:8000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+      minio:
+        condition: service_started
+      minio-init:
+        condition: service_completed_successfully
+
+volumes:
+  mongo_data:
+  minio_data:
