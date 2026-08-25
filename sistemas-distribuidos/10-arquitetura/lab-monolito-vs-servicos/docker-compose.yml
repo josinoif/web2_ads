@@ -1,0 +1,31 @@
+services:
+  monolito:
+    build: ./monolito
+    ports:
+      - "8120:8000"
+    environment:
+      ANALISE_BASE_MS: "50"
+      INJECT_DELAY_MS: "0"
+
+  store:
+    build: ./store
+
+  analise:
+    build: ./analise
+    ports:
+      - "8122:8000"
+    environment:
+      STORE_URL: http://store:8000
+      ANALISE_BASE_MS: "50"
+      INJECT_DELAY_MS: "0"
+    depends_on:
+      - store
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "8121:8000"
+    environment:
+      ANALISE_URL: http://analise:8000
+    depends_on:
+      - analise

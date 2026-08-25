@@ -1,0 +1,47 @@
+name: sd11-feed-fanout
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6393:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  write:
+    build: ./api
+    ports:
+      - "8150:8000"
+    environment:
+      MODO: write
+      FANOUT_MODE: inline
+      FANOUT_MS_PER_FOLLOWER: "5"
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  read:
+    build: ./api
+    ports:
+      - "8151:8000"
+    environment:
+      MODO: read
+      FANOUT_MS_PER_FOLLOWER: "5"
+      REDIS_URL: redis://redis:6379/1
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker:
+    build: ./api
+    command: ["python", "worker.py"]
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      FANOUT_MS_PER_FOLLOWER: "5"
+    depends_on:
+      redis:
+        condition: service_healthy

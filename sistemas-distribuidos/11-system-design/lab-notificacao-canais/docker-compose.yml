@@ -1,0 +1,84 @@
+name: sd11-notificacao-canais
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6395:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # --- topologia UNICO: uma fila, um worker (e-mail lento bloqueia push) ---
+  unico:
+    build: ./api
+    ports:
+      - "8170:8000"
+    environment:
+      MODO: unico
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker-unico:
+    build: ./api
+    command: ["python", "worker.py"]
+    environment:
+      MODO: unico
+      CANAL: all
+      EMAIL_DELAY_MS: "2000"
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  # --- topologia CANAIS: filas separadas ---
+  canais:
+    build: ./api
+    ports:
+      - "8171:8000"
+    environment:
+      MODO: canais
+      REDIS_URL: redis://redis:6379/1
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker-push:
+    build: ./api
+    command: ["python", "worker.py"]
+    environment:
+      MODO: canais
+      CANAL: push
+      DELAY_MS: "50"
+      REDIS_URL: redis://redis:6379/1
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker-email:
+    build: ./api
+    command: ["python", "worker.py"]
+    environment:
+      MODO: canais
+      CANAL: email
+      DELAY_MS: "2000"
+      REDIS_URL: redis://redis:6379/1
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker-sms:
+    build: ./api
+    command: ["python", "worker.py"]
+    environment:
+      MODO: canais
+      CANAL: sms
+      DELAY_MS: "100"
+      REDIS_URL: redis://redis:6379/1
+    depends_on:
+      redis:
+        condition: service_healthy

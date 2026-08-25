@@ -1,0 +1,51 @@
+services:
+  # --- Modo sync (cadeia síncrona) ---
+  store-sync:
+    build: ./sync/store
+
+  analise-sync:
+    build: ./sync/analise
+    environment:
+      STORE_URL: http://store-sync:8000
+      ANALISE_SEGUNDOS: "2"
+    depends_on:
+      - store-sync
+
+  gateway-sync:
+    build: ./sync/gateway
+    ports:
+      - "8130:8000"
+    environment:
+      ANALISE_URL: http://analise-sync:8000
+    depends_on:
+      - analise-sync
+
+  # --- Modo eventos (fila + fan-out) ---
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6381:6379"
+
+  gateway-eventos:
+    build: ./eventos/gateway
+    ports:
+      - "8131:8000"
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      - redis
+
+  worker:
+    build: ./eventos/worker
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      ANALISE_SEGUNDOS: "2"
+    depends_on:
+      - redis
+
+  notificador:
+    build: ./eventos/notificador
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      - redis

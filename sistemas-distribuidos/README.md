@@ -13,7 +13,7 @@
 2. **Simplicidade primeiro** — poucos arquivos, poucas dependências.
 3. **Ver o efeito, não só ler a teoria** — cada mini-projeto tem um experimento observável (logs, lag, inconsistência, throughput, traces).
 4. **Lab reproduzível** — Docker Compose para subir N nós e serviços de apoio; Python para a lógica do experimento.
-5. **Progressão** — ambiente Docker → comunicação e estado → escala e resiliência → armazenamento e observabilidade.
+5. **Progressão** — ambiente Docker → comunicação e estado → escala e resiliência → armazenamento e observabilidade → composição / arquitetura → system design (entrevista).
 
 > Cliente–servidor HTTP básico **não** entra nesta trilha: os alunos já praticam isso em outras disciplinas. Aqui o foco é o que muda quando há **vários nós, falhas parciais e estado compartilhado**.
 
@@ -46,6 +46,8 @@ Comece obrigatoriamente pelo tutorial **00** se ainda não usa Docker no dia a d
 | 7 | [07-cache-distribuido](07-cache-distribuido/) | Cache, invalidação, stale reads (CAP na leitura) | Postgres boletim + Mongo avisos + Redis |
 | 8 | [08-armazenamento-arquivos](08-armazenamento-arquivos/) | Object storage + metadado (não DFS clássico); dedup, falha parcial, RPO | MinIO + Postgres/Mongo (entrega / catálogo) |
 | 9 | [09-observabilidade](09-observabilidade/) | Logs agregados, métricas, tracing, APM | Loki + Prometheus + Tempo + Grafana; 2 labs |
+| 10 | [10-arquitetura](10-arquitetura/) | Estilos de arquitetura (vantagens, custos, cenários) | Monólito vs serviços; sync vs eventos; decisões |
+| 11 | [11-system-design](11-system-design/) | Desenho ponta a ponta + entrevista (escopo, envelope, trade-off) | URL shortener; feed fan-out; rate limiter; notificação por canal; mocks |
 
 Cada pasta terá, no mínimo:
 
@@ -61,7 +63,7 @@ Cada pasta terá, no mínimo:
 3. **Experimento coletivo** — comparar resultados (“quem viu inconsistência?”, “quanto ganhou de RPS com 3 workers?”).  
 4. **Perguntas-guia** / cenários de decisão no final — o aluno deve **justificar** escolhas, não só reproduzir comandos.
 
-Ordem recomendada: **00** → **01–04** (fundamentos) → **05–07** (escala e resiliência) → **08–09** (dados e operação).
+Ordem recomendada: **00** → **01–04** (fundamentos) → **05–07** (escala e resiliência) → **08–09** (dados e operação) → **10** (estilo) → **11** (system design / entrevista).
 
 ---
 
@@ -102,10 +104,14 @@ O tutorial **00** desta pasta é a **folha de referência de comandos** para os 
 | 07-cache-distribuido | pronto (teoria, glossário, 2 labs Postgres/Mongo+Redis, decisões) |
 | 08-armazenamento-arquivos | pronto (teoria, glossário, 2 labs Postgres/Mongo+MinIO, decisões) |
 | 09-observabilidade | pronto (teoria, glossário, 2 labs Loki/APM, decisões) |
+| 10-arquitetura | pronto (teoria, glossário, 2 labs monólito/serviços e sync/eventos, decisões) |
+| 11-system-design | pronto (teoria, 4 labs, fichas, decisões, 2 mocks) |
 
 ---
 
 ## Próximos passos (material)
 
 - [x] Alinhar 09 com `devops/08-observabilidade/` (fronteira documentada no README do 09)
+- [x] Capstone de arquitetura ([10-arquitetura](10-arquitetura/))
+- [x] System design / entrevista ([11-system-design](11-system-design/))
 - [ ] Cruzar com a ementa oficial (obrigatório vs. opcional)

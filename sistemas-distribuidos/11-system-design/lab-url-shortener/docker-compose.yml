@@ -1,0 +1,43 @@
+name: sd11-url-shortener
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6392:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  contador:
+    build: ./api
+    ports:
+      - "8140:8000"
+    environment:
+      MODO: contador
+      REDIS_URL: redis://redis:6379/0
+      STORE_HOLD_MS: "20"
+      CACHE_TTL_SEC: "60"
+      CACHE_ENABLED: "1"
+      REDIRECT_CODE: "302"
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  hash:
+    build: ./api
+    ports:
+      - "8141:8000"
+    environment:
+      MODO: hash
+      HASH_CHARS: "4"
+      REDIS_URL: redis://redis:6379/0
+      STORE_HOLD_MS: "20"
+      CACHE_TTL_SEC: "60"
+      CACHE_ENABLED: "1"
+      REDIRECT_CODE: "302"
+    depends_on:
+      redis:
+        condition: service_healthy
