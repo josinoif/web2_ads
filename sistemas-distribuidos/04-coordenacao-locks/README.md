@@ -143,7 +143,9 @@ cd ../lab-coordenacao-mongo && docker compose up -d --build
 | [03 — CAP, FOR UPDATE, sync](../03-consistencia-cap/) | Exclusão mútua com N writers |
 | [01 — filas](../01-comunicacao/) | Single consumer como alternativa ao lock |
 | [02 — primary único](../02-replicacao/) | Coordenação assume writer central ou lock |
-| Este módulo | [05 — escalabilidade](../05-escalabilidade/) — escalar APIs exige coordenação |
+| Este módulo | [05 — escalabilidade](../05-escalabilidade/) — escalar APIs exige coordenação consciente |
+
+**Próximo módulo →** [05 — Escalabilidade (por camadas)](../05-escalabilidade/)
 
 ---
 

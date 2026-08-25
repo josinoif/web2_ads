@@ -129,7 +129,7 @@ No [lab-particao-postgres](tutorial-particao-postgres.md):
 - Réplica **síncrona** (`synchronous_commit = on`).  
 - Commit **espera** ack da standby.  
 - Script **particiona** primary ↔ réplica (rede `repl_net`).  
-- `POST /matricular` **bloqueia** ou retorna **503** (timeout) — **não** confirma matrícula sem réplica.
+- `POST /matricular` retorna **503** se não há réplica `sync`/`quorum` — **não** confirma matrícula sem garantia (fail-fast CP na API; um `COMMIT` sync puro no Postgres ficaria em `SyncRep` indefinidamente).
 
 Isso **não** impede overbooking sozinho — a transação `FOR UPDATE` nas vagas faz isso **no primary**. O sync impede “ok” silencioso **sem** replicação confirmada.
 

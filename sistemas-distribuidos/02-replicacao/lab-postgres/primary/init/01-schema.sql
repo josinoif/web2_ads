@@ -9,3 +9,6 @@ CREATE TABLE IF NOT EXISTS notas (
 );
 
 CREATE INDEX IF NOT EXISTS idx_notas_aluno ON notas (aluno_id);
+
+-- stats de replicação visíveis à API (Bitnami 16+)
+GRANT pg_read_all_stats TO portal;

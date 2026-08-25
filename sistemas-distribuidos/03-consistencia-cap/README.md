@@ -100,7 +100,7 @@ flowchart LR
 **Um lab por vez.** Antes do próximo: `docker compose down -v` no lab atual. Ver [troubleshooting.md](troubleshooting.md).
 
 ```bash
-cd sistemas-distribuidos/03-consistencia-cap/lab-particao-postgres && docker compose up -d --build
+cd sistemas-distribuidos/03-consistencia-cap/lab-particao-postgres && ./scripts/up.sh
 # … depois (encerrando o anterior):
 cd ../lab-consistencia-mongodb && docker compose up -d --build
 ```

@@ -6,10 +6,12 @@
 ## Subir
 
 ```bash
-docker compose up -d --build
-./scripts/verificar-modo-cp.sh   # sync_state deve ser sync
-curl -s http://localhost:8085/health | python3 -m json.tool
+./scripts/up.sh    # compose up + ativar-sync + verificar-modo-cp
 ```
+
+Equivalente manual: `docker compose up -d --build` → `./scripts/ativar-sync.sh` → `./scripts/verificar-modo-cp.sh`.
+
+> `sync_state` pode ser **`sync`** ou **`quorum`** (ANY 1) — ambos contam como CP ativo.
 
 ## Comandos rápidos
 
@@ -32,4 +34,5 @@ docker compose down -v
 
 - `app_net` — API ↔ primary  
 - `repl_net` — primary ↔ réplica; API também está aqui para `GET ?dest=replica`  
-- `particionar.sh` desconecta **só** a réplica de `repl_net` (API continua alcançando primary e réplica isolada para leitura)
+- `particionar.sh` desconecta a réplica de `repl_net` **e** encerra walsenders no primary (evita ACK fantasma)  
+- sob partição: `sync_ativo=false` → `POST /matricular` **503**; `GET ?dest=replica` falha (sem DNS/rede)

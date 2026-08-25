@@ -7,19 +7,22 @@ networks:
 
 services:
   postgres-primary:
-    image: bitnami/postgresql:16
+    image: bitnamilegacy/postgresql:16.6.0-debian-12-r2@sha256:af9927a44db2c3fcf145a0d6bf10541605f6f0b3fbf80f6db66d33c7fb4125ea
     environment:
       POSTGRESQL_REPLICATION_MODE: master
       POSTGRESQL_REPLICATION_USER: repl_user
       POSTGRESQL_REPLICATION_PASSWORD: repl_pass
       POSTGRESQL_USERNAME: portal
       POSTGRESQL_PASSWORD: portal
+      POSTGRESQL_POSTGRES_PASSWORD: portaladmin
       POSTGRESQL_DATABASE: portal
-      POSTGRESQL_NUM_SYNCHRONOUS_REPLICAS: "1"
+      # Boot com 0 sync: init SQL não pode esperar réplica (deadlock Bitnami).
+      # Após up, rode ./scripts/ativar-sync.sh (usa user postgres / portaladmin).
+      POSTGRESQL_NUM_SYNCHRONOUS_REPLICAS: "0"
       POSTGRESQL_SYNCHRONOUS_REPLICAS_MODE: ANY
       POSTGRESQL_SYNCHRONOUS_COMMIT_MODE: on
     volumes:
-      - ./primary/init:/docker-entrypoint-initdb.d:ro
+      - ./primary/init:/docker-entrypoint-initdb.d:ro,Z
       - postgres_primary_data:/bitnami/postgresql
     ports:
       - "5436:5432"
@@ -33,7 +36,7 @@ services:
       retries: 20
 
   postgres-replica:
-    image: bitnami/postgresql:16
+    image: bitnamilegacy/postgresql:16.6.0-debian-12-r2@sha256:af9927a44db2c3fcf145a0d6bf10541605f6f0b3fbf80f6db66d33c7fb4125ea
     environment:
       POSTGRESQL_REPLICATION_MODE: slave
       POSTGRESQL_MASTER_HOST: postgres-primary

@@ -10,7 +10,7 @@ if [[ "${1:-}" == "--paralelo" ]]; then
 fi
 
 echo "=== disciplina ${DISC} — schema inicial: SD-101 tem 1 vaga ==="
-echo "Se já matriculou, recrie: docker compose down -v && docker compose up -d --build"
+echo "Se já matriculou, recrie: docker compose down -v && ./scripts/up.sh"
 echo "Nota: este lab usa UM primary; overbooking multi-site é tema de decisoes §1 / módulo 04."
 echo
 

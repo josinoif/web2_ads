@@ -1,0 +1,70 @@
+# Escala na camada de aplicação: N APIs + um Postgres compartilhado
+name: sd05-escala-aplicacao
+
+services:
+  postgres:
+    # postgres oficial — bitnami/postgresql:16 deixou de resolver no Hub (manifest unknown)
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: portal
+      POSTGRES_PASSWORD: portal
+      POSTGRES_DB: portal
+    volumes:
+      - ./primary/init:/docker-entrypoint-initdb.d:ro,Z
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5439:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portal -d portal"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api1:
+    build: ./api
+    environment:
+      PRIMARY_DSN: host=postgres port=5432 dbname=portal user=portal password=portal
+      INSTANCE_ID: api-1
+      EXTRA_DELAY_MS: "0"
+      WORK_MS: "15"
+    ports:
+      - "8091:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api2:
+    build: ./api
+    environment:
+      PRIMARY_DSN: host=postgres port=5432 dbname=portal user=portal password=portal
+      INSTANCE_ID: api-2
+      EXTRA_DELAY_MS: "0"
+      WORK_MS: "15"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api3:
+    build: ./api
+    environment:
+      PRIMARY_DSN: host=postgres port=5432 dbname=portal user=portal password=portal
+      INSTANCE_ID: api-3
+      EXTRA_DELAY_MS: "0"
+      WORK_MS: "15"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8089:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro,Z
+    depends_on:
+      - api1
+      - api2
+      - api3
+
+volumes:
+  postgres_data:

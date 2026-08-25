@@ -12,6 +12,8 @@
 | `connection refused` na API | Compose ainda subindo | Aguarde health; `docker compose ps` |
 | Script sem JSON formatado | Resposta não-JSON (502 nginx) | `docker compose logs api1 api2 api3` ou `logs api` |
 | Overbooking **não** aparece | Modo errado ou sequencial | Use `--paralelo` e `mode=broken` / `mode=rmw` |
+| `bitnami/postgresql:16` → `manifest unknown` | Tag sumiu do Hub | Lab usa `postgres:16-alpine` (como o módulo 05) |
+| Bind mount `Permission denied` (Podman/SELinux) | Label SELinux | Volumes com `,Z` no compose |
 
 **Um lab por vez.** Sempre `docker compose down -v` antes de trocar de pasta.
 

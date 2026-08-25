@@ -17,7 +17,11 @@ Encerre labs do **módulo 02** se portas conflitarem (`8082`–`8084`, `5434`–
 | Porta em uso (`8085`, `8086`, `5436`, `5437`, `27117`) | `down -v` no outro lab; `docker ps` |
 | API `503` no começo | Banco/replica set ainda subindo — espere 30–90s |
 | `Cannot connect to Docker daemon` | Suba o serviço Docker |
-| Partição “não faz efeito” | Confira nome da rede (`sd03-*`); rode script de novo |
+| `bitnami/postgresql:16` → `manifest unknown` | Lab Postgres usa `bitnamilegacy/postgresql:16.6.0-debian-12-r2@sha256:af99…` (pin) |
+| Partição “não faz efeito” | Confirme nome da rede (`sd03-*`); rode script de novo |
+| Lab sobe mas `sync_state` ≠ sync/quorum | Rode `./scripts/ativar-sync.sh` (boot usa 0 sync para o init não deadlockar; `ANY 1` → `quorum`) |
+| Primary “travado” no init / Connection refused na réplica | Sintoma do deadlock antigo (`NUM_SYNCHRONOUS_REPLICAS=1` no boot) — `down -v` e suba de novo com o compose atual |
+| `permission denied` em ALTER SYSTEM | Confirme `POSTGRESQL_POSTGRES_PASSWORD=portaladmin` no compose; script usa user `postgres` |
 
 ---
 
@@ -27,12 +31,14 @@ Encerre labs do **módulo 02** se portas conflitarem (`8082`–`8084`, `5434`–
 |---------|----------------|
 | `sync_state` não é `sync` | `./scripts/verificar-modo-cp.sh`; recrie volume se async |
 | Réplica lenta no boot | Espere 1–3 min (base backup); [poll abaixo](#enquanto-espera-a-réplica) |
-| `POST /matricular` trava | Partição ativa — esperado; `curl --max-time 120` ou `./scripts/curar-particao.sh` |
+| `POST /matricular` → 503 com `sync_ativo=false` | Partição ativa — **esperado** (API recusa sem réplica sync/quorum) |
+| Partição “ativa” mas `POST` ainda dá 201 | Walsender half-open — use `particionar.sh` atual (disconnect + `pg_terminate_backend`); rebuild API |
+| Após `curar`, DNS `postgres-replica` some | Use `curar-particao.sh` com `--alias postgres-replica` |
 | `particionar.sh` falha | `docker compose ps`; confira rede `sd03-particao-postgres_repl_net` |
 | `GET ?dest=replica` falha com partição ativa | Esperado — réplica desconectada da `repl_net`; use `dest=primary` ou cure a partição |
 | `GET /disciplinas/...?dest=replica` falha sem partição | Confira API em `repl_net`; poll [réplica](#enquanto-espera-a-réplica) |
 | Overbooking no Exp. disputa | Recrie volumes (`down -v`); disciplina SD-101 começa com 1 vaga |
-| Schema missing | `docker compose down -v && up -d --build` |
+| `curl: (56) Connection reset` em :8085 | API ainda subindo — `docker compose logs api` |
 
 ### Enquanto espera a réplica
 
@@ -48,9 +54,10 @@ Enquanto espera: revise [teoria §2–3](teoria.md) ou [mapa dos 2 labs](README.
 
 ### Enquanto espera commit sob partição (Experimento 3)
 
-- O que você **espera** ver: timeout/503, **não** 201 com vaga negativa.  
+- O que você **espera** ver: **503 imediato** com `sync_ativo=false`, **não** 201.  
 - Leia `interpretacao` em `GET /consistencia/status`.  
-- Compare com [módulo 02 sync-async](../02-replicacao/tutorial-sync-async.md): async **passaria** mais rápido — qual RPO?
+- Compare com [módulo 02 sync-async](../02-replicacao/tutorial-sync-async.md): async **passaria** a escrita — qual RPO?  
+- Nota: um `COMMIT` sync no Postgres sem réplica fica em `SyncRep` **sem** ser cortado por `statement_timeout`; a API deste lab **recusa antes** (fail-fast CP).
 
 ---
 
@@ -104,5 +111,8 @@ Documente no relatório da aula qual método usou.
 **Validação local:** preencha após o piloto (máquina, Docker, labs OK). Exemplo:
 
 ```text
-2026-08-24 — Fedora 44, Docker 28.x — Postgres Exp. 1–4 OK; Mongo Exp. 3 OK (provocar-divergencia.sh)
+2026-08-24 — Fedora 44 + Podman (DOCKER_HOST=…/podman.sock) —
+  lab-particao-postgres: ./scripts/up.sh → sync_state=quorum;
+  matrícula OK; particionar (+ terminate walsender) → POST /matricular 503 imediato;
+  curar (--alias) → sync de volta; provocar-disputa-vaga.sh → 1 ok + 1 sem vagas
 ```

@@ -1,7 +1,7 @@
 # Replicação assíncrona (default Bitnami: NUM_SYNCHRONOUS_REPLICAS=0)
 services:
   postgres-primary:
-    image: bitnami/postgresql:16
+    image: bitnamilegacy/postgresql:16.6.0-debian-12-r2@sha256:af9927a44db2c3fcf145a0d6bf10541605f6f0b3fbf80f6db66d33c7fb4125ea
     environment:
       POSTGRESQL_REPLICATION_MODE: master
       POSTGRESQL_REPLICATION_USER: repl_user
@@ -11,7 +11,7 @@ services:
       POSTGRESQL_DATABASE: portal
       POSTGRESQL_NUM_SYNCHRONOUS_REPLICAS: "0"
     volumes:
-      - ./primary/init:/docker-entrypoint-initdb.d:ro
+      - ./primary/init:/docker-entrypoint-initdb.d:ro,Z
       - postgres_primary_data:/bitnami/postgresql
     ports:
       - "5434:5432"
@@ -22,7 +22,7 @@ services:
       retries: 20
 
   postgres-replica:
-    image: bitnami/postgresql:16
+    image: bitnamilegacy/postgresql:16.6.0-debian-12-r2@sha256:af9927a44db2c3fcf145a0d6bf10541605f6f0b3fbf80f6db66d33c7fb4125ea
     environment:
       POSTGRESQL_REPLICATION_MODE: slave
       POSTGRESQL_MASTER_HOST: postgres-primary

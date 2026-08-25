@@ -28,6 +28,8 @@
 
 Comece obrigatoriamente pelo tutorial **00** se ainda não usa Docker no dia a dia.
 
+**Imagens Postgres na trilha:** labs “simples” (04, 05 app) usam `postgres:16-alpine`. Labs com **replicação Bitnami** (02, 03) usam `bitnamilegacy/postgresql:16.6.0-debian-12-r2` **com digest pin** — a tag `bitnami/postgresql:16` deixou de existir no Docker Hub. No lab 03, rode `./scripts/ativar-sync.sh` após o `up` (sync no boot deadlocks o init).
+
 ---
 
 ## Mapa dos tutoriais
@@ -39,7 +41,7 @@ Comece obrigatoriamente pelo tutorial **00** se ainda não usa Docker no dia a d
 | 2 | [02-replicacao](02-replicacao/) | Replicação, líder/seguidores, lag, sync/async | Postgres + sync/async + MongoDB; portal de notas |
 | 3 | [03-consistencia-cap](03-consistencia-cap/) | Consistência vs disponibilidade (intuição do CAP) | Postgres partição + matrícula CP; Mongo concerns + feed avisos |
 | 4 | [04-coordenacao-locks](04-coordenacao-locks/) | Exclusão mútua, locks distribuídos | Postgres multi-API + Mongo/Redis reserva |
-| 5 | [05-escalabilidade](05-escalabilidade/) | Escala horizontal, balanceamento, medição | Gateway + N workers; medir throughput ao adicionar nós |
+| 5 | [05-escalabilidade](05-escalabilidade/) | Escala por camadas (app + dados) | N APIs+Postgres (RPS); Mongo partição por campus |
 | 6 | [06-falhas-timeout](06-falhas-timeout/) | Timeouts, retries, circuit breaker mínimo | Cliente que sobrevive quando um nó falha |
 | 7 | [07-cache-distribuido](07-cache-distribuido/) | Cache, invalidação, stale reads | API + cache compartilhado |
 | 8 | [08-armazenamento-arquivos](08-armazenamento-arquivos/) | Object storage / arquivos distribuídos | Upload/download via API S3-compatível (MinIO) |
@@ -95,7 +97,7 @@ O tutorial **00** desta pasta é a **folha de referência de comandos** para os 
 | 02-replicacao | pronto (teoria, glossário, 3 labs Postgres/sync-async/Mongo, decisões) |
 | 03-consistencia-cap | pronto (teoria, glossário, 2 labs Postgres/Mongo, decisões) |
 | 04-coordenacao-locks | pronto (teoria, glossário, 2 labs Postgres/Mongo+Redis, decisões) |
-| 05-escalabilidade | planejado |
+| 05-escalabilidade | pronto (teoria, glossário, 2 labs app/dados, decisões) |
 | 06-falhas-timeout | planejado |
 | 07-cache-distribuido | planejado |
 | 08-armazenamento-arquivos | planejado |

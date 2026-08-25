@@ -15,6 +15,9 @@ docker compose down -v
 | Porta em uso (`8082`–`8084`, `5432`–`5435`, `27017`) | `down -v` no outro lab; `docker ps` |
 | API `503` no começo | Banco/replica ainda subindo — espere 30–90s |
 | `Cannot connect to Docker daemon` | Suba o serviço Docker |
+| `bitnami/postgresql:16` → `manifest unknown` | Labs usam `bitnamilegacy/postgresql:16.6.0-debian-12-r2@sha256:…` (pin) |
+| Porta `5432` / `5433` em uso | Postgres local ou outro container (`web_lab_pg`, etc.) | `docker ps --format '{{.Names}} {{.Ports}}' \| grep 5432`; pare o serviço conflitante **ou** altere temporariamente as portas publicadas no `docker-compose.yml` (ex.: `55432:5432`). A API do lab usa DNS interno — só a porta **do host** muda. |
+| Bind mount Permission denied (Podman/SELinux) | Volumes init com `,Z` |
 
 ---
 

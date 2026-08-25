@@ -16,3 +16,6 @@ INSERT INTO disciplinas (id, nome, vagas_restantes) VALUES
     ('SD-101', 'Sistemas Distribuídos', 1),
     ('BD-201', 'Banco de Dados', 30)
 ON CONFLICT (id) DO NOTHING;
+
+-- portal precisa ver state/sync_state em pg_stat_replication (Bitnami 16+)
+GRANT pg_read_all_stats TO portal;

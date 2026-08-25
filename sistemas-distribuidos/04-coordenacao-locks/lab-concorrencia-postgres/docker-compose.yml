@@ -3,14 +3,15 @@ name: sd04-concorrencia-postgres
 
 services:
   postgres:
-    image: bitnami/postgresql:16
+    # bitnami/postgresql:16 sumiu do Hub; lab simples → postgres oficial
+    image: postgres:16-alpine
     environment:
-      POSTGRESQL_USERNAME: portal
-      POSTGRESQL_PASSWORD: portal
-      POSTGRESQL_DATABASE: portal
+      POSTGRES_USER: portal
+      POSTGRES_PASSWORD: portal
+      POSTGRES_DB: portal
     volumes:
-      - ./primary/init:/docker-entrypoint-initdb.d:ro
-      - postgres_data:/bitnami/postgresql
+      - ./primary/init:/docker-entrypoint-initdb.d:ro,Z
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5438:5432"
     healthcheck:
@@ -54,7 +55,7 @@ services:
     ports:
       - "8087:80"
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro,Z
     depends_on:
       - api1
       - api2

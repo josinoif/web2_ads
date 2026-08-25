@@ -10,8 +10,9 @@ for svc in mongo2 mongo3; do
   if docker inspect "${NAME}" --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}} {{end}}' | grep -q "${NET}"; then
     echo "já conectado: ${NAME}"
   else
-    docker network connect "${NET}" "${NAME}"
-    echo "reconectado: ${NAME} em ${NET}"
+    # Restaura alias do serviço — sem isso o URI mongodb://mongo2,... quebra após particionar.
+    docker network connect --alias "${svc}" "${NET}" "${NAME}"
+    echo "reconectado: ${NAME} em ${NET} (alias ${svc})"
   fi
 done
 

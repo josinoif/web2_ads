@@ -51,10 +51,10 @@
 |-----------------|----------------------------|
 | Patroni / RDS Multi-AZ com failover automático | Primary + 1 standby; **sem** promoção guiada |
 | Partição entre AZ/regiões | `docker network disconnect` na `repl_net` |
-| Sync replication configurável por workload | Sempre sync (`NUM_SYNCHRONOUS_REPLICAS=1`) |
+| Sync replication configurável por workload | Boot com 0 sync + `./scripts/ativar-sync.sh` → `sync`/`quorum` |
 | API roteada por região | Uma API; primary único |
 
-Use a tabela na Parte C: o lab é **pequeno** de propósito para **ver** sync + partição sem Patroni no meio.
+Use a tabela na Parte C: o lab é **pequeno** de propósito para **ver** sync + partição sem Patroni no meio. O `ativar-sync.sh` evita deadlock do Bitnami no init (`NUM_SYNCHRONOUS_REPLICAS=1` no boot trava o SQL de schema).
 
 ---
 
@@ -108,8 +108,7 @@ Schema: `disciplinas(vagas_restantes)` + `matriculas`. Código: [`lab-particao-p
 
 ```bash
 cd sistemas-distribuidos/03-consistencia-cap/lab-particao-postgres
-docker compose up -d --build
-./scripts/verificar-modo-cp.sh
+./scripts/up.sh
 curl -s http://localhost:8085/health | python3 -m json.tool
 ```
 
@@ -122,12 +121,12 @@ Resposta **esperada** em `/consistencia/status` (saudável):
   "modo_lab": "sync_cp",
   "sync_ativo": true,
   "replica_acessivel": true,
-  "replicas": [{ "sync_state": "sync", "state": "streaming" }],
+  "replicas": [{ "sync_state": "sync|quorum", "state": "streaming" }],
   "interpretacao": "CP na escrita: commit sync exige réplica; partição tende a bloquear ou falhar"
 }
 ```
 
-Valores exatos podem variar; o essencial é `sync_ativo: true` e `replica_acessivel: true`.
+Valores exatos podem variar; o essencial é `sync_ativo: true`, `replica_acessivel: true` e `sync_state` em **`sync` ou `quorum`**.
 
 ### C.2 Experimento 1 — Disputa pela última vaga (sem partição)
 
@@ -165,14 +164,13 @@ Com lab saudável (volumes frescos ou disciplina BD-201 com vagas):
 ```bash
 ./scripts/particionar.sh
 curl -s http://localhost:8085/consistencia/status | python3 -m json.tool
-curl -sS --max-time 120 -X POST http://localhost:8085/matricular \
-  -H 'Content-Type: application/json' \
-  -d '{"disciplina_id":"BD-201","aluno_id":"sob-particao"}' | python3 -m json.tool
+# sync_ativo=false → 503 imediato (API recusa escrita sem réplica sync)
+./scripts/matricular.sh BD-201 sob-particao
 ```
 
-**Observe:** resposta **503** ou demora até timeout — **não** 201 silencioso enquanto réplica está isolada.
+**Observe:** HTTP **503** e `sync_ativo: false` — **não** 201. A API consulta `pg_stat_replication` antes do commit: sem standby sync/quorum, recusa (política CP). O Postgres puro sem essa guarda ficaria em espera `SyncRep` indefinida (`statement_timeout` não cancela essa espera).
 
-Enquanto espera: [troubleshooting — commit sob partição (Exp. 3)](troubleshooting.md#enquanto-espera-commit-sob-partição-experimento-3).
+Enquanto confere o 503: [troubleshooting — commit sob partição (Exp. 3)](troubleshooting.md#enquanto-espera-commit-sob-partição-experimento-3).
 
 > **Leitura na réplica durante partição:** `GET ?dest=replica` tende a **503** (réplica fora da rede) — isso **não** contradiz CP; só indica que a cópia está inacessível enquanto o link está cortado.
 
@@ -189,7 +187,7 @@ curl -s 'http://localhost:8085/disciplinas/BD-201?dest=replica' | python3 -m jso
 
 ### C.6 Experimento 5 (opcional) — Contraste mental com async
 
-Sem subir outro lab: releia [02 sync-async](../02-replicacao/tutorial-sync-async.md). Se você rodou aquele lab, compare o `duracao_commit_ms` anotado lá com o timeout/503 deste Exp. 3.
+Sem subir outro lab: releia [02 sync-async](../02-replicacao/tutorial-sync-async.md). Se você rodou aquele lab, compare o `duracao_commit_ms` anotado lá com o **503** deste Exp. 3.
 
 | Modo | Sob partição, POST provável |
 |------|----------------------------|

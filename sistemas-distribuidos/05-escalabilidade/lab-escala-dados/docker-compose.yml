@@ -1,0 +1,47 @@
+# Escala na camada de dados: partição por campus (dois Mongo)
+name: sd05-escala-dados
+
+services:
+  mongo-a:
+    image: mongo:7
+    ports:
+      - "27119:27017"
+    volumes:
+      - mongo_a_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  mongo-b:
+    image: mongo:7
+    ports:
+      - "27120:27017"
+    volumes:
+      - mongo_b_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api:
+    build: ./api
+    environment:
+      MONGO_A_URI: mongodb://mongo-a:27017
+      MONGO_B_URI: mongodb://mongo-b:27017
+      INSTANCE_ID: api-router-dados
+      WRITE_MS: "8"
+      READ_SHARD_MS: "20"
+    ports:
+      - "8090:8000"
+    depends_on:
+      mongo-a:
+        condition: service_healthy
+      mongo-b:
+        condition: service_healthy
+
+volumes:
+  mongo_a_data:
+  mongo_b_data:

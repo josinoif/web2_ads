@@ -1,7 +1,9 @@
 """
 API — matrícula com vagas limitadas sob replicação síncrona (tendência CP).
 
-Partição simulada entre primary e réplica: commit sync bloqueia ou estoura timeout.
+Partição: sem réplica sync em pg_stat_replication a API recusa a escrita (503).
+Não usamos conn.cancel() no meio do SyncRep — no driver isso pode concluir o
+COMMIT sem ACK da réplica (falso “sucesso”).
 """
 
 from __future__ import annotations
@@ -15,6 +17,7 @@ from urllib.parse import parse_qs, urlparse
 
 import psycopg2
 import psycopg2.extras
+import psycopg2.errors
 
 PORT = int(os.environ.get("PORT", "8000"))
 PRIMARY_DSN = os.environ.get(
@@ -26,6 +29,10 @@ REPLICA_DSN = os.environ.get(
     "host=postgres-replica port=5432 dbname=portal user=portal password=portal",
 )
 STATEMENT_TIMEOUT_MS = int(os.environ.get("STATEMENT_TIMEOUT_MS", "45000"))
+
+
+class SyncReplicaIndisponivel(RuntimeError):
+    """Nenhuma réplica em sync/quorum — recusa de escrita (política CP)."""
 
 
 def esperar_banco(dsn: str, rotulo: str, tentativas: int = 90) -> None:
@@ -50,6 +57,17 @@ def conectar(dsn: str, connect_timeout: int = 10):
         yield conn
     finally:
         conn.close()
+
+
+def _contar_replicas_sync(cur) -> int:
+    cur.execute(
+        """
+        SELECT count(*)::int AS n
+        FROM pg_stat_replication
+        WHERE sync_state IN ('sync', 'quorum')
+        """
+    )
+    return int(cur.fetchone()["n"])
 
 
 def matricular(disciplina_id: str, aluno_id: str) -> dict:
@@ -82,10 +100,18 @@ def matricular(disciplina_id: str, aluno_id: str) -> dict:
             (SELECT matriculado_em FROM inserted) AS matriculado_em
     """
     inicio = time.perf_counter()
-    with conectar(PRIMARY_DSN, connect_timeout=120) as conn:
+    with conectar(PRIMARY_DSN, connect_timeout=10) as conn:
         conn.autocommit = False
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
             cur.execute(f"SET LOCAL statement_timeout = {STATEMENT_TIMEOUT_MS}")
+            # Fail-fast CP: sem standby sync o COMMIT ficaria em SyncRep para sempre
+            # (statement_timeout NÃO cancela essa espera). Recusar é a política CP.
+            if _contar_replicas_sync(cur) < 1:
+                conn.rollback()
+                raise SyncReplicaIndisponivel(
+                    "nenhuma réplica sync/quorum — escrita recusada (CP); "
+                    "confira /consistencia/status ou ./scripts/curar-particao.sh"
+                )
             cur.execute(sql, (disciplina_id, disciplina_id, aluno_id))
             row = cur.fetchone()
             conn.commit()
@@ -157,7 +183,7 @@ def status_consistencia() -> dict:
                 replica_ok = bool(cur.fetchone()[0])
     except Exception as exc:  # noqa: BLE001
         replica_erro = str(exc)
-    sync_ativo = any(r.get("sync_state") == "sync" for r in replicas)
+    sync_ativo = any(r.get("sync_state") in ("sync", "quorum") for r in replicas)
     return {
         "modo_lab": "sync_cp",
         "replicas": replicas,
@@ -166,9 +192,10 @@ def status_consistencia() -> dict:
         "replica_erro": replica_erro,
         "sync_ativo": sync_ativo,
         "interpretacao": (
-            "CP na escrita: commit sync exige réplica; partição tende a bloquear ou falhar"
+            "CP na escrita: commit sync exige réplica; API recusa (503) se sync_ativo=false"
             if sync_ativo
-            else "AVISO: sync_state não está sync — rode scripts/verificar-modo-cp.sh"
+            else "sem réplica sync/quorum — POST /matricular retorna 503 (CP); "
+            "se não for partição de propósito, rode ./scripts/curar-particao.sh e ativar-sync.sh"
         ),
     }
 
@@ -248,11 +275,20 @@ class Handler(BaseHTTPRequestHandler):
             self._json(409, {"erro": str(exc), "modo": "sync_cp"})
         except LookupError as exc:
             self._json(404, {"erro": str(exc)})
+        except SyncReplicaIndisponivel as exc:
+            self._json(
+                503,
+                {
+                    "erro": str(exc),
+                    "modo": "sync_cp",
+                    "dica": "GET /consistencia/status — sync_ativo deve ser true para matricular",
+                },
+            )
         except psycopg2.errors.QueryCanceled:
             self._json(
                 503,
                 {
-                    "erro": "commit sync bloqueou (timeout) — provável partição ou réplica inacessível",
+                    "erro": "statement_timeout — operação cancelada",
                     "modo": "sync_cp",
                     "dica": "curl /consistencia/status ou ./scripts/curar-particao.sh",
                 },
@@ -266,14 +302,11 @@ class Handler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     esperar_banco(PRIMARY_DSN, "primary")
-    for i in range(60):
-        try:
-            esperar_banco(REPLICA_DSN, "replica", tentativas=1)
-            break
-        except SystemExit:
-            if i == 59:
-                print("[api] aviso: réplica ainda não pronta", flush=True)
-            time.sleep(2)
+    # Não bloqueia a API por minutos se a réplica estiver particionada / DNS ausente.
+    try:
+        esperar_banco(REPLICA_DSN, "replica", tentativas=5)
+    except SystemExit as exc:
+        print(f"[api] aviso: {exc} — subindo mesmo assim (leitura dest=replica pode falhar)", flush=True)
     server = ThreadingHTTPServer(("0.0.0.0", PORT), Handler)
     print(f"[api] sync_cp ouvindo 0.0.0.0:{PORT}", flush=True)
     server.serve_forever()
