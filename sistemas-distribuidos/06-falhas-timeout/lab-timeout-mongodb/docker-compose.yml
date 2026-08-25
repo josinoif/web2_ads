@@ -1,0 +1,33 @@
+# Timeout / retry / idempotência — avisos MongoDB
+name: sd06-timeout-mongodb
+
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27121:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api:
+    build: ./api
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+      MONGO_DB: portal
+      STORE_HOLD_MS: "0"
+      FAIL_RATE: "0"
+      REQUIRE_UNIQUE: "0"
+      WRITE_CONCERN: "1"
+    ports:
+      - "8093:8000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+volumes:
+  mongo_data:
