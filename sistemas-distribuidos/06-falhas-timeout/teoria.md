@@ -165,7 +165,7 @@ O lab 03 mostrou **recusar escrita** sob partição sync. Aqui a mesma honestida
 | Partição + CAP completo | [03](../03-consistencia-cap/) |
 | Locks / overbooking multi-API | [04](../04-coordenacao-locks/) |
 | Escala RPS / shards | [05](../05-escalabilidade/) — aqui a **ponte** retry→carga (Exp. 6) |
-| Cache / stale | [07](../07-cache-distribuido/) (planejado) |
+| Cache / stale | [07](../07-cache-distribuido/) |
 | Tracing / métricas de plataforma | [09](../09-observabilidade/) (planejado) |
 
 ---

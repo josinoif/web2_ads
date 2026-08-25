@@ -43,7 +43,7 @@ Comece obrigatoriamente pelo tutorial **00** se ainda não usa Docker no dia a d
 | 4 | [04-coordenacao-locks](04-coordenacao-locks/) | Exclusão mútua, locks distribuídos | Postgres multi-API + Mongo/Redis reserva |
 | 5 | [05-escalabilidade](05-escalabilidade/) | Escala por camadas (app + dados) | N APIs+Postgres (RPS); Mongo partição por campus |
 | 6 | [06-falhas-timeout](06-falhas-timeout/) | Timeouts, retries, idempotência, circuit breaker | Postgres matrícula + Mongo avisos |
-| 7 | [07-cache-distribuido](07-cache-distribuido/) | Cache, invalidação, stale reads | API + cache compartilhado |
+| 7 | [07-cache-distribuido](07-cache-distribuido/) | Cache, invalidação, stale reads (CAP na leitura) | Postgres boletim + Mongo avisos + Redis |
 | 8 | [08-armazenamento-arquivos](08-armazenamento-arquivos/) | Object storage / arquivos distribuídos | Upload/download via API S3-compatível (MinIO) |
 | 9 | [09-observabilidade](09-observabilidade/) | Logs agregados, APM, tracing | App instrumentada + visualizar correlação de requests |
 
@@ -99,7 +99,7 @@ O tutorial **00** desta pasta é a **folha de referência de comandos** para os 
 | 04-coordenacao-locks | pronto (teoria, glossário, 2 labs Postgres/Mongo+Redis, decisões) |
 | 05-escalabilidade | pronto (teoria, glossário, 2 labs app/dados, decisões) |
 | 06-falhas-timeout | pronto (teoria, glossário, 2 labs Postgres/Mongo, decisões) |
-| 07-cache-distribuido | planejado |
+| 07-cache-distribuido | pronto (teoria, glossário, 2 labs Postgres/Mongo+Redis, decisões) |
 | 08-armazenamento-arquivos | planejado |
 | 09-observabilidade | planejado |
 

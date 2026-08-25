@@ -1,0 +1,66 @@
+# Cache — avisos MongoDB + Redis (2 APIs)
+name: sd07-cache-mongodb
+
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27122:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6382:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api1:
+    build: ./api
+    environment:
+      INSTANCE_ID: api1
+      MONGO_URI: mongodb://mongo:27017
+      MONGO_DB: portal
+      REDIS_URL: redis://redis:6379/0
+      STORE_HOLD_MS: "0"
+      CACHE_BACKEND: redis
+      CACHE_TTL_SEC: "30"
+      INVALIDATE_ON_WRITE: "0"
+    ports:
+      - "8095:8000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  api2:
+    build: ./api
+    environment:
+      INSTANCE_ID: api2
+      MONGO_URI: mongodb://mongo:27017
+      MONGO_DB: portal
+      REDIS_URL: redis://redis:6379/0
+      STORE_HOLD_MS: "0"
+      CACHE_BACKEND: redis
+      CACHE_TTL_SEC: "30"
+      INVALIDATE_ON_WRITE: "0"
+    ports:
+      - "8096:8000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  mongo_data:
