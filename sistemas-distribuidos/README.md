@@ -45,7 +45,7 @@ Comece obrigatoriamente pelo tutorial **00** se ainda não usa Docker no dia a d
 | 6 | [06-falhas-timeout](06-falhas-timeout/) | Timeouts, retries, idempotência, circuit breaker | Postgres matrícula + Mongo avisos |
 | 7 | [07-cache-distribuido](07-cache-distribuido/) | Cache, invalidação, stale reads (CAP na leitura) | Postgres boletim + Mongo avisos + Redis |
 | 8 | [08-armazenamento-arquivos](08-armazenamento-arquivos/) | Object storage + metadado (não DFS clássico); dedup, falha parcial, RPO | MinIO + Postgres/Mongo (entrega / catálogo) |
-| 9 | [09-observabilidade](09-observabilidade/) | Logs agregados, APM, tracing | App instrumentada + visualizar correlação de requests |
+| 9 | [09-observabilidade](09-observabilidade/) | Logs agregados, métricas, tracing, APM | Loki + Prometheus + Tempo + Grafana; 2 labs |
 
 Cada pasta terá, no mínimo:
 
@@ -73,7 +73,7 @@ Ordem recomendada: **00** → **01–04** (fundamentos) → **05–07** (escala 
 | Processos HTTP / workers | Python 3 (`http.server`, `urllib`, scripts curtos) |
 | Fila / cache / lock | Redis via Docker |
 | Arquivos distribuídos | MinIO (API S3) via Docker — módulo [08](08-armazenamento-arquivos/) |
-| Observabilidade | Stack mínima via Compose (definida no tutorial 09) |
+| Observabilidade | Loki + Prometheus + Tempo + Grafana + OTel — módulo [09](09-observabilidade/) |
 
 ---
 
@@ -101,11 +101,11 @@ O tutorial **00** desta pasta é a **folha de referência de comandos** para os 
 | 06-falhas-timeout | pronto (teoria, glossário, 2 labs Postgres/Mongo, decisões) |
 | 07-cache-distribuido | pronto (teoria, glossário, 2 labs Postgres/Mongo+Redis, decisões) |
 | 08-armazenamento-arquivos | pronto (teoria, glossário, 2 labs Postgres/Mongo+MinIO, decisões) |
-| 09-observabilidade | planejado |
+| 09-observabilidade | pronto (teoria, glossário, 2 labs Loki/APM, decisões) |
 
 ---
 
 ## Próximos passos (material)
 
-- [ ] Alinhar 09 com `devops/08-observabilidade/`
+- [x] Alinhar 09 com `devops/08-observabilidade/` (fronteira documentada no README do 09)
 - [ ] Cruzar com a ementa oficial (obrigatório vs. opcional)

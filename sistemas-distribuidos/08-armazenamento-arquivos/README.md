@@ -158,4 +158,4 @@ cd ../lab-catalogo-mongodb && ./scripts/up.sh
 | [`infra/storage`](../../infra/storage/) | Fundamentação MinIO/S3 (web) |
 
 Ponte CAP: [03 — Consistência/CAP](../03-consistencia-cap/).  
-**Próximo módulo →** [09 — Observabilidade](../09-observabilidade/) (planejado)
+**Próximo módulo →** [09 — Observabilidade](../09-observabilidade/)

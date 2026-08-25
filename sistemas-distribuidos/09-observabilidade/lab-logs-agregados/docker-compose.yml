@@ -1,0 +1,75 @@
+services:
+  loki:
+    image: grafana/loki:3.0.0
+    command: ["-config.file=/config.yml"]
+    volumes:
+      - ./loki-config.yml:/config.yml:ro,z
+    ports:
+      - "3101:3100"
+
+  promtail:
+    image: grafana/promtail:3.0.0
+    command: ["-config.file=/config.yml"]
+    volumes:
+      - ./promtail-config.yml:/config.yml:ro,z
+      - app-logs:/var/log/app:ro
+    depends_on:
+      - loki
+
+  grafana:
+    image: grafana/grafana:11.0.0
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_USERS_DEFAULT_THEME: light
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro,z
+    ports:
+      - "3100:3000"
+    depends_on:
+      - loki
+
+  store:
+    build: ./store
+    environment:
+      SERVICE_NAME: store
+      LOG_FILE: /var/log/app/store.log
+      PROPAGATE_TRACE: ${PROPAGATE_TRACE:-1}
+      UNSTRUCTURED_LOG: ${UNSTRUCTURED_LOG:-0}
+    volumes:
+      - app-logs:/var/log/app
+
+  analise:
+    build: ./analise
+    environment:
+      SERVICE_NAME: analise
+      LOG_FILE: /var/log/app/analise.log
+      STORE_URL: http://store:8000
+      PROPAGATE_TRACE: ${PROPAGATE_TRACE:-1}
+      UNSTRUCTURED_LOG: ${UNSTRUCTURED_LOG:-0}
+      INJECT_DELAY_MS: "0"
+      INJECT_ERROR_RATE: "0"
+    volumes:
+      - app-logs:/var/log/app
+    depends_on:
+      - store
+
+  gateway:
+    build: ./gateway
+    environment:
+      SERVICE_NAME: gateway
+      LOG_FILE: /var/log/app/gateway.log
+      ANALISE_URL: http://analise:8000
+      PROPAGATE_TRACE: ${PROPAGATE_TRACE:-1}
+      UNSTRUCTURED_LOG: ${UNSTRUCTURED_LOG:-0}
+    ports:
+      - "8100:8000"
+    volumes:
+      - app-logs:/var/log/app
+    depends_on:
+      - analise
+
+volumes:
+  app-logs:

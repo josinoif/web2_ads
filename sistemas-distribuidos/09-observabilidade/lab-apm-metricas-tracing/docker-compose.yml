@@ -1,0 +1,107 @@
+services:
+  loki:
+    image: grafana/loki:3.0.0
+    command: ["-config.file=/config.yml"]
+    volumes:
+      - ./loki-config.yml:/config.yml:ro,z
+    ports:
+      - "3102:3100"
+
+  promtail:
+    image: grafana/promtail:3.0.0
+    command: ["-config.file=/config.yml"]
+    volumes:
+      - ./promtail-config.yml:/config.yml:ro,z
+      - app-logs:/var/log/app:ro
+    depends_on:
+      - loki
+
+  tempo:
+    image: grafana/tempo:2.5.0
+    command: ["-config.file=/config.yml"]
+    volumes:
+      - ./tempo/tempo.yml:/config.yml:ro,z
+    ports:
+      - "3200:3200"
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=2h
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro,z
+    ports:
+      - "9091:9090"
+    depends_on:
+      - gateway
+      - analise
+      - store
+
+  grafana:
+    image: grafana/grafana:11.0.0
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_USERS_DEFAULT_THEME: light
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro,z
+    ports:
+      - "3110:3000"
+    depends_on:
+      - loki
+      - prometheus
+      - tempo
+
+  store:
+    build: ./store
+    environment:
+      SERVICE_NAME: store
+      LOG_FILE: /var/log/app/store.log
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_SAMPLE_RATIO: ${OTEL_SAMPLE_RATIO:-1.0}
+      PROPAGATE_TRACE: ${PROPAGATE_TRACE:-1}
+    volumes:
+      - app-logs:/var/log/app
+    depends_on:
+      - tempo
+
+  analise:
+    build: ./analise
+    environment:
+      SERVICE_NAME: analise
+      LOG_FILE: /var/log/app/analise.log
+      STORE_URL: http://store:8000
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_SAMPLE_RATIO: ${OTEL_SAMPLE_RATIO:-1.0}
+      PROPAGATE_TRACE: ${PROPAGATE_TRACE:-1}
+      INJECT_DELAY_MS: "0"
+      INJECT_ERROR_RATE: "0"
+    volumes:
+      - app-logs:/var/log/app
+    depends_on:
+      - store
+      - tempo
+
+  gateway:
+    build: ./gateway
+    environment:
+      SERVICE_NAME: gateway
+      LOG_FILE: /var/log/app/gateway.log
+      ANALISE_URL: http://analise:8000
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_SAMPLE_RATIO: ${OTEL_SAMPLE_RATIO:-1.0}
+      PROPAGATE_TRACE: ${PROPAGATE_TRACE:-1}
+      GATEWAY_RETRIES: ${GATEWAY_RETRIES:-0}
+    ports:
+      - "8110:8000"
+    volumes:
+      - app-logs:/var/log/app
+    depends_on:
+      - analise
+      - tempo
+
+volumes:
+  app-logs:
