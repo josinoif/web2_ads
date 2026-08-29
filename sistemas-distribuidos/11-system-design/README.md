@@ -7,7 +7,7 @@
 > **Contrato com o [10](../10-arquitetura/):** lá você escolhe *estilo* (monólito, fila, serviços). Aqui você **compõe um produto** sob restrição de tempo (45 min) e justifica cada caixa.
 
 Pré-requisitos: [00 — Ambiente Docker](../00-ambiente-docker/). Mínimo: [05](../05-escalabilidade/) · [07](../07-cache-distribuido/) · [10](../10-arquitetura/). Completo: 01–10.  
-Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · modelos falados: [exemplo-encurtador.md](exemplo-encurtador.md) · [exemplo-notificacao.md](exemplo-notificacao.md)
+Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · [Linux e Windows](../ferramentas/linux-e-windows.md) · modelos falados: [exemplo-encurtador.md](exemplo-encurtador.md) · [exemplo-notificacao.md](exemplo-notificacao.md)
 
 > **Gabarito:** [decisoes-gabarito.md](decisoes-gabarito.md) — só **depois** de [decisoes.md](decisoes.md).  
 > **Mocks:** [mock-entrevista.md](mock-entrevista.md) — **Notification** (mínimo) e **YouTube** (completo); Chat = ficha + Mock opcional.
@@ -56,7 +56,7 @@ Fecha objetivos **1–8** e **10** (parcial: só Mock 1). Ordem = arco canônico
 12. [exemplo-notificacao.md](exemplo-notificacao.md) — compare **depois** do mock (~15 min)  
 13. Checklist **mínimo** abaixo  
 
-**Pré-requisitos no host:** `curl`, `python3`, `xargs`, Docker Compose ([00](../00-ambiente-docker/)).
+**Pré-requisitos no host:** Docker Compose ([00](../00-ambiente-docker/)). Windows: `curl.exe` e `.\lab.ps1` — [Linux e Windows](../ferramentas/linux-e-windows.md).
 
 ### Caminho completo (~22–26 h) — recomendado
 

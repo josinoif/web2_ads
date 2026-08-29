@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 10–15 min + lab 60–90 min  
 **Pré-requisito:** [tutorial-filas.md](tutorial-filas.md) · [teoria.md](teoria.md) §4–5  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 > Não é “Kafka > fila”. É: **quando o modelo de log/tópico** se justifica (vários interessados no **mesmo fato**, replay, leituras independentes).
 

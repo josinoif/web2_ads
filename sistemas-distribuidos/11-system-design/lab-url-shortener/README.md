@@ -1,5 +1,8 @@
 # Lab A — URL shortener (contador vs hash)
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Módulo:** [11 — System Design](../README.md) · **Tutorial:** [tutorial-url-shortener.md](../tutorial-url-shortener.md)
 
 **Pergunta:** na leitura, o gargalo é o hash, o banco ou o cache?

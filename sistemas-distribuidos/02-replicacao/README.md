@@ -5,7 +5,7 @@
 **Stack:** Python 3 · Docker Compose · PostgreSQL (streaming replication + lab sync/async) · MongoDB (replica set)
 
 Pré-requisitos: [00 — Ambiente Docker](../00-ambiente-docker/) · ideal [01 — Comunicação](../01-comunicacao/) (falha parcial, desacoplamento).  
-Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · [Linux e Windows](../ferramentas/linux-e-windows.md)
 
 ---
 
@@ -39,7 +39,7 @@ Fecha objetivos **1–4** e **6** (parcial) com o lab Postgres; objetivo **3** (
 
 > Objetivo **3** no caminho mínimo = explicar sync/async pela **teoria** e [decisoes §6](decisoes.md). O [lab sync-async](tutorial-sync-async.md) é do **caminho completo**.
 
-**Pré-requisitos no host:** `curl`, `python3` (para `json.tool` nos exemplos), Docker Compose ([00 — Ambiente Docker](../00-ambiente-docker/)).
+**Pré-requisitos no host:** Docker Compose ([00 — Ambiente Docker](../00-ambiente-docker/)). No Linux, `curl` e `python3` ajudam nos exemplos; no Windows use `curl.exe` e `.\lab.ps1` — [Linux e Windows](../ferramentas/linux-e-windows.md).
 
 **Diagramas:** os `.md` usam Mermaid — renderizam no GitHub, no VS Code (preview) e em visualizadores compatíveis.
 

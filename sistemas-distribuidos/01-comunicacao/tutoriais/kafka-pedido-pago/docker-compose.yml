@@ -1,0 +1,108 @@
+# Checkout + log de eventos PedidoPago + três contextos (fan-out).
+# Kafka UI: http://localhost:8085  (não precisa de senha)
+#
+# Não mapeamos 9092 no host de propósito — o lab-kafka já usa essa porta.
+
+services:
+  kafka:
+    image: apache/kafka:3.8.1
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
+
+  # Interface gráfica: tópicos, mensagens, consumer groups e lag
+  kafka-ui:
+    image: provectuslabs/kafka-ui:v0.7.2
+    ports:
+      - "8085:8080"
+    environment:
+      DYNAMIC_CONFIG_ENABLED: "true"
+      KAFKA_CLUSTERS_0_NAME: tutorial-pedido-pago
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    depends_on:
+      - kafka
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092
+      TOPIC: pedidos.pagos
+      RASTRO_DIR: /data/rastro
+      ESTOQUE_URL: http://estoque:8000
+      NOTA_URL: http://nota:8000
+      EMAIL_URL: http://email:8000
+    volumes:
+      - rastro:/data/rastro
+    ports:
+      - "8084:8000"
+    depends_on:
+      - kafka
+      - estoque
+      - nota
+      - email
+
+  estoque:
+    build:
+      context: .
+      dockerfile: consumidor/Dockerfile
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092
+      TOPIC: pedidos.pagos
+      PAPEL: estoque
+      GROUP_ID: estoque
+      ROTULO: baixa estoque
+      TRABALHO_SEGUNDOS: "1"
+      RASTRO_DIR: /data/rastro
+    volumes:
+      - rastro:/data/rastro
+    depends_on:
+      - kafka
+
+  nota:
+    build:
+      context: .
+      dockerfile: consumidor/Dockerfile
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092
+      TOPIC: pedidos.pagos
+      PAPEL: nota
+      GROUP_ID: nota-fiscal
+      ROTULO: emite nota fiscal
+      TRABALHO_SEGUNDOS: "1"
+      RASTRO_DIR: /data/rastro
+    volumes:
+      - rastro:/data/rastro
+    depends_on:
+      - kafka
+
+  email:
+    build:
+      context: .
+      dockerfile: consumidor/Dockerfile
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092
+      TOPIC: pedidos.pagos
+      PAPEL: email
+      GROUP_ID: emails
+      ROTULO: e-mail de confirmação
+      TRABALHO_SEGUNDOS: "1"
+      RASTRO_DIR: /data/rastro
+    volumes:
+      - rastro:/data/rastro
+    depends_on:
+      - kafka
+
+volumes:
+  rastro:

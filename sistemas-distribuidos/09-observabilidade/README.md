@@ -9,7 +9,7 @@
 > **Recursos:** lab B é mais pesado — reserve ~**4–6 GB RAM** livres; **um Compose por vez**; 1ª build pode levar vários minutos (imagens Grafana/Loki/Tempo).
 
 Pré-requisitos: [00 — Ambiente Docker](../00-ambiente-docker/). Ideal: [01](../01-comunicacao/) · [06](../06-falhas-timeout/).  
-Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · [Linux e Windows](../ferramentas/linux-e-windows.md)
 
 > **Gabarito:** [decisoes-gabarito.md](decisoes-gabarito.md) — só **depois** de [decisoes.md](decisoes.md).  
 > **Paralelo:** [`devops/08-observabilidade/`](../../devops/08-observabilidade/) — aqui: *expor e diagnosticar*; lá: *operar a plataforma*.

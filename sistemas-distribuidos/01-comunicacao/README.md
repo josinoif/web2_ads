@@ -5,7 +5,7 @@
 **Stack:** Python 3 · Docker Compose · Redis · Kafka · gRPC
 
 Pré-requisito: [00 — Ambiente Docker](../00-ambiente-docker/).  
-Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · [Linux e Windows](../ferramentas/linux-e-windows.md)
 
 ---
 
@@ -36,7 +36,7 @@ Fecha os objetivos **1–4** e a prática essencial de filas. O objetivo **6** (
 4. Objetivo **5** (parcial): §1–2 de [tecnologias-e-escolhas.md](tecnologias-e-escolhas.md) ou Parte A do tutorial de filas  
 5. Checklist **mínimo** abaixo  
 
-**Pré-requisitos no host:** `curl`, `python3` (para `json.tool` nos exemplos), Docker Compose ([00 — Ambiente Docker](../00-ambiente-docker/)).
+**Pré-requisitos no host:** Docker Compose ([00 — Ambiente Docker](../00-ambiente-docker/)). No Linux, `curl` e `python3` ajudam nos exemplos; no Windows use `curl.exe` e `.\lab.ps1` — [Linux e Windows](../ferramentas/linux-e-windows.md).
 
 **Diagramas:** os `.md` usam Mermaid — renderizam no GitHub, no VS Code (preview) e em visualizadores compatíveis.
 
@@ -118,6 +118,17 @@ cd sistemas-distribuidos/01-comunicacao/lab-filas && docker compose up -d --buil
 cd ../lab-kafka && docker compose up -d --build
 cd ../lab-grpc  && docker compose up -d --build
 ```
+
+---
+
+## Tutoriais de construção (outro problema por ferramenta)
+
+Os labs acima compartilham o domínio **provas**. A pasta [tutoriais/](tutoriais/) usa um cenário **diferente**, para o aluno ver *quando* a ferramenta encaixa.
+
+| Tutorial | Porta | Ideia |
+|----------|-------|--------|
+| **[RabbitMQ — emissor instável](tutoriais/rabbitmq-integracao-externa/tutorial.md)** | API `8082` · painel `15672` · mock `8083` | Matrícula aceita; carteirinha num sistema de fora lento/500; ack + retry + DLQ |
+| **[Kafka — pedido pago](tutoriais/kafka-pedido-pago/tutorial.md)** | API `8084` · **Kafka UI `8085`** | Evento `PedidoPago`; estoque/NF/e-mail; cadeia HTTP vs tópico; lag; replay |
 
 ---
 

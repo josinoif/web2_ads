@@ -2,7 +2,8 @@
 
 **Lab:** [lab-timeout-mongodb](lab-timeout-mongodb/) · API `http://127.0.0.1:8093`  
 **Faça depois** do [tutorial Postgres](tutorial-timeout-postgres.md).  
-**Teoria:** [teoria.md](teoria.md) §4 e §8 · ponte CAP [03](../03-consistencia-cap/).
+**Teoria:** [teoria.md](teoria.md) §4 e §8 · ponte CAP [03](../03-consistencia-cap/).  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 ---
 

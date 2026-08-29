@@ -1,7 +1,8 @@
 # Tutorial — Logs agregados e correlação
 
 **Lab:** [lab-logs-agregados](lab-logs-agregados/) · Gateway `http://127.0.0.1:8100` · Grafana `http://127.0.0.1:3100`  
-**Teoria:** [teoria.md](teoria.md) §1–6 · [glossario](glossario.md)
+**Teoria:** [teoria.md](teoria.md) §1–6 · [glossario](glossario.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 > **Caminho mínimo:** C.1 → **Exp. 1–5**.  
 > **Grafana (cola):** menu → **Explore** → datasource **Loki** → cole a query → time range **Last 15 minutes** → **Run query**. Se vazio, espere ~15s (Promtail) e rode de novo.

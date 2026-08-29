@@ -1,5 +1,8 @@
 # Lab — Concorrência Postgres (3 APIs)
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Tutorial:** [tutorial-concorrencia-postgres.md](../tutorial-concorrencia-postgres.md)  
 **Porta:** `8087` (nginx) · Postgres `5438`
 

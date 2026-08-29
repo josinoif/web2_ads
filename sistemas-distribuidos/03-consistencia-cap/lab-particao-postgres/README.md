@@ -1,5 +1,8 @@
 # Lab — partição Postgres + matrícula CP
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Tutorial:** [tutorial-particao-postgres.md](../tutorial-particao-postgres.md)  
 **Porta API:** `8085` · Postgres host: `5436` (primary) / `5437` (réplica)
 

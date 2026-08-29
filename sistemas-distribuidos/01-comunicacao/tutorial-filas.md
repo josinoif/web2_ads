@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 10–15 min + lab 90–120 min  
 **Pré-requisito:** [00 — Ambiente Docker](../00-ambiente-docker/) · [teoria.md](teoria.md) §1–4  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 **Próximos:** [Kafka](tutorial-kafka.md) · [gRPC](tutorial-grpc.md)
 
 > Leia A e B *antes* do Compose. No lab: rode → observe → anote.

@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 15 min + lab ~2 h  
 **Pré-requisito:** [00 — Ambiente Docker](../00-ambiente-docker/) · [02 — Replicação](../02-replicacao/) (sync/async na teoria) · [teoria.md](teoria.md) §1–6  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 **Próximo:** [Mongo — concerns](tutorial-consistencia-mongodb.md)
 
 > Leia A e B *antes* do Compose. No lab: rode → observe → anote.

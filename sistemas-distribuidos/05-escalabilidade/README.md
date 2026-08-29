@@ -5,7 +5,7 @@
 **Stack:** Python 3 · Docker Compose · nginx · PostgreSQL · MongoDB (dois stores + router)
 
 Pré-requisitos: [00 — Ambiente Docker](../00-ambiente-docker/) · ideal [02](../02-replicacao/) · [03](../03-consistencia-cap/) · [04](../04-coordenacao-locks/) (caminho mínimo: teoria 04 §1–4).  
-Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · [Linux e Windows](../ferramentas/linux-e-windows.md)
 
 ---
 
@@ -40,7 +40,7 @@ Fecha objetivos **1–4** e **7** (parcial). **Exp. 4 (`aproximar-teto`) é reco
 4. Escala de dados (parcial): §5–6 de [teoria.md](teoria.md) + §3 de [tecnologias-e-escolhas.md](tecnologias-e-escolhas.md)  
 5. Checklist **mínimo** abaixo  
 
-**Pré-requisitos no host:** `curl`, `python3`, `xargs`, Docker Compose.
+**Pré-requisitos no host:** Docker Compose. Windows: `curl.exe` e `.\lab.ps1` — [Linux e Windows](../ferramentas/linux-e-windows.md).
 
 ### Caminho completo (~8–10 h) — recomendado
 

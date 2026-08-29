@@ -5,7 +5,7 @@
 **Stack:** Python 3 · Docker Compose · PostgreSQL · MongoDB · Redis (`SET NX` / TTL)
 
 Pré-requisitos: [00 — Ambiente Docker](../00-ambiente-docker/) · [03 — Consistência/CAP](../03-consistencia-cap/) (caminho mínimo: lab Postgres + teoria §1–5).  
-Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · [Linux e Windows](../ferramentas/linux-e-windows.md)
 
 ---
 
@@ -40,7 +40,7 @@ Fecha objetivos **1–4** e **7** (parcial); objetivo **5** (Redis): teoria §7 
 4. Objetivo **5** (parcial): [tecnologias-e-escolhas.md](tecnologias-e-escolhas.md) **§4** (Redis) e **§2** (Postgres)  
 5. Checklist **mínimo** abaixo  
 
-**Pré-requisitos no host:** `curl`, `python3`, Docker Compose ([00](../00-ambiente-docker/)).
+**Pré-requisitos no host:** Docker Compose ([00](../00-ambiente-docker/)). Windows: `curl.exe` e `.\lab.ps1` — [Linux e Windows](../ferramentas/linux-e-windows.md).
 
 ### Caminho completo (~8–10 h) — recomendado
 

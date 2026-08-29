@@ -1,5 +1,8 @@
 # Lab B — APM (métricas + tracing + logs)
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 Gateway **:8110** · Grafana **:3110** · Prometheus **:9091** · Tempo **:3200** · Loki **:3102**
 
 ~4–6 GB RAM · `down -v` no lab A antes.

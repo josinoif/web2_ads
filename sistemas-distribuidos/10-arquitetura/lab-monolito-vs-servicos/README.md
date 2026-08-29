@@ -1,5 +1,8 @@
 # Lab A — Monólito vs pipeline de serviços
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Módulo:** [10 — Arquitetura](../README.md) · **Tutorial:** [tutorial-monolito-vs-servicos.md](../tutorial-monolito-vs-servicos.md)
 
 **Pergunta:** se a *análise* cair, o portal inteiro some — ou só o hop do meio?

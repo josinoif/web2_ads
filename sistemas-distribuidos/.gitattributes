@@ -1,0 +1,3 @@
+# Scripts bash precisam de LF; no Windows o Git senão gera CRLF e quebra shebang no Linux/Docker.
+*.sh text eol=lf
+entrypoint.sh text eol=lf

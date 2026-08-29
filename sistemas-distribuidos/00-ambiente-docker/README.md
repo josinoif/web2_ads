@@ -27,7 +27,7 @@ Com Docker você consegue, no notebook:
 
 ## 1. Verificar instalação
 
-```bash
+```text
 docker --version
 docker compose version
 docker info
@@ -35,6 +35,8 @@ docker run --rm hello-world
 ```
 
 Se `hello-world` imprimir a mensagem de sucesso, o runtime está ok.
+
+**Windows:** instale o [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/) e use o **PowerShell** ou o Windows Terminal. Os blocos `docker compose` abaixo são **os mesmos** no Linux. Scripts `.sh` e `curl` no host: [linux-e-windows.md](../ferramentas/linux-e-windows.md).
 
 **Alternativa:** Podman — a maior parte dos exemplos funciona com `alias docker=podman` (Compose: `podman compose` ou `docker-compose` compatível).
 
@@ -178,7 +180,8 @@ docker compose logs -f node-a # só um serviço
 docker compose stop
 docker compose down           # para e remove containers da stack
 docker compose down -v        # também apaga volumes (reset total)
-docker compose exec node-a sh
+docker compose exec node-a sh # interativo; no Windows use Windows Terminal
+docker compose exec -T node-a wget -qO- http://node-b:8000/  # um comando, sem TTY
 docker compose scale worker=3 # se o serviço permitir réplicas (ver Compose)
 ```
 
@@ -275,7 +278,7 @@ Na subpasta [`lab/`](lab/) há um Compose com:
 
 ### Como rodar
 
-```bash
+```text
 cd sistemas-distribuidos/00-ambiente-docker/lab
 docker compose up -d --build
 docker compose ps
@@ -283,25 +286,36 @@ docker compose ps
 
 Teste no host:
 
-```bash
+```text
+# Linux / macOS / Git Bash
 curl -s http://localhost:8001/
-curl -s http://localhost:8002/
-curl -s http://localhost:8003/
+
+# Windows PowerShell
+curl.exe -s http://localhost:8001/
 ```
 
-Teste **entre nós** (DNS do Compose):
+Repita para `8002` e `8003`.
 
-```bash
-docker compose exec node-a wget -qO- http://node-b:8000/
-docker compose exec node-a wget -qO- http://redis:6379 || true
+Teste **entre nós** (DNS do Compose) — `-T` evita erro de TTY no Windows:
+
+```text
+docker compose exec -T node-a wget -qO- http://node-b:8000/
+docker compose exec -T node-a wget -qO- http://redis:6379 || true
 ```
 
 Simule falha:
 
-```bash
+```text
 docker compose stop node-b
+
+# Linux / macOS / Git Bash
 curl -s http://localhost:8002/ || echo "node-b fora"
-curl -s http://localhost:8001/   # ainda responde
+curl -s http://localhost:8001/
+
+# Windows PowerShell
+curl.exe -s http://localhost:8002/ || echo "node-b fora"
+curl.exe -s http://localhost:8001/
+
 docker compose start node-b
 ```
 
@@ -328,7 +342,7 @@ docker compose down -v
 | Subir o experimento | `docker compose up -d --build` |
 | Ver se os nós estão vivos | `docker compose ps` / `docker ps` |
 | Ler o que um nó imprimiu | `docker compose logs -f node-a` |
-| Entrar no nó | `docker compose exec node-a sh` |
+| Entrar no nó | `docker compose exec node-a sh` (Windows: Windows Terminal) |
 | Derrubar um nó | `docker compose stop node-a` |
 | Matar um nó de forma brusca | `docker kill $(docker compose ps -q node-a)` |
 | Ver CPU/memória | `docker stats` |

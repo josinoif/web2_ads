@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 10–15 min + lab 90–120 min  
 **Pré-requisito:** [tutorial-postgres.md](tutorial-postgres.md) · ideal [tutorial-sync-async.md](tutorial-sync-async.md) · [teoria.md](teoria.md) §1–4  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 **Arco narrativo:** passo **5** (failover · RTO) · [README](README.md)
 

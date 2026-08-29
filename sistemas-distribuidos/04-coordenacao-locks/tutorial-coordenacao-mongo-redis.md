@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 15 min + lab ~1,5–2 h  
 **Pré-requisito:** [lab Postgres](tutorial-concorrencia-postgres.md) · [teoria.md](teoria.md) §6–7  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 **Protagonista:** fila de **reserva de vaga** em Mongo — quando RMW quebra, **`findOneAndUpdate`** ou **Redis lock** coordenam.
 

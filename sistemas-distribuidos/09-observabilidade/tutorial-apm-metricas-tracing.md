@@ -1,7 +1,8 @@
 # Tutorial — APM: métricas, tracing e drill-down
 
 **Lab:** [lab-apm-metricas-tracing](lab-apm-metricas-tracing/) · Gateway `http://127.0.0.1:8110` · Grafana `http://127.0.0.1:3110`  
-**Teoria:** [teoria.md](teoria.md) §7–12 · [glossario](glossario.md)
+**Teoria:** [teoria.md](teoria.md) §7–12 · [glossario](glossario.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 > **Antes:** `cd ../lab-logs-agregados && docker compose down -v`  
 > **Núcleo (sala):** Exp. **1–4**. **Aprofundamento (casa/aula extra):** Exp. **5–7** + sampling OTel.  

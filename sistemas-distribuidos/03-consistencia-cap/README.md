@@ -5,7 +5,7 @@
 **Stack:** Python 3 · Docker Compose · PostgreSQL (sync + partição simulada) · MongoDB (replica set + `readConcern` / `writeConcern`)
 
 Pré-requisitos: [00 — Ambiente Docker](../00-ambiente-docker/) · [02 — Replicação](../02-replicacao/) (caminho mínimo: Postgres + teoria §3). Ideal ter feito [sync-async](../02-replicacao/tutorial-sync-async.md) no 02.  
-Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · [Linux e Windows](../ferramentas/linux-e-windows.md)
 
 ---
 
@@ -39,7 +39,7 @@ Fecha objetivos **1–4** e **6** (parcial); objetivo **5** (Mongo): teoria §7 
 
 > Exp. 5 do tutorial Postgres (contraste async) assume [02 teoria §3](../02-replicacao/teoria.md) ou [lab sync-async](../02-replicacao/tutorial-sync-async.md).
 
-**Pré-requisitos no host:** `curl`, `python3`, Docker Compose ([00](../00-ambiente-docker/)).
+**Pré-requisitos no host:** Docker Compose ([00](../00-ambiente-docker/)). Windows: `curl.exe` e `.\lab.ps1` — [Linux e Windows](../ferramentas/linux-e-windows.md).
 
 ### Caminho completo (~8–10 h) — recomendado
 

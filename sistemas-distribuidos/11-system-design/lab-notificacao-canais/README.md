@@ -1,5 +1,8 @@
 # Lab D — Notificação: fila única vs filas por canal
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Módulo:** [11 — System Design](../README.md) · **Tutorial:** [tutorial-notificacao-canais.md](../tutorial-notificacao-canais.md)
 
 **Pergunta:** e-mail lento segura o push?

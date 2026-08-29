@@ -1,7 +1,8 @@
 # Tutorial — Timeout, retry e idempotência (Postgres)
 
 **Lab:** [lab-timeout-postgres](lab-timeout-postgres/) · API `http://127.0.0.1:8092`  
-**Teoria:** [teoria.md](teoria.md) §1–5 · [glossario](glossario.md)
+**Teoria:** [teoria.md](teoria.md) §1–5 · [glossario](glossario.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 > **Caminho mínimo:** C.1 → Exp. 1–4 (inclui 4b).  
 > **Caminho completo:** + Exp. 5–6 e opcionais (deadline / 422 / TTL).

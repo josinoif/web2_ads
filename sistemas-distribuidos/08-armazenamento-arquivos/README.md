@@ -9,7 +9,7 @@
 **O que você vai *ver* hoje:** com `STORAGE_BACKEND=local` e duas APIs, o download na réplica “errada” falha; com MinIO, o mesmo `object_key` funciona nas duas. Com falha após o PutObject, surge **blob órfão** — e a API **não** marca `entregue` se o metadado não gravou. No download, `X-Integridade` confere o SHA-256 (soft; opcional: **409** com `REJECT_ON_INTEGRITY_FAIL=1`).
 
 Pré-requisitos: [00 — Ambiente Docker](../00-ambiente-docker/). Ideal: [02](../02-replicacao/) · [03](../03-consistencia-cap/) · [05](../05-escalabilidade/) (N APIs só com storage compartilhado).  
-Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · [Linux e Windows](../ferramentas/linux-e-windows.md)
 
 > **CAP não se repete do zero.** O [03](../03-consistencia-cap/) cobre o teorema sob partição. Aqui: *metadado confirmado × bytes gravados* — [teoria §6](teoria.md).
 
@@ -48,7 +48,7 @@ Fecha objetivos **1–4** e **6–7** (parcial). Dedup/CAS (obj. 5) e o Exp. RPO
 3. [decisoes.md](decisoes.md) — cenários **1** e **2**  
 4. Checklist **mínimo** abaixo  
 
-**Pré-requisitos no host:** `curl`, `python3`, Docker Compose ([00](../00-ambiente-docker/)).
+**Pré-requisitos no host:** Docker Compose ([00](../00-ambiente-docker/)). Windows: `curl.exe` e `.\lab.ps1` — [Linux e Windows](../ferramentas/linux-e-windows.md).
 
 ### Caminho completo (~8–10 h) — recomendado
 

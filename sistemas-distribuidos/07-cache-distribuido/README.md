@@ -7,7 +7,7 @@
 **O que você vai *ver* hoje:** com `INVALIDATE_ON_WRITE=0`, o `PUT` da nota **não** limpa o Redis — o próximo `GET` ainda devolve a nota antiga (`cache: hit`, `servido_de: redis`).
 
 Pré-requisitos: [00 — Ambiente Docker](../00-ambiente-docker/). Ideal: [03](../03-consistencia-cap/) (CAP) · [05](../05-escalabilidade/) (gargalo no store).  
-Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · [Linux e Windows](../ferramentas/linux-e-windows.md)
 
 > **CAP não se repete do zero.** O [03](../03-consistencia-cap/) cobre o teorema sob partição. Aqui falamos de **prioridade na leitura** (responder rápido vs dado fresco) — analogia, não o teorema; ver [teoria §4](teoria.md).
 
@@ -43,7 +43,7 @@ Fecha objetivos **2–5** e **8** (parcial) + conceito do **1** (teoria §2). A 
 3. [decisoes.md](decisoes.md) — cenários **1** e **2**  
 4. Checklist **mínimo** abaixo  
 
-**Pré-requisitos no host:** `curl`, `python3`, `xargs`, Docker Compose ([00](../00-ambiente-docker/)).
+**Pré-requisitos no host:** Docker Compose ([00](../00-ambiente-docker/)). Windows: `curl.exe` e `.\lab.ps1` — [Linux e Windows](../ferramentas/linux-e-windows.md).
 
 ### Caminho completo (~8–10 h) — recomendado
 

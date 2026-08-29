@@ -4,6 +4,7 @@
 **Tempo sugerido:** ~2 h  
 **Pré-requisito:** [teoria.md](teoria.md) §1–4  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 **Próximo:** [Escala de dados](tutorial-escala-dados.md)
 
 **Protagonista:** no **dia do boletim**, DevOps sobe réplicas da API — será que o RPS sobe de verdade? Até onde o **store único** deixa?

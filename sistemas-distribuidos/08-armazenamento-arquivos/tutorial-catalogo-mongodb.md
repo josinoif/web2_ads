@@ -1,7 +1,8 @@
 # Tutorial — Catálogo com deduplicação (MongoDB + MinIO)
 
 **Lab:** [lab-catalogo-mongodb](lab-catalogo-mongodb/) · API `http://127.0.0.1:8092`  
-**Teoria:** [teoria.md](teoria.md) §5–8 · [glossario](glossario.md)
+**Teoria:** [teoria.md](teoria.md) §5–8 · [glossario](glossario.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 > **Caminho completo** após o [tutorial Postgres](tutorial-entrega-postgres.md).  
 > **Mesmo portal de entregas** — agora a dor é espaço (turma manda o mesmo PDF) e RPO do volume.

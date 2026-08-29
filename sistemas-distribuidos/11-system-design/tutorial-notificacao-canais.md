@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 10 min + lab 60–90 min  
 **Pré-requisito:** enunciado da ficha Notification (sem abrir a Direção) · lab B · [10](../10-arquitetura/) lab B  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 **Próximo:** [decisoes.md](decisoes.md) (cenário 3) → [mock-entrevista.md](mock-entrevista.md) Mock 1 → **depois** [exemplo-notificacao.md](exemplo-notificacao.md)
 
 > Leia A e B *antes* do Compose.

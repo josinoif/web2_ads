@@ -7,7 +7,7 @@
 > **Contrato com o [01](../01-comunicacao/):** lá você aprende *como* fila/RPC funcionam; aqui você decide *se* a topologia sync ou a eventos (e com monólito ou serviços) cabe no problema.
 
 Pré-requisitos: [00 — Ambiente Docker](../00-ambiente-docker/). Mínimo: [01](../01-comunicacao/) · [03](../03-consistencia-cap/) · [05](../05-escalabilidade/). Completo: 01–07 (+ [09](../09-observabilidade/) se o workshop pedir diagnóstico).  
-Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · [Linux e Windows](../ferramentas/linux-e-windows.md)
 
 > **Gabarito:** [decisoes-gabarito.md](decisoes-gabarito.md) — só **depois** de [decisoes.md](decisoes.md).
 
@@ -43,7 +43,7 @@ Fecha objetivos **1–6** e **8** (parcial: cenários 1, 2, 6). Lab B e síntese
 
 > §8 (Hard Parts) e leitura integral de §7/§9: **caminho completo** ou consulta no workshop.
 
-**Pré-requisitos no host:** `curl`, `python3`, Docker Compose ([00](../00-ambiente-docker/)).
+**Pré-requisitos no host:** Docker Compose ([00](../00-ambiente-docker/)). Windows: `curl.exe` e `.\lab.ps1` — [Linux e Windows](../ferramentas/linux-e-windows.md).
 
 ### Caminho completo (~9–11 h) — recomendado
 

@@ -3,6 +3,8 @@
 Tutorial (Partes **A** e **B** antes do Compose): [../tutorial-postgres.md](../tutorial-postgres.md)  
 Se travar: [../troubleshooting.md](../troubleshooting.md)
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
 ## Subir e testar
 
 ```bash

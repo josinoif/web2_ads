@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 10–15 min + lab 60–90 min  
 **Pré-requisito:** [teoria.md](teoria.md) §3 · ideal [tutorial-filas.md](tutorial-filas.md)  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 > O CLI deste lab **simula o BFF/portal** (não é o browser). Em produção: HTTP na borda → gRPC no miolo.
 

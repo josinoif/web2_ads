@@ -1,5 +1,8 @@
 # Entrega de trabalhos — Postgres + MinIO (2 APIs)
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Módulo:** [08](../README.md) · Tutorial: [tutorial-entrega-postgres.md](../tutorial-entrega-postgres.md)
 
 | Serviço | Porta host |

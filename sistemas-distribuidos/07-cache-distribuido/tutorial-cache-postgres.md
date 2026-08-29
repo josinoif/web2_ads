@@ -1,7 +1,8 @@
 # Tutorial — Cache boletim (Postgres + Redis)
 
 **Lab:** [lab-cache-postgres](lab-cache-postgres/) · API `http://127.0.0.1:8094`  
-**Teoria:** [teoria.md](teoria.md) §1–5 · [glossario](glossario.md)
+**Teoria:** [teoria.md](teoria.md) §1–5 · [glossario](glossario.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 > **Caminho mínimo:** C.1 → Exp. 1–4.  
 > **Caminho completo:** + Exp. 5 (stampede) · 5b (jitter) · 5c (SPOF Redis, opcional).

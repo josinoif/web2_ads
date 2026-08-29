@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 15 min + lab 90–120 min  
 **Pré-requisito:** [teoria.md](teoria.md) §1–4 · [00](../00-ambiente-docker/)  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 **Próximo:** [tutorial-rate-limiter.md](tutorial-rate-limiter.md) (lab C) → depois feed
 
 > Leia A e B *antes* do Compose. No lab: rode → observe → anote.

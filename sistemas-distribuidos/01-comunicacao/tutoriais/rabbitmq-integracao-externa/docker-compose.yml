@@ -1,0 +1,65 @@
+# Quatro processos: portal, broker, worker e o "sistema de fora".
+# O volume `status` é o único disco compartilhado entre API e worker
+# (o RabbitMQ NÃO guarda o GET /matriculas/{id} — só a mensagem).
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    ports:
+      - "5672:5672"     # AMQP (API e worker falam por aqui)
+      - "15672:15672"   # painel Management: guest / guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+  # Mock lento/instável. Suba LENTEZA_SEGUNDOS se quiser Unacked visível mais tempo.
+  emissor:
+    build: ./emissor
+    environment:
+      LENTEZA_SEGUNDOS: "3"
+      TAXA_FALHA: "0.35"
+      VENENO_ALUNO: "veneno"
+    ports:
+      - "8083:8000"
+
+  # Produtor: 202 + publica na fila. O sincrono chama o emissor na request.
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    environment:
+      RABBIT_URL: amqp://guest:guest@rabbitmq:5672/%2F
+      EMISSOR_URL: http://emissor:8000
+      STATUS_DIR: /data/status
+    volumes:
+      - status:/data/status
+    ports:
+      - "8082:8000"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      emissor:
+        condition: service_started
+
+  # Consumidor: HTTP no emissor, ack só no fim. --scale worker=2 no passo 7.
+  worker:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    environment:
+      RABBIT_URL: amqp://guest:guest@rabbitmq:5672/%2F
+      EMISSOR_URL: http://emissor:8000
+      STATUS_DIR: /data/status
+      MAX_TENTATIVAS: "3"
+    volumes:
+      - status:/data/status
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      emissor:
+        condition: service_started
+
+volumes:
+  status:

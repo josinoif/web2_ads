@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 10–15 min + lab 90–120 min  
 **Pré-requisito:** [teoria.md](teoria.md) §1–5 · [00](../00-ambiente-docker/)  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 **Próximo:** [tutorial-sync-vs-eventos.md](tutorial-sync-vs-eventos.md)
 
 > Leia A e B *antes* do Compose. No lab: rode → observe → anote.

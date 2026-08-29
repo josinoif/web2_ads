@@ -1,7 +1,8 @@
 # Tutorial — Cache avisos (MongoDB + Redis)
 
 **Lab:** [lab-cache-mongodb](lab-cache-mongodb/) · APIs `8095` / `8096`  
-**Teoria:** [teoria.md](teoria.md) §2, §4–5, §8–9 · [glossario](glossario.md)
+**Teoria:** [teoria.md](teoria.md) §2, §4–5, §8–9 · [glossario](glossario.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 > Faça depois do [tutorial Postgres](tutorial-cache-postgres.md) (caminho completo).  
 > **Ordem deste lab:** primeiro o insight **distribuído** (local vs Redis); depois política TTL/invalidate.

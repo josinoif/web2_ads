@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 10 min + lab 60–90 min  
 **Pré-requisito:** [teoria.md](teoria.md) · lab A · ficha Rate limiter em [casos-entrevista.md](casos-entrevista.md) (enunciado; Direção depois)  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 **Próximo:** ficha News feed → [tutorial-feed-fanout.md](tutorial-feed-fanout.md)
 
 > Leia A e B *antes* do Compose. No lab: rode → observe → anote.

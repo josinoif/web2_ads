@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 15 min + lab 90–120 min  
 **Pré-requisito:** [teoria.md](teoria.md) · lab A · lab C · ficha News feed em [casos-entrevista.md](casos-entrevista.md)  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 **Próximo:** [tutorial-notificacao-canais.md](tutorial-notificacao-canais.md) (lab D)
 
 > Leia A e B *antes* do Compose. No lab: rode → observe → anote.

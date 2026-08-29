@@ -4,6 +4,7 @@
 **Tempo sugerido:** ~1,5–2 h  
 **Pré-requisito:** [tutorial-escala-aplicacao.md](tutorial-escala-aplicacao.md) · [teoria.md](teoria.md) §5–6  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 **Protagonista:** campi **A** e **B** publicam avisos ao mesmo tempo. Um único store de escrita satura — partimos por `campus_id`.
 

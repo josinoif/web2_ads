@@ -1,5 +1,8 @@
 # Lab — Escala na camada de aplicação
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Tutorial:** [tutorial-escala-aplicacao.md](../tutorial-escala-aplicacao.md)  
 **Porta:** `8089` (nginx · 3 APIs) · `8091` (api1 direta) · Postgres `5439`
 

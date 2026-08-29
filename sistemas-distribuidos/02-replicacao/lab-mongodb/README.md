@@ -5,6 +5,8 @@ Se travar: [../troubleshooting.md](../troubleshooting.md)
 
 **Antes de subir:** encerre o lab Postgres (`docker compose down -v` em `lab-postgres/`).
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
 ## Subir e testar
 
 ```bash

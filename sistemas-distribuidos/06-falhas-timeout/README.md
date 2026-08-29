@@ -7,7 +7,7 @@
 **O que você vai *ver* hoje:** no lab Postgres, retry sem chave deixa **1 matrícula** e **várias linhas de auditoria** (cada uma ≈ um e-mail “matrícula confirmada”). Unique salva o negócio; não salva o side effect.
 
 Pré-requisitos: [00 — Ambiente Docker](../00-ambiente-docker/). Ideal: [01](../01-comunicacao/) (falha de worker) · [03](../03-consistencia-cap/) (CAP / 503 honesto).  
-Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)
+Apoio: [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md) · [Linux e Windows](../ferramentas/linux-e-windows.md)
 
 > **CAP não se repete aqui.** O [03](../03-consistencia-cap/) cobre partição e CP/AP. Este módulo ensina **como a borda reage** à falha (timeout/retry/CB) e o impacto em **consistência percebida** (efeito colateral duplicado vs 503).
 
@@ -44,7 +44,7 @@ Fecha objetivos **1–4** e **7** (parcial) com Postgres. Objetivo **5** (CB): s
 3. [decisoes.md](decisoes.md) — cenários **1** e **2**  
 4. Checklist **mínimo** / critério de pronto abaixo  
 
-**Pré-requisitos no host:** `curl`, `python3`, Docker Compose ([00](../00-ambiente-docker/)).
+**Pré-requisitos no host:** Docker Compose ([00](../00-ambiente-docker/)). Windows: `curl.exe` e `.\lab.ps1` — [Linux e Windows](../ferramentas/linux-e-windows.md).
 
 ### Caminho completo (~8–10 h; +1–2 h na 1ª vez) — recomendado
 

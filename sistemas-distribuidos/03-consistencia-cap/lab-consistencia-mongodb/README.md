@@ -1,5 +1,8 @@
 # Lab — MongoDB readConcern / writeConcern + feed de avisos
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Tutorial:** [tutorial-consistencia-mongodb.md](../tutorial-consistencia-mongodb.md)  
 **Porta API:** `8086` · Mongo host (mongo1): `27117`
 

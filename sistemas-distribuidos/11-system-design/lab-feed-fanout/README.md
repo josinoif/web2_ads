@@ -1,5 +1,8 @@
 # Lab B — News feed: fan-out on write vs on read
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Módulo:** [11 — System Design](../README.md) · **Tutorial:** [tutorial-feed-fanout.md](../tutorial-feed-fanout.md)
 
 **Pergunta:** o que quebra quando 1 celebridade posta para N seguidores?

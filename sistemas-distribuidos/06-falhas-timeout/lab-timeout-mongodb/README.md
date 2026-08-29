@@ -1,5 +1,8 @@
 # Lab — timeout / retry / dedup (MongoDB)
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Tutorial:** [tutorial-timeout-mongodb.md](../tutorial-timeout-mongodb.md)  
 **Portas:** API `8093` · Mongo `27121`
 

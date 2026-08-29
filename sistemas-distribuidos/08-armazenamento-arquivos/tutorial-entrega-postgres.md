@@ -1,7 +1,8 @@
 # Tutorial — Entrega de trabalhos (Postgres + MinIO)
 
 **Lab:** [lab-entrega-postgres](lab-entrega-postgres/) · API `http://127.0.0.1:8090` (api1) e `:8091` (api2)  
-**Teoria:** [teoria.md](teoria.md) §1–6 · [glossario](glossario.md)
+**Teoria:** [teoria.md](teoria.md) §1–6 · [glossario](glossario.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 
 > **Caminho mínimo:** C.1 → **Exp. 1–6** (órfãos inclusos).  
 > Exp. 4 = desacoplamento (recreate da API). Exp. 6 = órfão + reconciliação.  

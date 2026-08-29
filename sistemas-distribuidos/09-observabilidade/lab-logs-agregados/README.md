@@ -1,5 +1,8 @@
 # Lab A — Logs agregados (Loki)
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 Gateway **:8100** · Grafana **:3100** (`admin`/`admin`) · Loki **:3101**
 
 ```bash

@@ -1,5 +1,8 @@
 # Lab — Escala na camada de dados
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Tutorial:** [tutorial-escala-dados.md](../tutorial-escala-dados.md)  
 **Porta:** `8090` · Mongo A `27119` · Mongo B `27120`
 

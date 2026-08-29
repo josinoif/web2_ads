@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 10 min + lab 60–90 min  
 **Pré-requisito:** [tutorial-postgres.md](tutorial-postgres.md) (lag e primary/replica) · [teoria.md](teoria.md) §3  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 **Próximo:** [MongoDB](tutorial-mongodb.md)
 
 > **Encerre** o lab Postgres antes (`docker compose down -v` em `lab-postgres/`).  

@@ -1,5 +1,8 @@
 # Lab — timeout / retry / idempotência (Postgres)
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Tutorial:** [tutorial-timeout-postgres.md](../tutorial-timeout-postgres.md)  
 **Portas:** API `8092` · Postgres `5440`
 

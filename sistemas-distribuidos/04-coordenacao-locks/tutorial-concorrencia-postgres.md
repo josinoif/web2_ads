@@ -4,6 +4,7 @@
 **Tempo sugerido:** tecnologia 15 min + lab ~2 h  
 **Pré-requisito:** [03 — CAP](../03-consistencia-cap/) (FOR UPDATE) · [teoria.md](teoria.md) §1–5  
 **Apoio:** [glossario.md](glossario.md) · [troubleshooting.md](troubleshooting.md)  
+**SO:** Linux, macOS e Windows — [como rodar os comandos](../ferramentas/linux-e-windows.md).  
 **Próximo:** [Mongo + Redis](tutorial-coordenacao-mongo-redis.md)
 
 > Leia A e B *antes* do Compose. No lab: rode → observe → anote.

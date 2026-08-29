@@ -3,7 +3,8 @@
 **Público:** Ensino superior (ADS)  
 **Objetivo:** Exercitar na prática os conceitos de sistemas distribuídos com **mini-projetos pequenos**, focados em **demonstrar um conceito por vez**, com o menor atrito possível de setup.
 
-**Stack padrão:** **Python 3** (biblioteca padrão sempre que der) + **Docker / Compose** como ambiente de experimentação (vários nós, serviços de apoio, falhas simuladas).
+**Stack padrão:** **Python 3** (biblioteca padrão sempre que der) + **Docker / Compose** como ambiente de experimentação (vários nós, serviços de apoio, falhas simuladas).  
+**SO:** Linux, macOS e Windows — ver [ferramentas/linux-e-windows.md](ferramentas/linux-e-windows.md).
 
 ---
 
@@ -21,12 +22,15 @@
 
 ## Pré-requisitos sugeridos
 
-- Python 3 (`python3 --version`)
-- Docker Engine + Docker Compose (`docker compose version`)
-- Terminal básico
+- Docker Engine + Docker Compose, **ou** Docker Desktop (`docker compose version`)
+- Terminal (bash/zsh no Linux e macOS; PowerShell ou Windows Terminal no Windows)
 - Noções de HTTP/APIs (já vistas no curso)
 
+Linux/macOS: `curl` e `python3` no host ajudam; **Windows:** `curl.exe` e, na pasta de cada lab, `.\lab.ps1` no lugar de `./scripts/*.sh` — [ferramentas/linux-e-windows.md](ferramentas/linux-e-windows.md).
+
 Comece obrigatoriamente pelo tutorial **00** se ainda não usa Docker no dia a dia.
+
+**Linux e Windows:** [ferramentas/linux-e-windows.md](ferramentas/linux-e-windows.md) — `docker compose` é igual nos dois; scripts `.sh` no PowerShell usam `lab.ps1`.
 
 **Imagens Postgres na trilha:** labs “simples” (04, 05 app) usam `postgres:16-alpine`. Labs com **replicação Bitnami** (02, 03) usam `bitnamilegacy/postgresql:16.6.0-debian-12-r2` **com digest pin** — a tag `bitnami/postgresql:16` deixou de existir no Docker Hub. No lab 03, rode `./scripts/ativar-sync.sh` após o `up` (sync no boot deadlocks o init).
 

@@ -1,5 +1,8 @@
 # Lab C — Rate limiter (janela fixa; fail-closed vs fail-open)
 
+> **Linux e Windows:** `docker compose` é o mesmo nos dois SOs. No PowerShell, `./scripts/foo.sh` vira `.\lab.ps1 foo` (nesta pasta) e `curl` vira `curl.exe`. Guia: [linux-e-windows.md](../../ferramentas/linux-e-windows.md).
+
+
 **Módulo:** [11 — System Design](../README.md) · **Tutorial:** [tutorial-rate-limiter.md](../tutorial-rate-limiter.md)
 
 **Pergunta:** Redis do limiter caiu — a API deixa passar ou responde erro?
